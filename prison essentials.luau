@@ -1,16 +1,2515 @@
---[[
-███████╗██╗   ██╗██╗██╗         █████╗ ██╗  ██╗███████╗
-██╔════╝██║   ██║██║██║        ██╔══██╗╚██╗██╔╝██╔════╝
-█████╗  ██║   ██║██║██║        ███████║ ╚███╔╝ █████╗
-██╔══╝  ╚██╗ ██╔╝██║██║        ██╔══██║ ██╔██╗ ██╔══╝
-███████╗ ╚████╔╝ ██║███████╗   ██║  ██║██╔╝ ██╗███████╗
-╚══════╝  ╚═══╝  ╚═╝╚══════╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝
+-- made by juju_le_belge, from pure hatered
+-- feel free to skid, im gone
+-- tons of unfinished stuff and i won't finish them
+-- put alot of work and hate into this
+-- some parts are obviously ai and some others are obviously human
 
-        STUDIOS V2 OBFUSCATOR By MAX
-        https://eaxe.net
+if game.PlaceId ~= 155615604 and game.PlaceId ~= 135564683255158 and getgenv().devMode ~= true then
+	notify("Prison Essentials:", "This game is not supported.")
+	return
+end
 
-        Sponsored by
-        https://BloxDen.com
---]]
+local fflags = {
+	["DFIntS2PhysicsSenderRate"] = 160,
+	["DFIntDataSenderRate"] = 999,
+	["DFIntPhysicsSenderMaxBandwidthBps"] = 2^31-1,
+	["DFIntNumFramesToKeepAfterInterpolation"] = 1,
+	["DFIntMinimalSimRadiusBuffer"] = 1024,
+	["DFIntMinClientSimulationRadius"] = 1024,
+}
 
-return(function(...)local G={"SrjCh^C*P\"S";"SmfccGhL#N5\'j^@+";"S%JoV-ZSV";"S#6MOU#)\"n\"3Hkb9g.T","SNY`T";"SZ`OttHa$Qim+jr/";"S,!B)Z%3@5DEo`","SrornOkGdRe";"SGM@@OZ3","SHhf&<NferTG9jfBmn`%t","ShP,!6D^TB*3TNQ";"S[cW?4D/Q).!(>";"SrF9UX%7K4c","SD/\'s4!K","Sm/DNU[Nao7","Smn`%tgIc[p";"Sg+oMe[\\W";"SH5M/uHaQdNZ=Yhb","Sk@j4_#X?D`[[]8%m.","SG^3_nkmKH!ZHIVI","S7#X5GhUZjTHr6uB";"SZ`&I`","Sg3XT\"H1cQ$D;S\'O#!";"Sr:6V;N^@!T","S\'cH[-N#hpZ,D>`$%5a.H%)bGe!_@d0!A1ps[Wft],!*s!!,)u]N^@>GkEZ%@[$FpV%Jo-,C*5t*%0(","SCKE-2Z@k";"Sg;5O5Zh45\'N^=WDk=e%";"S","SrO9`X[DMF";"SrjoD7[%NeF#69?];de";"SDXoq%Zh9U*kKjQZgWl","SC*P(sC*P\"([leMSZ@XeE!\\nmCDnUD,";"Sl<YX_ZCd?","Srorto!>t","S\'p";"SHpd$`G4^1pk5HkQ!K","SrT;0YNYArn,!\\tlDU>Qm,!XAi[D&S+N^Pee!_@@aN%X*MZ`m","SrF=qsk*^Re,D@4#%&=`p!oMFV%5CPFNf.";"SHC&<1[$O^W!_4u&%5HT","Sg+oM?No","SmV>ld","SZaaR0gqR*Y!$%>V","SrF6[6!_@9C%5k8","SC*P\"SGMh?\"Z@k","SrFS+%i:d&ckr\"2Ak4","SCB3tmN^=+J","SC*P(sC*P\"([k#\\RDUIR>%8Wnf[j@","SG9I*1gc(%PZ7Sup[$B";"Sh5[Pc,[0\"f!o^TGN9i";"Srg2.(CGo]Dk@+,]%s_","SDXkRjkg3RQ","ShLbI@!_Sb?";"ShP,/_g_a&\\N^1","SCe4dYZS5kIZ@Y";"S;k8o-Nf.";"S%8GuA[:A.2%sjR#";"SH@.d/D6=[R!&?:C";"Sr<(8EN^pPu";"SroP\"<%5ClB!b";"S\'A2T0C5(2Mkb1,!Z3";"Skb3N","S%JoVQ[D^m","Sg!!j2H@kquhJR<^","S7_P8K!qU^!VY_4Im0;";"S[c$4+kB?","Sr:fPum9XC:CbGC%","Sm/uP&Z@DWYZCdh";"S%5H-0[Wp-TZ@*L4D/d","SrR5-$N0s","Sg;OPNG4pH(#8(jbk9";"SZHI-`k*^R(N99@.kg+eb%5C1","SHSblJmE9Qhkb\'76","Sg,#^AZ@@j";"SkbiTV%4KYKZHOTq","SDXkRjkg3RQ,%b8=Nf-st";"S%P&0Zm4LS\'ZJ#3nZR,","S!_.KB%525*hJsQ>";"SD/g%/%5jWgr@r&CDd";"S;TT+pE30/4%6+Agmd","SrO6VXZEL(mZ28";"SN^%lEN9i";"SCB3t0[!N1GkK&tW";"S[c$.CZC=].!b";"SH@2m7[WHtQZChkFmXu","SroPR*%)?rI3:YU;,D^a]ZS?S";"SG^Jl!EIHLL;>6?,k^","SCB3tc,DPDCN^h;CZp\\n+,!*m0,N81,";"SGMm.m[!N1GkK&tW","S%5Y9=!&*";"SH@2tkD/gc\"%5C1";"Sr\'[>3","SVsYSrkmeW(V/34*C^","Sm/qH8N^IAt[$FpV[Na#T!b";"SC1\"\\R7^-SYH50gWZpk","S%r4a(rm1,u\':gEZ";"S[ASEC;>W.A%4)gd";"Sg;5X\"";"SrF=qsk*^Re,DM/:,N+;WNf-Aj%$";"SZp\\n+G[(]","SC*P\"SGY)oO";"SZ)R36rl;J@C@X59";"SmX)G=N_,S0H8K+1","S[$a&\'k=e%";"S%JoV+N^h[";"SrF=q1N^#3WkbB";"Sm/uP&Z@NU","SZSF=&DUCnWZS:At[c6\"";"Srbj5Pg!NWq;kLhW#c";"S!u&Y0mE@Is%rrno","S[$+9Q%8V=:N9R.DZ@Z`6#f;#","SVLD^pk*9YB%J;=G!Z\"","SCB3t\'%\",!m";"S\'cH[-N#hpZ,D>`$%5a.H%)bGe!_@d0!A1ps[Wft],!*s!!,)u]N^@>GkEk=;!oM\'\"DUC2W!&cp";"SCKEgKZ)q%[DU-","Skb&TQ%!","SimTim42X&","Sri=DA","Smn`%RN9;","Sh5[P2Dd";"SCgDiEh/L`Z[ik@jH3","SZSF=&DUC%bD/Q).!(>";"Sg3G\"";"S;kiEI";"Sg,#^AZ@RDRD/Lr4";"SHhf&<NferT","SHH7R;[Q+(3[cfR3N^h3a";"Sr<_T.N^#o-%5C6.";"SgNoqF\'NRdC;oY69\']K";"SgDn,dCCXaR\']:/+","S[$P$k";"S\'$GFCDf5L7[qMu>3\'A";"SCB3t\'DnUR:!q8W^N-B?[!(cYTZ@k";"S%Jo#F[c]","S[c$.CZC9]n","Sk=eNTN?","SCB3t\'DnUR:!&*";"S7^G;nG9;b#C`?Pa";"SHSG=o!_4g>[D^Y","S\'-AUCZCCbZ\'T?[)G,W","SmUG2qV0TM=Hhk6,C^";"SHhf&<NferTG9jfBmn`%t,N;\"iN4TuJ%5CPh,%E%+,!N]CZ@Kj0NfW2","SmV>P/!(c_";"SroC-cZ#i&0[g;V#NY(8?,!*)lDc\"Z$;];>mN00sb%1Nle,!*m-[g;Y#N01\'";"SHC&JlZ@NU","S[\\!Y2DtBbs\'O*<;","S\'$K,=[$O1FZ3","Sg,#^AZ@@.4[Q+)g[!NaC%0_g,%)?3Ek=eC.[g;]W,N+;JNfW2","SCG&<C!+@n","SHhZb\"CB3&","S\'@","S%J1Y+aB5F/mUJHF";"S%PS#7D/d","SZHI-`k*^R&kg+eb%5C1","ShLBA1%5`90Z3";"SN00)T","SG9o8=%5C1";"SN0kQ=","Sh1fP/mVHQs";"SN4Kb=kg-f=[$Od]Zrngq[N57i[\\,U";"ShLbhJN4[V","Srorto!K","SrjP=kG_9XYE;RK&md","S!,gg\"Dd","SGY)/>kgrX","S%r4E$","S7,*JSgqpXgGYKgR#X$";"Sg+o>8gIc[p","S\'h","Smd";"SCg/gO[\\:]","SDXkgekGpn=%5C1","SN4\'G\"!!AP3ZhV,rZsh","SHhf&<NferT,N;\"iN4TuJ%5CPh,%E%+,!N]CZ@Kj0NfW2","SZR]&brojl","SrorL(ZS?@ZgIc[p","SN3RY>H)2/.kmg.R","SGYedc[D^6","S[Wp6";"SEb";"ShLbhhN^@lQ";"S[W93+%8V(&N9uKC!,)uE;5","S[c^!%[N&$V!!j,Q3T\"";"SZ7I_aG0/38CgggKDs^","SCGtr_","SG9o8RZ@Ne0kBi";"SN(lnEZp@<_E.Ff/","SrorLAZ2^^";"Sr\'[B3mn`%t";"S[Z+_-\'W3H;g;riB3:g";"S\'cH[-N#hpZ,D>`$%5a.H%)bGe!_@d0!A1ps[Wft],!*s!!,)u]N^@>GkEk=;!otU^%5CPh","Sri=DAg_r$&kBn]V","SG#ao$!Z6J+iugZA!.C";"S%5H-0[-$i\'D/d","Sk@lH`Z8jomk2gkl";"SmMFTU","S[uG)R!thK\\!3a:>md";"SV05DMg]=t>!tVX*[i(","S[cW5+ZCd8jNMeY","SN$QU:hVe,bN3*j=Nn7","Sg_a&\\N^2K","SkB@\\]No";"SCB3t#%1Nh`!_#,","SrO9`9km)DL!cIY&Nn:/J%$","S[cWKV[N5arN^hq","SN4<PgZXY>7%8Wp";"SkB%kL";"S;Z*$WVVb=JhJcIM";"SG9jfBmn`%t";"SkC(TIG30t7VtOa>";"Sm/D.&[%Q#AN^@o$G^34@Z3","Sg+?18!,-n4%5C1";"SrT[6F[D^m";"SVYO`HZ2p\'7H54i1","Sk`ue-\'Nc$WD#E8A7:";"Sro\"!/ZS?@KkG@2bk4","SCB3tGZ@KIC!_M9&Nf.";"Sr<(8TNMerWZCO";"S7MA]cDE[K#m+)U]!W%";"S[\\+94![*T##8FP[";"S!_#raZ@XB";"SHC&Jl","SNfbe,[N5arN^hq";"S\'cH[-N#hpZ,D>`$%5a.H%)bGe!_@d0!A1ps[Wft],N5]I,[0\"f!oM8:!>C";"S[-*<";"SEW`W,[c\\amg\\FXGV//";"SCK/@O[Nao7";"Sr\'[Zi!,-r5";"Ske7)W[]h4D;bk[]C^";"SV4DGRkr.6WmM<F8%\"9","S%EH43V0,5XZ)qpqaFD";"SH5fX>CG&R2ZCO","S3jVbMN+)ZKkeWR3kC=";"SHSc#.;]/5=g_QLRk^","Sm/q+;%54Q4kglJ]Nl","SN36Ra[(4,$!I:/,";"SGMR$^[kDk(N9;";"SrF9Uf%5(","SGMh%omn`%t","S!.]";"Sr<(8#[\\+@\'";"S%PSlH[:8eIZHI-=N^@Zkkb3EGkGp=r;k_aeN^h!J#4a\'lV+WRlE%4?SV&0Q3EZc@X#JpjCG,ccGCak[5HPdf\'C*Pk#DL]DDiTN[^DMYclgc<lEkG4_(gZl\"&%8%.\'#^-?=!\\Z>@GY<9@lRSl=70M<TGo";"S7c[iB;B/75iTB=6","S!_#-,[Dtn<N99pGDM`Bh%)1?","Sgc\\0drb&rch1.sYm&.","SH@.Kd!(cYT\'W?_/H@>s>";"Sm/DNeGMq$8DnU[TN^+";"SG_dapG#_PQZ)drok^","Srj]-ON0C\'+G9jfBmn`%t";"Sg\\C,+!;#sE;.D+amd","SrO9`;%JOTckgl.";"SVM@&P\'W_?KC\"@Rk7:";"SrF=qsk*^(b%IG.#ZC9]n4&";"S[cWK-[Naa`!_hI]Nf.";"S3\'\\+H";"S!3OGch6m<0mnjNu";"S[cW5CN^h3a","S[k.^6;<?(\'G#+3f[H","S;eo\'5D9TJU%E9,-","Sm/qH8N^IAt[$FpV[Na#T[:L","SNc6AH[$LQ#;bZ+^D.";"SC*P(sC*P\"([k#\\RDUI\'2rO=V1!b","S![!3Sm+;[VrjPCl!Dn","SmsSl9#UFXDHR,%W","Sg_r$&kBn]V";"S!dkK:ZS(Uh%8Bmj#^H","SrO9`9km)DL!q\'a3Z28","Sg3N\\5H2B";"SC5KN:;FB6q\'\\D!mrb[";"SrHVpkh5/jc7\\p:%CCC","S%Ja<n","Sh8j2d!Z920VJQNI","SZHI,+","SZHI-`k*^R([c\\1D%P]n7","Sg,#^AZ@@Gk,Ni`CkGqQFZ#i@I,N8Ur[Wps$4n,++ZR+NHkg/?$Z9O^Ikm<W/%0(";"S[c\\8##1FbPr?3097l","S%Jo#dDnUR:!K","Skb+q_!K","Sk=eD/DUAtT,%b^jkg5[$i=-lLNn+&ai=-lL%5CPU","S%/`+lZH5sd7f&?]","SD;pk,N,l\'Wk2(gs[H";"Srj]-ON0C\'+h1f%Rkg+DAD/g^F[!\"","S;ZUXG[$O1FZ3";"SC*PA>Z@D(B!,9";"S#X_fOE,lSRGYbb^";"S+?oG","Sk=eNTZS_=eN^@B","Sh2h5aHU/8RV^Hm4Go";"S;%2[?;l]RNmM[5I";"S!(cf";"S!]B","S%aXWQkBO","S,h","SN4Kb=kg$","Sm6t\"K!,-<,";"S%/SHRrbC?YGnsN4g3S";"Skb3C+ZS?S";"S[D%r,";"SrF=qdDnU@(kG@P","SHhZb\"GMh?\"%8Wd","Sg,#^AZ@@Gk,%Q+b[ZPDt[g;m\',N8Ur[Wps$4n,++ZR+NHkg/?$Z9o4C%8Vt&,!$hDD/gc\"%5CPh","Sm/WHM%5r\'X[Whr$!I+^JNl";"Skb3r=kgG";"SH@.%2[D^6";"S3lseb\'\\B>I#PG7R";"Skg3AV[W^9V[H","Skg80Q%4sSVGckK6","SE3Yfkm7)p%[c=;3","SZ`;Lrgtj%VH=QAh";"SkSpY]N\\8kjrjAEQGl","SGY)/>kgrsA%5]\".!ck\'uZ3","SC*PA>Z@DVX[WHtQZChkF[]6CL[D%.eZ@Y";"SgWpH#rQrIn%VlOp;P";"SrF=qsk*^Re,NO>IDnUY+k4","Srp>W.;*KrV\'$nXc","SNfeK7Z=[","Sk=eDLN^^`li%TDM3TN:]";"SVf7mX%19=5C@)H+";"SCG&)DDUCoVkg3AV[W^9V[H","SDXC&oV+-9M;F\\eN","Sk1*U.7n4TKN#4!$";"S;bZ:MkpC:CrHcn_","Sk=eDLN^^\"";"Sg,#^AZ@@.rDnUR:!o^WG,N?,i,N+1CNY_k";"S%PAeQ","S\'W+^_CKEgC%1Nh`";"S#X)hZZX2J&gqDmP\'p";"Srj]-ON0C\'+r:6\'<DnUl_ZS&h=%5`*","S;ZWPQDUk9FNfWWb!+He0Z@NuQi%TX$Z@NuQi%Tmp%E_";"S;bqTqrAg%^CR`4[","SD/\'rIrj-","S;.RNmCS2OSH`Klfrs";"S%PSlH[:8eIkGp=a%5Y&?;B):R%$";"S;]8sE,h";"S%5HQu!&\\","S#2C1.kg1[Z!I1sT";"S3:YJo;.X<(HJaLqV^e","SkCcU4ZHgBL%rPn/mU#","SC*\"lY!(br\\gdG=u%JV";"Sk=eNTNo","SEY,S.Z7AX#!ZDuP";"SE.F$6DsQLQhJRXg","SGYe^c%8W2`Z2`\\dN^@hQZ3";"SC5((^k\"bkp;e?DUH+","S!&Etj7,U];HC;>W","S[-V=","S!,-Yj!b";"Sg+o>8";"SGNU#1[W>3nZE/RBG:";"S#5@j!rotl>Vsa/\\","SDXkgekGpn=%5CP,i%TNQi=-l\"!,s@8i5","S\'W54*Dc\"44!(>","S;<e@4kCLdo;:/hB%sO","SN4KbF[c$C","Sg_abOkb+q@Z2@o","Sl<Y;R";"Sg,#^AZ@@.7kg33F%)Fq+,Z?&5Z@Kj0NfW$HZSit^DUJc0N^dKC%5k5EkGd@?;];90kBn]V4&";"SV7dQmZCkbZV/:LW";"SCb/g\\","SCrF&MDtD!(7fOu_G?","Sh8Z!ANM.","S\'cH[-N#hpZ,D>`$N^I>,,!*VuNuEB\',!\\(m,!*m7[Q,F7N4!qQZVt","Sh5[Pc,[0\"f!oM8:!K","S!,-n4ZS?I5!_hI]NfWWb!+@bE!(H","SGYec*Z@Dq8Z@7RTZ+","S\'W54*D/d";"S\'W+^_";"Sm/qH8N^4p2gW#XA";"S;ZWPQDUk9FNf.","S!-jqXC*&-thPKt\'","SG_9\\G[OPh*[An,\'EWE";"S[c$.CZC9]n,%bp,ZS:D<,%bb,!&3aai5","Sg+?>([Q+2D,N+;WNfW$GN^=WD!,-n4ZS?I5!&*","S;iRO-N#0)Y7\\\"=u;<G","SG^5;n[Z\"Ie[H";"Sg,@9@";"SCB3tkZ@Ne0kBi","SZHI-`k*^R8%5]@p[c6\"","SZ7SQ?k@5![rbo\"$Z+","Sha0=SkGpn=%5C2$,!*m0,!*]J%Jo#I!+He0Z@k","Sro\"!/ZS?@RN4[V","Sl<Y*>Nl";"Smn`%t";"SZCd2&;5";"Sg+?>([Q+2D,N+;WNfW$r%)bg0kgIQ5[g;)\'kg5[$";"Sg;5f(ZCdn$3:YU;,!*)lD/d";"SCB3t\'!&ap0!&&2p%)1t8Z2`\\2%a*Ip";"SDsgl;HUen!V9Y6%";"Sm/uPXZ1jN";"S%Jo#1D/\'%,[-W;e[Wp-TZP-1t[kmCAD^iYeZ\"pV>";"SNMegTkp:%[g!\\\"&";"SrF9UX%7!X>N9;";"S[DZK=Z3","SZSF=&DUCjF[N5arN^hq","SG33r";"Sg,#^AZ@@.rDnUR:!o^]W[Q+k\',D^W`!(cYTZ@Zp#Ntt#^Z#i^7,N;\"ike$nJZS?R,;=j<4kmRF","SN$;#XhPO7(hsIJS";"SVL)\'5;]1Ss#1E\'aV_>";"Sg\\?e*!+ZsNV;K-[";"S[\\J#fh/e$c%rA=][!Y";"S[Nar:","S;ZWPQDnUY+kEZ&=kGdqUi5";"S[c*+CNYY%`";"S[$OPENl";"ShL=f7;FR]MN;-o9hr6";"SG9jfBm/qHn!_@Kk";"Sha4EO,D@Nak4","SH@2D%N^pb0Z28","ShLb-(DUCA4";"Sm/WHM%5rASN0s";"Sm/qfUZ2^nbDUaF1[c$m";"Sk@li?%E]!Q[NiSL","S!,K=:Nf.","SHH/P8%5]i","S[$<d=\'%#li;gu\\CN&l","S,D@0?,kp2-rp5[","SGYel6%\",.2%J*";"SCSr!VH8*sZH=$8TiTS","S,Ni7$,D>``N%)TDkB#W8Z=]=H,NO>jD6BjT";"Sg,@5K!+@&\'[Q+(3[cfRCkg-9JNdL,#%84l-DnUR:!K";"ShUfZsCHMZJ#/BC\"7:";"S%1NQn[N5$r!b";"SrF6[d!&raGNf.";"SG,i7IgD%G2ms%jTgDl","SC*P(sC*P\"([k#\\RDU-";"S%PSlHlo9qF[\\+Kh";"SCe4>","SroC-cZ#i&0[g;V#NY(8?,!70-3TNT\'N00sb%1Nle,!*m-[g;Y#N01\'","SGY)/>kgrsMkg+t`!b","SH@.@8kGd2t","SroC-cZ#i&0[g;Dgk=eYL,[0\"f!ot\\\\kg+tt[D^fHN4KbbD_l/+DUCjbZ9o:$[$OPENDF","ShP,!6Dn@11!&1c4[le_>No","SgN1G^#^V2DrQl5l";"SHpf#VZ+","SZ\"p_.k=e%";"S%Jo#?;ZV2";"SCK/@OGYeo\\km@";"SCB3tVZ@Xl\"NYt#`[!C","SG;%>(EZ8MY%nF-OD.","SGMq1U";"SD9<M+%5YdKZ5cM)";"ShV-?!Nt?67CKXhpZ/#";"Sg&/f$g.25ghs;8,";"S[c#-mg+j1SEN(LZ","SENE]n\'\\@nHG&;\\JrTR";"SH@.d\\!&Ot","SrO9`9km)DL!K","S;uo$`C`>.,gIKC`";"SDI?P;V+Xe@m+_2V","S3HSg0#18fq%4cX4";"S[A@GVmYk/Kg+rS)","SN4Q8";"SN00O","Sm/ud)[W3fH!,ss`Z=;XI,!*)lDc\"*WN01\'";"SHC&JX[Df^/[H";"Sg3g]*74lrmHSqOVVd";"SDs<.K7-:ZGHhf^_","Sa?77/Dft/0\'jn>N","SGY)3RZ3","S!&:3EN9i";"SkGqVjk=eD/DUAtT";"SCe4r>Zh0","S!,-n4ZS?I5!_hI]Nf.";"Sk=eD/DUAtT","SN^#,","ShLbh[!,s@8";"SC8pmHED\"C8\'cS06H`M","SkG=V]%8W2`%5k5%DE,g7","S[c$ZmZ@`";"S\'cH[-N#hpZ,D>`$%5a.H%)bGe!_@d0!A1ps[Wft],!*s!!,)u]N^@>GkEZK_ZS:A:C*5t*%0(","S!%j%SrHc[)mInA0";"SmVHQs";"S;ZWPQDnUY+k4";"SHC&J;[NW";"S\'(,YJg&bYKCpGrN!u(";"SNYY%`";"Sg;5O5Zh45\'N^=WD%rZ-a";"SCH5q]D^L8mCH]U\\D6t","S%JoV+N^h;Ci%[M]Dnk","SD+]>Ohafg*GIlmN3jh";"SDff_GG9F1&k5l`8%!","SkB9)8Nf.","SmUO+B%8$EqZ@V)&N^M^(!&\\";"SHhf&<NferTG^5;/ZPEBpZ3";"S%4cDqrHb`#;]1iSH&","Sr:6\')Z@Y";"S,Ni7$,N1U4NY\"lj";"S!(bs?","SNYA!=;Oq\\$D+DECgK","S%Jo#`!&:cH";"Sg;5S/NnIWZHrHZs";"S!,p";"Sg,#^AZ@2","SH@24";"Sr:mCN[W9D","SG^1s7h/,XR!(/ug"}for s,W in ipairs({{1,495};{1;431};{432;495}})do while W[1]<W[2]do G[W[1]],G[W[2]],W[1],W[2]=G[W[2]],G[W[1]],W[1]+1,W[2]-1 end end local function s(s)return G[s-22146]end do local s=string.sub local W={d=60,u=6;k=31;K=54,["3"]=39;Q=0;["("]=64;["@"]=51,["\'"]=28,["#"]=15,t=67,m=25,a=20;D=34;["8"]=74,h=24;["5"]=75;["^"]=69,R=52;[";"]=38;["/"]=72,["6"]=43,P=48,[")"]=46;["7"]=17,j=3,T=1;[":"]=2;B=80;c=63,[">"]=59;N=35;I=12;["$"]=8;["]"]=4,G=26;["["]=37,E=18;O=56;Y=40;["0"]=13;A=58,["\\"]=62,["<"]=55;o=57,Z=32,F=83,["\""]=76;l=30,i=29;["1"]=47,n=70;["!"]=36,["9"]=42,p=78,["="]=79,["*"]=53;V=16;C=22;["&"]=66;H=23,g=27;e=82,_=65,["2"]=49,["?"]=84,r=21,["-"]=9;[","]=10,q=61,M=68;f=41;b=81,S=50;s=45,J=19;["."]=5;X=44,["4"]=14;["%"]=33,L=73,["+"]=11;["`"]=77;W=7,U=71}local D=G local z=string.len local c=type local E=table.concat local b=math.floor local a=string.char local Y=table.insert local o={["5"]=52,["7"]=14,M=35,h=29,G=56,N=32;y=31;["2"]=18;w=28,["+"]=30,I=60,["3"]=46;b=34,["8"]=6,e=33;O=26,P=45;["1"]=4;["0"]=11;t=23,["6"]=25,l=61,Z=15,k=47;s=49;U=38;o=20;J=24;z=16;["9"]=22,i=41,R=43;X=55;S=19;D=63,u=5;n=42;d=0,B=50;E=7;m=37,L=21,p=39;C=13,T=53,Q=62;g=2;F=17,V=36,Y=59,a=58,c=40;["4"]=57;["/"]=12;v=51,q=27;j=48,r=1,A=10,K=9;H=54;x=8;f=3;W=44}for G=1,#D,1 do local j=D[G]if c(j)=="string"then local c=s(j,1,1)if c=="L"then j=s(j,2)local W=z(j)local c={}local H=1 local R=0 local e=0 while H<=W do local G=s(j,H,H)local D=o[G]if D then R=R+D*(64^((3-e)))e=e+1 if e==4 then e=0 local G=b(R/65536)local s=b((R%65536)/256)local W=R%256 Y(c,a(G,s,W))R=0 end elseif G=="="then Y(c,a(b(R/65536)))if H>=W or s(j,H+1,H+1)~="="then Y(c,a(b((R%65536)/256)))end break end H=H+1 end D[G]=E(c)elseif c=="S"then j=s(j,2)local c=z(j)local o={}local H=1 while H<=c do local G=(c-H)+1 local D=G>=5 and 5 or G local z=0 local E=D>1 for G=0,4,1 do local c if G<D then local D=s(j,H+G,H+G)c=W[D]if not c then E=false break end else c=84 end z=z*85+c end if E then local G=b(z/16777216)%256 local s=b(z/65536)%256 local W=b(z/256)%256 local c=z%256 if D==5 then Y(o,a(G,s,W,c))elseif D==4 then Y(o,a(G,s,W))elseif D==3 then Y(o,a(G,s))elseif D==2 then Y(o,a(G))end end H=H+D end D[G]=E(o)end end end end return(function(c,D,z,a,G,b,E,W,k,R,j,o,w,L,Y,H,h,I,A,e,i,p,y,u)u,I,Y,j,y,e,W,i,h,o,k,L,p,A,H,R,w=function(G,s)local D=R(s)local z=function(z,c,E)return W(G,{z,c,E},s,D)end return z end,function(G)o[G]=o[G]-1 if o[G]==0 then o[G],Y[G]=nil,nil end end,{},function()H=H+1 o[H]=1 return H end,function(G,s)local D=R(s)local z=function(z,c,E,b)return W(G,{z,c,E;b},s,D)end return z end,function(G)local s,W=1,G[1]while W do o[W],s=o[W]-1,1+s if 0==o[W]then o[W],Y[W]=nil,nil end W=G[s]end end,function(W,z,c,E)local IG={}local M,aG,k,a,v,q,Q,DG,jj,Oj,RG,Aj,J,n,dj,T,rj,o,oG,V,P,N,H,aj,Hj,R,tj,zG,Vj,O,B,ij,lj,S,Uj,Z,Sj,Mj,Qj,eG,t,jG,nj,zj,Bj,pj,Yj,Dj,bG,Jj,cj,kj,yj,mj,g,C,Ej,cG,WG,oj,r,X,m,vj,l,Fj,Tj,Rj,Cj,Kj,hj,GG,qj,U,fj,Lj,Wj,bj,sG,x,Gj,gj,Nj,wj,F,EG,Pj,Zj,d,e,sj,uj,f,Ij,Xj,HG,xj,ej,YG,K while W do if 8505457>W then if W>4308364 then if W>6438012 then if W<7579523 then if 6980695>W then if W>6691035 then if W>6848889 then if 6955553>W then if 6878239>W then W=N W=a and 13028865 or 2610228 elseif W<6923075 then W=Y[c[1]]a=W()W,a=G[s(22526)],{}else o,a=z[1],2 W=o[a]R,H=W,z[2]W=R and 2243498 or 3417822 end else if 6970995>W then T=M Y[c[3]]=T W=13174464 else N,J=s(22631),s(22407)U=Y[c[8]]J=U[J]J=J(U,N)U=s(22407)U,N=J[U],s(22518)U=U(J,N)J=s(22634)J=U[J]J=J(U)W=8502802 end end else if W<6724645 then if 6711989>W then a,k,U=s(22397),s(22341),s(22255)W=G[a]a=W(k,U)a,W={},G[s(22502)]elseif 6722127>W then a,W={},G[s(22276)]else uj,kj=not yj,hj+kj a=kj<=Aj a=uj and a uj=Aj<=kj uj=yj and uj a=uj or a uj=16095808 W=a and uj a=3074154 W=W or a end else if W<6782987 then R=Y[c[1]]J,e=1,s(22630)H=R[e]U,k=0,s(22282)e=G[k]k=s(22582)R=e[k]k=1 e=R(k,U,J)k=s(22250)o=H*e H=s(22179)a=o[H]o=Y[c[2]]W=a*o o,e,a,J=W,s(22282),s(22346),s(22612)W=Y[c[3]]R=G[e]e=s(22582)H=R[e]e=o[k]U=o[J]k=0 R=H(e,k,U)o=nil W[a]=R W,a=G[s(22211)],{}else S=Y[T]g=not S W=g and 1102638 or 7452512 end end end else if W<6527762 then if W>6483879 then if 6505063>W then a,W={},G[s(22177)]elseif W<6514265 then N,W,J=nil,13672687,nil else H=Y[o]R=s(22199)W=H[R]H,R=s(22407),s(22436)H=W[H]H=H(W,R)R=j()Y[R]=H W=Y[R]W=W and 15657960 or 7773915 end else if 6451610>W then S,V=C(g,S)W=S and 11042723 or 11083546 elseif W<6460332 then U,N,J=s(22397),s(22255),s(22341)a=G[U]W=G[s(22566)]U=a(J,N)a={}else l=Y[M]T=s(22320)N=l[T]l=j()T=W Y[l]=N Q=Y[l]N,W=Q,Q and 8890382 or 10350102 end end else if W<6618806 then if W<6554918 then F,t=X(m,F)W=F and 8389656 or 14086456 elseif W<6578869 then a,W={a},G[s(22168)]else f,X=C,s(22592)r=M[X]F,m=s(22592),s(22194)m=V[m]m=m(V)X=m[F]v=r-X r=s(22236)W=v[r]v=W W=v<Q W=W and 15693234 or 11691657 end else if 6667716>W then M,W,l=nil,8160772,nil else H,o,W=z[2],z[1],6039003<=11306859 Y[c[1]]=W W=5718997 end end end end else if W<7363772 then if 7174384>W then if 7166323>W then if 6999837>W then W,a=G[s(22451)],{}elseif 7090093>W then k,W,e=nil,4845886,nil else Hj,hj,kj=oj,s(22237),2 Ij=Hj/kj Aj=G[hj]hj=s(22371)kj=Aj[hj]hj=90 Aj=kj(hj)kj=8 a=Ij*Aj Ij,Aj=a,kj a,kj=1,1 hj=kj kj=0 yj,W=kj>hj,6724404 kj=a-hj end else if 7168952>W then g,Q=s(22564),s(22263)T=G[Q]S,W=nil,1628847 Q=T(l,g,S)else f,S=s(22341),s(22397)a=G[S]W,V=G[s(22480)],s(22382)S=a(f,V)a={}end end else if W>7218205 then if 7284921>W then f,v=g(C,f)W=f and 5565588 or 11406151 else q=s(22447)V=j()S=j()a,r={},s(22447)Y[S]=a a={}Y[V]=a v=Y[J]a=v[r]v=s(22284)v=a[v]r=j()X=s(22171)v=v(a)a,W=15649939<=1823407,6532221 Y[r]=v v=j()Y[v]=a a=G[X]t=Y[J]K=t[q]q=s(22284)q=K[q]t={q(K)}K={a(D(t))}m,F,X=K[2],K[3],K[1]end else if 7189417>W then v=s(22482)V=G[v]v=V()V=.2 f=v-g C=f<=V S,W=C,C and 2664845 or 11128397 elseif 7208748>W then k,e=s(22207),s(22506)e=R[e]e=e(R,k)k=j()Y[k]=e U=Y[k]e=not U W=e and 4916693 or 61048 else l=nil T=I(T)H,o,N,a,W,J=nil,nil,nil,{},G[s(22419)],nil k=I(k)e,g,U,M,R,Q=nil,nil,nil,nil,nil,nil end end end else if W>7429216 then if W<7519801 then if 7442101>W then a=s(22171)W=G[a]R=Y[c[1]]e={W(R)}H,a,o,W=e[3],e[1],e[2],11402625 R=a elseif 7465320>W then g=Y[T]S=s(22194)S=g[S]S=S(g)W=5516490 else U=1 W=k[U]M=Y[c[2]]U,e,l=s(22151),H,s(22151)N=M[l]l=2 M=k[l]J=N*M M=s(22282)W[U]=J U=1 W=k[U]U=s(22363)N=G[M]M=s(22336)J=N[M]M=s(22282)W[U]=J U=1 W=k[U]U=s(22409)N=G[M]e,M,k=nil,s(22336),nil J=N[M]W[U]=J W=14431631 end else if W<7570062 then W=M and 6964743 or 13174464 else a=s(22171)W=G[a]R=Y[c[1]]e={W(R)}H,o,W,a=e[3],e[2],16107534,e[1]R=a end end else if 7423297>W then if W<7381798 then a=s(22171)W=G[a]k=s(22199)e=Y[c[1]]R=e[k]k=s(22519)k=R[k]e={k(R)}R={W(D(e))}a,o,H,W=R[1],R[2],R[3],5487770 R=a elseif W<7403638 then k=s(22282)R=Y[c[6]]e,J,U=s(22592),1836,80 H=R[e]e=G[k]k=s(22582)R=e[k]k=-238 e=R(k,U,J)o=H-e H=s(22179)a=o[H]W=-a o=W W=Y[c[7]]H,R=nil,W W,a=4743422,nil e=a else W=Y[c[2]]a=W()W,a=G[s(22413)],{}end else if W<7426529 then k,J=R(e,k)W=k and 2985935 or 16608682 else K,m=s(22564),s(22263)X=G[m]F=Y[U]m=X(F,K,g)W=2706022 end end end end end else if W<8047873 then if W<7830192 then if 7730950>W then if 7612406>W then if W<7583175 then f,V,W=nil,nil,6445412 elseif W<7595141 then X,f=s(22194),v X,m=l[X],s(22592)X=X(l)r=X[m]v=g-r r=s(22236)W=v[r]V=W W=V>f W=W and 1033122 or 13997692 else f,v=S(C,f)W=f and 14081863 or 11689544 end else if W<7656765 then m=s(22511)X=C[m]r=X==H v,V=W,r W=r and 15453080 or 1358489 elseif 7709698>W then C,f,V,W=s(22397),s(22341),s(22229),G[s(22390)]a=G[C]C=a(f,V)a={}else a,W=M,l W=7846612 end end else if W>7764331 then if W<7793843 then a={}o=I(o)W=G[s(22310)]R=I(R)else W,a=G[s(22595)],{}end else if W<7742884 then k=s(22397)a=G[k]U,J=s(22341),s(22512)k=a(U,J)a,W={},G[s(22561)]elseif 7752483>W then W=s(22506)W=R[W]e=j()a=s(22207)W=W(R,a)Y[e]=W a=Y[e]W=not a W=W and 12156675 or 10294402 else H,o,a=z[2],z[1],s(22592)W=o[a]a,N,R,k=s(22592),s(22266),W,s(22510)W=H[a]e=W a=G[k]k=s(22582)W=a[k]a=W()k,W=a,s(22393)a={o}k[W]=a J=G[N]W,N=s(22365),s(22392)U=J[N]J=s(22252)a=U[J]k[W]=a U=7.5 W=Y[c[1]]J=7.5 a=W(o,U,e)W=Y[c[1]]U=a a=W(H,J,R)W={}N,J=W,a a=s(22171)W=G[a]T={W(U)}l,M,W,a=T[3],T[2],9745624,T[1]T=a end end end else if W>7982684 then if W>7994206 then if W<8021401 then W,a=G[s(22399)],{}else a,l=s(22397),s(22341)W=G[a]T=s(22509)a=W(l,T)a,W={},G[s(22552)]end else if 7985261>W then U,e=1,H W=k[U]M=s(22282)N=G[M]M=s(22336)J=N[M]U=s(22363)W[U]=J e,l,U=nil,s(22151),1 W=k[U]M=s(22282)N=G[M]U,M=s(22409),s(22336)J=N[M]W[U]=J U=1 W=k[U]M=Y[c[2]]U=s(22151)N=M[l]l=2 M=k[l]k=nil J=N*M W[U]=J W=593286 elseif 7988176>W then e=H e,W=nil,s(22187)W=k[W]W=W(k)W=nil k=W k,W=nil,13339529 else e,l,U=H,s(22151),1 W=k[U]U=s(22151)M=Y[c[2]]N=M[l]e,l=nil,2 M=k[l]J=N*M W[U]=J U,M=1,s(22282)W=k[U]N=G[M]U,M=s(22363),s(22336)J=N[M]M=s(22282)W[U]=J U=1 W=k[U]U=s(22409)N=G[M]k,M=nil,s(22336)J=N[M]W[U]=J W=11402625 end end else if W>7904005 then if W<7963505 then U,J=s(22320),W a=k[U]U=j()Y[U]=a N=Y[U]W,a=N and 16500831 or 14871556,N else a,U=s(22575),k a,N=J[a],s(22429)a=a(J,N)W=a and 8951425 or 3880731 end else if 7847484>W then W=a and 13948322 or 4776278 elseif W<7855346 then e,a,k=s(22341),s(22397),s(22512)W=G[a]a=W(e,k)W,a=G[s(22347)],{}else W=Y[c[1]]a=W()H=s(22555)o=Y[c[2]]a=o[H]o=0 W=a==o W=W and 8267167 or 5420709 end end end end else if W>8337164 then if 8470790>W then if 8386036>W then if W<8355239 then o,W,H=s(22397),10300827>8006777,s(22341)Y[c[1]]=W R=s(22438)a=G[o]o=a(H,R)H=Y[c[2]]R=s(22200)o=H[R]a=not o W=a and 15188721 or 8676585 elseif 8372562>W then M=Y[J]l=s(22199)N=M[l]M=s(22407)M,l=N[M],s(22436)M=M(N,l)N=j()Y[N]=M M=Y[N]W=M and 1313519 or 2905111 else J=N+J a,l=U>=J,not M a=l and a l=U<=J l=M and l a=l or a l=16232801 W=a and l a=9780793 W=W or a end else if W<8428440 then K,P=F,s(22474)q=G[P]P,B=s(22416),s(22151)a=q[P]P=Y[V]n=Y[k]x=n[B]B,n=s(22151),s(22527)n,W=x[n],6532221 n=n(x)x=t[B]O=n*x K,d=nil,{t;O}q=a(P,d)t=nil else a,H,o=1,z[2],z[1]W=o[a]R=W W=R and 10604523 or 4974213 end end else if 8500633>W then if W<8480733 then R,a,H=s(22334),s(22397),s(22341)W=G[a]a=W(H,R)a=s(22187)W=Y[c[2]]a=W[a]a=a(W)W,a=G[s(22311)],{}elseif 8492787>W then W=o>=V W=W and 8507207 or 9138886 else C,v,K=g,s(22474),s(22151)V=G[v]v=s(22416)W=V[v]v=Y[T]F=Y[k]m=F[K]F=s(22527)F=m[F]F=F(m)K=s(22151)m=f[K]X=F*m C,r=nil,{f,X}V=W(v,r)W,f=11184958,nil end else if 8503254>W then N=2108202>9387289 Y[c[3]]=N J=nil o,a,R,U=J,{},nil,nil o,W,e,k=nil,G[s(22625)],U,nil e=nil else R,H,o,W=s(22428),z[2],z[1],3840104<=1148091 Y[c[1]]=W a=G[R]U=Y[c[2]]J={a(U)}k,e,R,W=J[3],J[2],J[1],7426316 end end end else if W<8151310 then if W>8108230 then if 8126272>W then S,g,W=2608851>=11906681,s(22299),12816389 Q[g]=S else W=s(22506)W,a=H[W],s(22587)W=W(H,a)R=W W=not R W=W and 12531602 or 4299766 end else if W<8054663 then T,l,M=s(22512),s(22341),s(22397)N=G[M]a,W={},G[s(22366)]M=N(l,T)elseif W<8081797 then k=Y[U]J=s(22320)a=k[J]J=W k=j()Y[k]=a N=Y[k]a,W=N,N and 13294521 or 1935744 else N,Q,C,T,g,l,S,M,V,W,f=nil,nil,nil,nil,nil,nil,nil,nil,nil,195367,nil end end else if W<8292361 then if 8212627>W then J,l=N(U,J)W=J and 11081705 or 1621246 elseif W<8265825 then H,o,m,M,a=nil,nil,s(22256),nil,{}X=G[m]F,W,r,e,f=s(22550),G[s(22345)],nil,nil,nil m=X(F)g=I(g)k=I(k)U,T,v,J,S,N,R=nil,nil,nil,nil,nil,nil,nil V=I(V)l=I(l)Q=I(Q)C=I(C)else a,W={},G[s(22342)]end else if W<8322058 then N,W=s(22397),G[s(22559)]a=G[N]l,M=s(22602),s(22341)N=a(M,l)a={}else l,W,g,m=10801328>14950828,s(22299),s(22237),s(22237)M[W]=l N=U Q=G[g]g=s(22260)T=Q[g]S=Y[c[3]]X=G[m]m,v=s(22573),2 r=X[m]V=v*r r=Y[c[2]]v=#r f=V/v C=N*f g=S+C Q=T(g)T=Y[c[4]]S,r=s(22237),2 l=Q*T T=2 W=l*T g=G[S]F,S=s(22237),s(22638)Q=g[S]C=Y[c[3]]m=G[F]F=s(22573)X=m[F]v=r*X X=Y[c[2]]r=#X V=v/r f=N*V S=C+f g=Q(S)Q=Y[c[4]]T=g*Q C,Q,g=s(22282),2,s(22592)l=T*Q Q=R[g]S=G[C]T=W C=s(22582)g=S[C]C=0 S=g(T,C,l)W=Q+S g,Q=s(22263),W W=G[g]W=W and 4896760 or 5405694 end end end end end end else if W<5512232 then if W<4881315 then if W>4650297 then if 4782097>W then if W>4734173 then if W<4759850 then H,U=R(e,H)W=H and 77341 or 2138074 else W,U,o,k,J,a,e,H,R,N=G[s(22344)],nil,nil,nil,nil,{},nil,nil,nil,nil end else if W<4662282 then l=Y[c[2]]N=U W=M==l W=W and 16022315 or 15364451 elseif 4697953>W then m,K=X,s(22557)W=F[K]K=s(22591)K=W[K]K=K(W)q,t,W=s(22605),s(22198),s(22247)W=K[W]W=W(K,t,q)K=s(22599)K=W[K]K=K(W,U)W=K and 2382784 or 8759434 else a=Y[c[1]]W=not a W=W and 12434708 or 4095387 end end else if W<4826219 then if 4792027>W then W,a=G[s(22357)],{}elseif 4801346>W then a,W={},G[s(22619)]else T,W,Q=nil,164236,nil end else if 4858820>W then H,k=R(o,H)W=H and 10780702 or 11395676 else a=s(22171)W=G[a]R=Y[c[1]]e={W(R)}H,a,W=e[3],e[1],10992911 R,o=a,e[2]end end end else if W<4528002 then if W>4390278 then if 4427909>W then J,k,U,N,W=nil,nil,nil,nil,4743422 elseif W<4455682 then W=11210975<16467517 Y[c[1]]=W o=s(22397)a=G[o]R,H=s(22438),s(22341)o=a(H,R)H=Y[c[2]]R=s(22200)o=H[R]a=not o W=a and 16123830 or 4890877 else o=z[1]o=nil e=j()H,W,U=z[2],13601364>2743851,s(22348)Y[c[1]]=W R=s(22528)a=H[R]R=j()Y[R]=a a=nil Y[e]=a a=nil k=j()Y[k]=a a=H[U]J=y(3974360,{R})U=s(22269)U=a[U]U=U(a,J)J=j()Y[e]=U a=L(9119528,{R;c[2]})M=s(22536)Y[J]=a N=Y[c[3]]R=I(R)a=N[M]M=u(4724924,{c[1],k;e;J})H,N,W=nil,s(22269),G[s(22227)]N=a[N]N=N(a,M)a={}e=I(e)Y[k]=N J=I(J)k=I(k)end else if 4323565>W then T,l=s(22564),s(22263)M=G[l]l=M(U,T,N)W=1647007 elseif 4343989>W then N,S,g=T,s(22270),s(22575)g=Q[g]g=g(Q,S)W=g and 14366141 or 12816389 else T,a=l,s(22170)a=U[a]a=a(U,T,Q)Q,W,T=nil,9656298,nil end end else if W>4616090 then if 4631570>W then m=s(22151)X=Y[k]F=Y[V]X[m]=F W=11432118 X=r()m=Y[c[5]]F=s(22328)X=m[F]m=s(22448)m=X[m]m=m(X)t,m=s(22282),s(22151)X=Y[k]F=Y[V]X[m]=F m=s(22363)X=Y[k]K=G[t]t=s(22336)F=K[t]X[m]=F X=r()else X,F=W,s(22200)m=N[F]W,r=m and 5191716 or 16016502,m end else if W<4587521 then k,a,e=s(22512),s(22397),s(22341)W=G[a]a=W(e,k)a,W={},G[s(22514)]elseif 4606690>W then T,g=s(22397),s(22509)a=G[T]Q=s(22341)T=a(Q,g)a,W={},G[s(22191)]else l,e,M=s(22429),J,s(22575)M=N[M]M=M(N,l)W=M and 10708217 or 12225011 end end end end else if W>5235002 then if W<5433890 then if W<5388862 then if W<5295158 then H,o,W,a=nil,nil,G[s(22307)],{}elseif 5342029>W then K=s(22457)F=Y[c[2]]m=F[K]F=s(22553)X=m[F]m=s(22636)r=X==m v,W=r,r and 9101148 or 15109373 else a=s(22171)W=G[a]R=Y[c[1]]e={W(R)}W,H,o,a=3750992,e[3],e[2],e[1]R=a end else if W<5413201 then g,C,W=Q,s(22282),s(22592)M[W]=g W,l=s(22363),nil S=Y[c[5]]T=nil g=S*e M[W]=g N=nil S=G[C]Q,W,C=nil,s(22409),s(22336)g=S[C]M[W]=g M,W=nil,8938464 else a=Y[c[2]]k,o=2500,s(22290)W=a[o]a,e,R=s(22151),100,s(22151)H=G[R]R=s(22582)o=H[R]R=705 H=o(R,e,k)W[a]=H a,o=1,60 H,W=o,14295351 o=1 R=o o=0 e=R<o o=a-R end end else if 5486841>W then if 5466140>W then a=Y[c[1]]R=Y[c[2]]o=z[1]H=o*R W=a+H Y[c[1]]=W W=G[s(22562)]a=Y[c[3]]H=a(o)o,a=nil,{}elseif W<5485561 then N,W=s(22266),U k[W]=a J=G[N]N,g=s(22629),2 U=J[N]W,J=s(22629),s(22618)a=U[J]k[W]=a W,a,l=s(22601),14664977>8748104,0 k[W]=a a,W,M=13199821<10475068,s(22299),s(22151)k[W]=a W,a=s(22322),9066505<3414094 k[W]=a W,a=s(22635),13530777<=9798091 k[W]=a N=s(22151)J=G[N]W,N=s(22151),s(22412)U=J[N]J=U(o,H)N=G[M]M=s(22582)U=N[M]M=0 Q=-e T=Q/g N=U(M,l,T)a=J*N k[W]=a a=Y[c[2]]W=s(22200)k[W]=a W=Y[c[3]]U=Y[c[4]]a=s(22294)a=W[a]a=a(W,k,U)W,a=G[s(22233)],{k}else W=N and 7813772 or 10687252 end else if 5497872>W then H,k=R(o,H)W=H and 12304513 or 15533068 else e,R=s(22429),s(22343)H=Y[c[4]]R=H[R]R=R(H,e)H=nil a=R or H Y[c[5]]=a R=Y[c[5]]H=not R W=H and 2528823 or 2428235 end end end else if 4969775>W then if W<4926109 then if W<4893818 then W=871087 a=Y[c[3]]o,R,H=nil,a,nil elseif W<4906726 then g,S=s(22263),s(22564)W=G[g]g=W(M,S,R)W=5405694 else U,a,W,N=s(22397),{},G[s(22329)],s(22255)e=G[U]J=s(22341)U=e(J,N)end else if W<4950431 then S,C,Q=s(22341),s(22382),s(22397)a=G[Q]Q=a(S,C)W,a=G[s(22538)],{}else a=Y[c[4]]W=not a W=W and 512384 or 10254625 end end else if W>5033220 then if 5128822>W then e=4 a=o[e]e=a W=e and 13084941 or 3773856 else W,F=16016502,s(22320)m=k[F]r=m end else if W<4984622 then e=s(22528)a=H[e]e=j()Y[e]=a k=Y[e]a=not k W=a and 8814317 or 2779207 elseif W<4997771 then Ij,Aj=Rj(Hj,Ij)W=Ij and 6156024 or 1967769 else N,l=W,s(22302)M=G[l]W,J=M and 10948078 or 1155314,M end end end end end else if W<5921187 then if W<5749925 then if W>5669109 then if W>5715660 then if W<5732025 then a=Y[c[1]]W=a and 321678 or 5278288 else W,J,N=1126707,s(22575),s(22436)U=Y[k]J=U[J]J=J(U,N)a=J end else if 5692011>W then J,H=W,5700049<9719963 Y[c[3]]=H M=Y[c[5]]N=not M U,W=N,N and 12339280 or 12990187 elseif W<5704177 then S,v,W=s(22397),s(22356),G[s(22637)]a=G[S]V=s(22341)S=a(V,v)a={}else F=Y[c[2]]K=s(22457)m=F[K]F=s(22553)X=m[F]m=s(22543)r=X==m v,W=r,r and 11895224 or 14533540 end end else if W>5618234 then if 5635059>W then a,W={},G[s(22178)]elseif 5644921>W then e,U,W=H,s(22187),871087 e,U=nil,k[U]U=U(k)k=nil else Q,C,V,f=T,s(22321),s(22372),s(22372)S=g[C]C=g[f]W=S-C S,C=W,s(22364)W=G[C]f=g[V]C=s(22246)C=W[C]C=C(W,f,S,k)V=not C f,W=V,V and 9442889 or 7620485 end else if W<5541039 then C=.1 g=N<C W=g and 10629707 or 12700653 elseif 5585777>W then q,X=s(22151),s(22474)r=G[X]V,X=f,s(22416)a=r[X]X=Y[l]t=Y[k]K=t[q]q,t,W=s(22151),s(22527),7218895 t=K[t]t=t(K)V=nil K=v[q]F=t*K m={v,F}v=nil r=a(X,m)else W=4776278 end end end else if W>5780224 then if W>5828647 then if 5874900>W then W=Y[c[1]]W=W and 948831 or 3399835 else C=s(22474)S=G[C]C,M=s(22416),l W=S[C]C=H[M]M=nil S=W(N,C)W=11981501 end else if W<5800026 then W=Y[c[2]]a=s(22151)o=Y[c[3]]W[a]=o W=Y[c[4]]a=W()a,W={},G[s(22577)]elseif 5816283>W then C=s(22587)a=Y[g]S=s(22506)S=a[S]S=S(a,C)C=j()Y[C]=S S=Y[C]a=not S W=a and 7169913 or 14897447 else V=s(22492)T=Y[c[7]]C=Y[c[5]]U,f,S=J,s(22164),W W,f=2622897,C[f]f=f(C,V)C=1 g=f or C C=s(22587)S=R[C]U=nil Q=T(g,k,e,S)end end else if 5765727>W then if 5756903>W then a=s(22528)W=H[a]R=W W=not R W=W and 15365657 or 8560683 elseif W<5759995 then l,Q=N(M,l)W=l and 11307474 or 9790212 else U,g,T=1,W,s(22237)l=G[T]N,C,f,T=1,s(22164),s(22462),s(22288)M=l[T]S=Y[c[5]]C=S[C]C=C(S,f)S=0 Q,W,g=C or S,2622897,.25 T=Q*g l=M(T)J=N+l N=J J=1 M=J J=0 l=J>M J=U-M end else if W<5770494 then m=s(22316)X=Y[c[5]]a=X[m]X=s(22448)X=a[X]X=X(a)t=s(22151)a=Y[k]K=G[t]X,q,t,P,W=s(22151),200,s(22582),0,16106089 F=K[t]t=0 K=F(t,q,P)m=f*K a[X]=m else X,W=F,K W=11557120 end end end end else if W>6103448 then if W<6278239 then if W<6186015 then if W<6135378 then V,W,C=s(22509),G[s(22296)],s(22397)S=G[C]a,f={},s(22341)C=S(f,V)elseif W<6169928 then W=4995031 a=ej(Aj)kj,Aj=Ij,nil kj=nil else e,R,a=s(22443),s(22341),s(22397)W=G[a]a=W(R,e)W,a=G[s(22156)],{}end else if W<6231359 then a,N,J=s(22397),s(22535),s(22341)W=G[a]a=W(J,N)W,a=G[s(22460)],{}else C,W,S,f=s(22341),G[s(22377)],s(22397),s(22382)a=G[S]S=a(C,f)a={}end end else if 6355725>W then if 6313010>W then R,H,o=s(22474),z[2],z[1]a=G[R]o,H,R=nil,nil,s(22359)W=a[R]e=s(22580)R=G[e]e={R()}a=W(D(e))W,a=G[s(22402)],{}elseif 6345511>W then a,N=s(22397),s(22272)W=G[a]J=s(22341)a=W(J,N)a,W={},G[s(22248)]else N=s(22555)J=Y[c[4]]U=J[N]W,J=10882754,0 k=U<=J R=k end else if 6397551>W then a,k=s(22171),s(22199)W=G[a]e=Y[c[1]]R=e[k]k=s(22519)k=R[k]e={k(R)}R={W(D(e))}H,o,W,a=R[3],R[2],4845886,R[1]R=a else v,r=C,W W=C and 12714769 or 438530 end end end else if W>6023335 then if W>6060243 then if W<6082653 then a,N,W,l={},s(22397),G[s(22219)],s(22305)J=G[N]M=s(22341)N=J(M,l)else R,W,o=s(22528),12097726<=8056586,z[1]Y[c[1]]=W H=z[2]a=H[R]R=a a=not R W=a and 14395418 or 15778809 end else if W<6034964 then W,M,N=13415654,s(22249),s(22164)N=k[N]N=N(k,M)M=s(22508)J=N==M U=J elseif 6046509>W then W=s(22343)W,a=H[W],s(22429)W=W(H,a)R=W W=not R W=W and 3793702 or 859101 else H,a,o=z[2],s(22528),z[1]W=H[a]R=W W=not R W=W and 12940785 or 7750219 end end else if 5995232>W then if W<5942976 then W,a=G[s(22423)],{}elseif 5966507>W then W=Y[c[1]]o=z[1]a=W(o)o=nil W=Y[c[2]]a=W()a,W={},G[s(22556)]else o=z[1]a=Y[c[1]]W=not a W=W and 8474356 or 3615494 end else if W<6019201 then e=W U=Y[c[4]]k=not U W,R=k and 10882754 or 6346960,k else J=Y[k]N=s(22200)a=J[N]N,J=s(22151),s(22200)W=a[J]J=j()Y[J]=W a=Y[k]W=a[N]a=s(22358)N=j()l=1 Y[N]=W W=G[a]M=o[l]a=W(M,H)M=a a=1 W=M[a]l=W W=not l W=W and 13327526 or 9902566 end end end end end end end else if W>2138026 then if W>3138473 then if W<3791037 then if W>3652456 then if W>3725907 then if W>3762522 then if W<3781742 then U=5 k=o[U]W=k and 3202793 or 809734 else o=s(22237)a=G[o]M,o=s(22218),s(22406)W=a[o]o=W W=nil H,a=W,s(22171)W=nil R=W W=nil e=W W=G[a]J=Y[c[1]]M=J[M]N={M(J)}J={W(D(N))}a,W,U,k=J[1],195367,J[3],J[2]J=a end else if W<3743366 then T,W,Q=nil,5759010,nil elseif W<3751090 then H,k=R(o,H)W=H and 16645916 or 12047924 else N,o=s(22316),H J=Y[c[4]]U=J[N]J=s(22448)J,W=U[J],14519310 J=J(U)J=s(22171)U=G[J]l=Y[c[5]]T={U(l)}J,M,N=T[1],T[3],T[2]end end else if W<3686672 then if W<3656425 then a=s(22506)W=Y[c[1]]a=W[a]a=a(W,M)T=j()l,W=a,{}Y[T]=W C,a,f=s(22447),s(22171),s(22284)W=G[a]S=J[C]f=S[f]C={f(S)}S={W(D(C))}g,W,Q,a=S[3],11184958,S[2],S[1]S=a elseif 3666200>W then e=k(R,e)W=e and 141178 or 10821830 else m=Y[c[3]]F=s(22316)X=m[F]m=s(22448)m=X[m]m=m(X)m=s(22263)X=G[m]W=X and 7426742 or 2706022 end else if 3706834>W then N=Y[c[4]]H,W,M=R,10406147,s(22316)J=N[M]N=s(22448)N=J[N]N=N(J)N=s(22171)J=G[N]T=Y[c[5]]Q={J(T)}M,l,N=Q[2],Q[3],Q[1]else a=s(22187)W=Y[c[2]]a=W[a]a=a(W)W,a=G[s(22268)],{}end end end else if 3507778>W then if W<3388920 then if 3226369>W then W,U=809734,k Y[c[3]]=U elseif W<3313975 then W,V=r,v W=v and 262810 or 1101933 else W,a=G[s(22278)],{}end else if W<3408828 then e=s(22200)R=Y[c[2]]H=R[e]o=not H a,W=o,o and 9275185 or 13012786 elseif 3462565>W then e=s(22528)a=H[e]e=a a=not e W=a and 7735550 or 4286043 else H=not k W=H and 3633816 or 5687991 end end else if W<3624655 then if W<3525064 then o,H,W,R,a=nil,nil,G[s(22331)],nil,{}elseif W<3578687 then W=Y[c[2]]K,X,t,F=255,s(22372),0,s(22611)r=g[X]m=G[F]F=s(22181)X=m[F]F=0 m={X(F,K,t)}v=W(r,V,D(m))X,F=s(22372),s(22611)W=Y[c[3]]r=g[X]m=G[F]F,t=s(22181),0 X=m[F]F,K=255,215 m=X(F,K,t)X,K,F=.6,0,s(22456)v=W(r,m,X,F)W=Y[c[3]]m=s(22611)X=G[m]m=s(22181)r=X[m]m,F=255,215 X=r(m,F,K)r,m=.6,s(22230)v=W(V,X,r,m)v=s(22372)W=g[v]a={V,W}W=G[s(22350)]else R=s(22320)H=Y[c[3]]a=H[R]H=Y[c[4]]W=a~=H W=W and 10015070 or 1471812 end else if 3641264>W then a,W={},G[s(22213)]else N,a=s(22151),{}J=G[N]N=s(22582)U=J[N]N=R+e J=U(R,N)M=Y[c[5]]l=Y[c[4]]N=M[l]R,H=nil,J U=H*N Y[c[6]]=U M=s(22363)N=Y[c[7]]g=s(22630)Q=Y[c[6]]e=nil T=Q[g]W=G[s(22607)]Q=Y[c[8]]l=T*Q H=nil N[M]=l o=nil end end end end else if 4052571>W then if 3924265>W then if W<3882680 then if W<3793074 then F,r=s(22474),v m=G[F]F,d=s(22416),s(22151)a=m[F]F=Y[C]P=Y[U]q=P[d]d,P,W=s(22151),s(22527),2921853 P=q[P]P=P(q)q=X[d]r=nil t=P*q K={X,t}X=nil m=a(F,K)elseif W<3837216 then a,W={},G[s(22499)]else W,J,U=204981,nil,nil end else if 3896669>W then e=s(22474)R=G[e]W,H,e=G[s(22481)],nil,s(22359)a=R[e]e=Y[c[2]]R=a(e)e=s(22474)R=G[e]o,e=nil,s(22359)a=R[e]e=Y[c[3]]R=a(e)a={}else H,R,W=z[2],s(22171),12265292>12738129 Y[c[1]]=W o=z[1]a=G[R]U=Y[c[2]]J={a(U)}R,k,W,e=J[1],J[3],1459681,J[2]end end else if W>4013652 then if W<4029766 then o=z[1]a=Y[c[1]]W=not a W=W and 3716075 or 13388668 else f,l,S=s(22457),W,s(22457)g=N[S]S=s(22553)Q=g[S]C=Y[c[3]]S=C[f]C=s(22553)g=S[C]T=Q~=g W,M=T and 15313503 or 7726350,T end else if 3957090>W then S,g,W=s(22341),s(22397),G[s(22183)]a=G[g]C=s(22477)g=a(S,C)a={}elseif W<3992298 then o,a=z[1],{}W=o o=nil Y[c[1]]=W W=G[s(22148)]else l=s(22200)M=U[l]a,W=M,6856690 end end end else if W<4198353 then if W>4153975 then if W<4169295 then v=s(22528)W=M[v]l=W W=not l W=W and 8105764 or 13909479 else W,l=7561474,J Y[c[2]]=l end else if 4079033>W then W=s(22170)W,J,U=k[W],14926060>=2963145,s(22578)W=W(k,U,J)J,U,W,M,N=0,s(22597),s(22170),s(22164),s(22462)W,M=k[W],k[M]W=W(k,U,J)J,U,W=0,s(22182),s(22170)W=k[W]W=W(k,U,J)J={M(k,N)}W,U=s(22170),s(22513)W=k[W]W=W(k,U,D(J))W=10819140 elseif W<4121976 then W=Y[c[4]]a=W()a,W={},G[s(22420)]else r,C=s(22447),s(22506)S=Y[c[4]]C,V=S[C],s(22151)C=C(S,Q)S=j()Y[S]=C f=Y[l]v=j()C=f[V]f=j()m=j()V=j()Y[f]=C C={}X=j()Y[V]=C C={}Y[v]=C C=T[r]F,W,r=s(22171),11679937,s(22284)r=C[r]r=r(C)C=j()Y[C]=r r=0 Y[X]=r r=16482381<=5610063 Y[m]=r r=G[F]q=Y[C]P={r(q)}F,t,K=P[1],P[3],P[2]end end else if W>4287932 then if W<4294794 then W=Y[c[5]]a=W()a,W={},G[s(22317)]else U=s(22592)k=R[U]N,M=s(22282),80 J=G[N]N=s(22582)U=J[N]N,l=-238,1836 J=U(N,M,l)e=k-J k=s(22179)a=e[k]W=-a a,e=s(22171),W W=G[a]J=Y[c[2]]N={W(J)}k,U,a,W=N[2],N[3],N[1],8938464 J=a end else if 4232730>W then U=1 W=k[U]e=H M=Y[c[2]]U,l=s(22151),s(22151)N=M[l]l=2 M=k[l]J=N*M M=s(22282)W[U]=J U=1 W=k[U]N=G[M]M,U=s(22336),s(22363)J=N[M]W[U]=J U=1 W=k[U]M,e=s(22282),nil N=G[M]M=s(22336)J=N[M]k,U=nil,s(22409)W[U]=J W=10992911 elseif 4267002>W then S=s(22528)g=Y[T]a=g[S]g=j()Y[g]=a S=Y[g]a=not S W=a and 9714409 or 5810116 else a,k=s(22506),s(22207)a=e[a]a=a(e,k)k=a a=not k W=a and 6457808 or 7945673 end end end end end else if 2754540>W then if W>2566553 then if W<2660928 then if W>2616562 then if 2639954>W then J,T=J+M,not l U=N>=J U=T and U T=J>=N T=l and T U=T or U T=5822451 W=U and T U=571772 W=W or U else W=s(22591)W=e[W]W=W(e)J=Y[c[1]]N,M=s(22588),s(22588)U=J[N]J,k=s(22553),W W=U[J]U=s(22591)U=W[U]U=U(W)N=Y[c[1]]J=N[M]N=s(22380)W=J[N]J=s(22591)J=W[J]J=J(W)M=k~=U N=M W=M and 2858081 or 5485912 end else if 2574929>W then a=Y[c[1]]o,H=z[1],s(22528)W=a[H]H=W W=not H W=W and 10348706 or 8141848 elseif 2595161>W then a=s(22263)W=G[a]H=s(22564)o=Y[c[2]]R=nil a=W(o,H,R)W=5789936 else W,U,J=7426316,nil,nil end end else if W>2704535 then if W<2724998 then F=v X=Y[U]m=s(22151)X[m]=F W,v=15661168,nil X=f()else C=1 g=Y[l]S=s(22200)Q=g[S]g=s(22200)T=Q[g]g=s(22358)Q=G[g]S=o[C]g=Q(S,H)S=1 Q=g[S]S=not Q W=S and 6114733 or 4148565 end else if 2667199>W then W,f=11128397,s(22200)C=J[f]S=C elseif 2686301>W then o,R,H,a=z[1],1,1,s(22427)a=o[a]a=a(o,H,R)H=s(22261)W=a~=H W=W and 15754420 or 13143340 else X=s(22151)r=g[X]m=Y[c[4]]X=m[V]a=r*X v=a a=Y[U]X,r=v,s(22151)a[r]=X r=1 a=V+r m=Y[c[4]]X=#m V=a r=V>X W=r and 970087 or 3675750 end end end else if 2426233>W then if W<2270595 then if 2176574>W then W,o,a=G[s(22430)],nil,{}elseif W<2229286 then H=s(22555)a=o[H]H=0 W=a<=H W=W and 14792520 or 5507975 else a=1000 W=R*a Y[c[1]]=W W=3417822 end else if 2340238>W then a,g=s(22490),6528883~=2336138 Q[a]=g g,a=-1,s(22487)Q[a]=g W=3735740 elseif W<2403508 then t=s(22474)K=G[t]t=s(22416)W=K[t]K=W(l,F)W=8759434 else H,k=R(o,H)W=H and 14206267 or 8930082 end end else if W<2516479 then if W<2438349 then R=Y[c[5]]k,e=s(22249),s(22164)e=R[e]e=e(R,k)R=s(22508)H=e~=R W=H and 200408 or 13402929 elseif W<2476299 then U=Y[c[6]]o=nil J=U()W=1051299 U=Y[c[7]]J=U()else k=s(22511)a=G[k]k=s(22582)W=a[k]N,k=s(22282),s(22464)a=W(k)W,k,Q,l,J=s(22553),a,.4,.4,s(22473)U,a=W,e or J k[W]=a a=s(22521)J=G[N]M,T,N=W,.4,s(22582)U=J[N]N,M=R or l,R or T l,T=W,W l=R or Q J=U(N,M,l)k[a]=J a,M=s(22586),s(22266)N=G[M]M=s(22593)J=N[M]N=s(22173)U=J[N]k[a]=U J,a,U=W,s(22243),H W=H and 14015283 or 9738430 end else if W<2546082 then a,W={},G[s(22570)]else U,N,e,M,H=s(22226),s(22257),s(22442),s(22549),s(22204)W=Y[c[1]]k,l=s(22277),s(22313)R=Y[c[2]]J={[N]=M}M=Y[c[3]]T=Y[c[4]]l=M[l]l=l(M,T)N=s(22199)o={[H]=R,[e]=k,[U]=J;[N]=l}a=W(o)W,a=G[s(22469)],{}end end end end else if 2950206>W then if 2859445>W then if W>2805942 then if 2840779>W then W,g,Q,N=164236,s(22519),s(22199),s(22171)a=G[N]T=J[Q]g=T[g]Q={g(T)}T={a(D(Q))}N,M,l=T[1],T[2],T[3]else W=5485912 M=k~=J N=M end else if 2772156>W then J,M,l=k,s(22575),s(22429)M=N[M]M=M(N,l)W=M and 277178 or 6505226 elseif W<2783807 then k=s(22506)a=Y[e]k,U=a[k],s(22207)k=k(a,U)U=j()Y[U]=k k=Y[U]a=not k W=a and 9719401 or 8057831 else a=Y[c[1]]W=not a W=W and 7420278 or 11880769 end end else if W>2913482 then if W<2926560 then v,X=f(V,v)W=v and 3792446 or 15044255 else X,F=v(r,X)W=X and 15870634 or 13213167 end else if W<2868257 then W=s(22506)W,a=R[W],s(22207)W=W(R,a)e=W W=not e W=W and 6704127 or 12356675 elseif W<2890408 then l,e,U=s(22151),H,1 W=k[U]U=s(22151)M=Y[c[2]]N=M[l]e,l=nil,2 M=k[l]J=N*M W[U]=J U,M=1,s(22282)W=k[U]N=G[M]M,U=s(22336),s(22363)J=N[M]W[U]=J U,M=1,s(22282)W=k[U]N=G[M]U,k,M=s(22409),nil,s(22336)J=N[M]W[U]=J W=16107534 else J=I(J)R,W=nil,14057959 N=I(N)end end end else if 2996088>W then if W>2984667 then if W<2986775 then U,N=k,W W,a=U and 4010236 or 6856690,U else C,g=nil,s(22263)Q=G[g]W,S=13222258,s(22564)g=Q(T,S,C)end else if 2971246>W then S,Q,C,W,f,g=nil,nil,nil,9982571,nil,nil elseif W<2978373 then W=Y[c[1]]W=W and 12104055 or 13114119 else l,T,a,Q=s(22397),s(22341),{},s(22255)N=G[l]l=N(T,Q)W=G[s(22411)]end end else if W<3059524 then if W<3026336 then o,a=1,{}Y[c[3]]=a H=60 R=H H=1 e,W=H,1051299 H=0 k=H>e H=o-e elseif W<3050549 then W=Y[c[1]]a=W()W,a=G[s(22394)],{}else W=5718997 end else if W<3070107 then U,a=s(22199),s(22171)W=G[a]k=Y[o]e=k[U]U=s(22519)U=e[U]k={U(e)}e={W(D(k))}R,H,W,a=e[3],e[2],12538460,e[1]e=a else Ij,Hj,W=nil,nil,16732554 end end end end end end else if 934197>W then if 321405>W then if 197887>W then if W>120796 then if W<162686 then if W<142145 then U,N=e,s(22474)J=G[N]N=s(22416)W=J[N]J=W(H,U)W,U=3656650,nil elseif 152124>W then o=j()Y[o]=z[1]a=Y[c[1]]W=not a W=W and 7998551 or 15138535 else a,o,W,e,H,R={},nil,G[s(22222)],nil,nil,nil end else if W<179801 then l,Q=N(M,l)W=l and 546327 or 11855400 else U,M=J(k,U)W=U and 4653582 or 8984634 end end else if 59795>W then if 29028>W then W,v=s(22407),s(22207)W=l[W]W=W(l,v)T=W W=not T W=W and 13472502 or 13599487 elseif W<48251 then r,X=W,s(22164)X,m=l[X],s(22495)X=X(l,m)v,W=X,X and 2121784 or 9752272 else W,J,U=1459681,nil,nil end else if 69194>W then J=s(22320)U=Y[k]e=U[J]U=j()Y[U]=e J=W N=Y[U]W,e=N and 16192886 or 9042516,N elseif 88877>W then J,k,N=s(22299),H,8187176>=9149039 U[J]=N N,l=s(22506),W J=Y[c[2]]Q=Y[c[8]]T=Q[k]Q=s(22587)M,N=T or Q,J[N]N=N(J,M)J=not N W=J and 4422745 or 15078193 else M=s(22330)N=o[M]M=s(22498)J=N[M]N=0 U=J==N W,e=12713031,U end end end else if W>233572 then if W<294998 then if W<248314 then J,k,W=s(22270),R,s(22575)W=U[W]W=W(U,J)W=W and 11738171 or 10489807 elseif W<269994 then F=s(22611)W=Y[c[2]]X=s(22372)r=g[X]m=G[F]F,t=s(22181),0 X=m[F]F,K=255,0 m={X(F,K,t)}v=W(r,V,D(m))V,W=nil,2969145 else W,g,M,S,Q=6505226,0,s(22440),0,s(22151)T=G[Q]Q=s(22582)l=T[Q]Q=0 T=l(Q,g,S)N[M]=T end else if 316975>W then W=2610228 else o=Y[c[1]]H=s(22320)a=o[H]W=not a W=W and 14180051 or 16441282 end end else if W<225518 then if W<202694 then a,W={},G[s(22613)]elseif 212994>W then k,J=R(e,k)W=k and 7981337 or 3052988 else k=s(22330)e=o[k]W,k=6577615,s(22498)R=e[k]e=0 H=R==e a=H end else if 231677>W then e,W=s(22200),11038768 R=o[e]H=not R a=H else W=13038447 end end end end else if 610974>W then if 529355>W then if 470771>W then if 323925>W then e,W=s(22379),204981 R=G[e]e=s(22205)a=R[e]R=a()R,U=s(22309),s(22284)a=H[R]U=a[U]U={U(a)}k,e,R=U[3],U[2],U[1]elseif W<382351 then a,W={},G[s(22401)]else W,V=r,v W=v and 3541881 or 16175089 end else if 507698>W then W=Y[c[2]]a=W()W=16650785 else W,a=G[s(22389)],{}end end else if W>594811 then if 603430>W then W,P=x,O W=1578486 else R=z[3]a=Y[c[1]]W,o,e,H=not a,z[1],z[4],z[2]W=W and 1597398 or 2504136 end else if W<559049 then g,a,T=s(22270),s(22575),l a=Q[a]a=a(Q,g)W=a and 13850500 or 4806553 elseif W<582529 then N=s(22164)J=Y[c[5]]l,N,M,Q=W,J[N],s(22462),s(22164)N=N(J,M)T=Y[c[5]]l,g,Q=.1,s(22242),T[Q]Q=Q(T,g)T=0 M=Q or T J=M*l U=N<J W=U and 6977248 or 8502802 else H,k=R(o,H)W=H and 7984032 or 1069821 end end end else if W>864963 then if 906662>W then if W<870956 then W,m=t,K W=12944740 elseif W<886121 then H,k=R(o,H)W=H and 5639616 or 10791689 else S,M,N,Q,f,W,V,l,g,T,C=nil,nil,nil,nil,nil,195367,nil,nil,nil,nil,nil end else if W<915867 then m=s(22263)X=G[m]F=Y[k]K=s(22564)t=Y[g]m=X(F,K,t)W=4616128 else a,W={},G[s(22640)]end end else if W>792579 then if W<834417 then N=s(22528)J=H[N]N=not J W=N and 8051496 or 12899093 else k,e,a=s(22574),s(22249),s(22164)a=R[a]a=a(R,e)e=s(22508)W=a==e e=W a=Y[c[4]]W=a[k]a,k=s(22201),W W=s(22609)W=k[W]W=W(k,a)U=W W,a=U and 16613920 or 16470444,U end else if 628863>W then J=s(22364)a=G[J]J=s(22449)T=j()W=a[J]a=s(22284)a=W[a]a=a(W)W=0 N,J=W,a a=s(22151)W=k[a]M=W W={}l=W W,Q=nil,s(22237)Y[T]=W a=G[Q]Q=s(22406)W=a[Q]Q,a=W,s(22171)W=G[a]C={W(J)}g,a,W,S=C[2],C[1],6445412,C[3]C=a elseif 710864>W then C,V=g(S,C)W=C and 6580123 or 6841088 else W,a=G[s(22598)],{}end end end end end else if W<1446283 then if 1204990>W then if W>1087844 then if 1117705>W then if 1102285>W then r=s(22321)v=g[r]V,W=v,262810 elseif 1105670>W then S,f,C=s(22397),s(22225),s(22341)g=G[S]S=g(C,f)W,a=G[s(22425)],{}else O,r=s(22474),t d=G[O]Gj,O=s(22151),s(22416)P=d[O]O=Y[v]Z=Y[l]B=Z[Gj]Z=s(22527)Z,Gj,r=B[Z],s(22151),nil Z=Z(B)W=11679937 B=q[Gj]n=Z*B x={q,n}q=nil d=P(O,x)end else if 1141010>W then U=a W=not U W=W and 6344062 or 14549976 else l,Q=W,s(22306)T=G[Q]M,W=T,T and 15660661 or 11358928 end end else if W<1042210 then if 959459>W then W,a=G[s(22486)],{}elseif 1001604>W then r,W=1,3675750 V=r else C,N,W,l,T,f,M,V,S,g,Q=nil,nil,195367,nil,nil,nil,nil,nil,nil,nil,nil end else if W<1060560 then H=e+H o,U=H<=R,not k o=U and o U=H>=R U=k and U o=U or o U=3751189 W=o and U o=8706325 W=W or o elseif 1071788>W then a,W={},G[s(22265)]else W=Y[c[1]]a=W()W=Y[c[2]]a=W()W,a=G[s(22340)],{}end end end else if W<1402623 then if 1336004>W then if 1279263>W then a=s(22320)k=j()W=e[a]Y[k]=W U=Y[k]W,a=U and 1790236 or 15804682,U elseif W<1308689 then a,W={},G[s(22520)]else W=2905111 M=Y[N]T,l=s(22376),s(22468)l=M[l]l=l(M,T)T=u(6364491,{J,c[3];N;H})M=s(22269)M=l[M]M=M(l,T)end else if W<1379419 then X=s(22511)r=C[X]W,X=15453080,s(22166)X=r[X]X=X(r,H)V=X else a,o,R=s(22407),nil,nil W=Y[c[1]]H,a,U=nil,W[a],s(22631)a=a(W,U)U,W=s(22318),s(22407)W=a[W]W=W(a,U)a,U,e=s(22621),s(22474),nil a=W[a]a=a(W,k)a=G[U]U=s(22359)W=a[U]a=W(k)a,k,W={},nil,G[s(22496)]end end else if 1422992>W then if 1408394>W then e,k,W=nil,nil,5487770 elseif W<1415314 then U=Y[c[2]]W=U[k]W=W and 9170703 or 15854594 else W=Y[c[2]]a=W()W=3378006 end else if 1430066>W then W,a=G[s(22154)],{}else R,a,o=s(22270),s(22407),s(22259)W=Y[c[1]]a=W[a]a=a(W,o)W=s(22407)W,o=a[W],s(22327)W=W(a,o)e,a=s(22624),s(22634)o=Y[c[2]]e=o[e]H={e(o,R)}a=W[a]a=a(W,D(H))a,W={},G[s(22386)]end end end end else if W<1809153 then if 1612288>W then if W<1587942 then if W<1465746 then k,J=R(e,k)W=k and 14898938 or 3884629 elseif 1525149>W then R=s(22476)H=Y[c[5]]a=H[R]H=s(22547)R=Y[c[6]]a[H]=R R=s(22476)H=Y[c[5]]o=nil a=H[R]R=Y[c[7]]W,H=G[s(22271)],s(22594)a[H]=R a={}else W=d W,t=16234709,P end else if 1600364>W then W,a=G[s(22505)],{}else C=s(22316)S=Y[c[2]]W=S[C]S=s(22448)S=W[S]S=S(W)v,S=s(22528),s(22151)W=Y[k]V=l[v]v=s(22587)f=V[v]V=s(22151)C=f[V]W[S]=C W=Q()W=7178855 end end else if W<1649064 then if 1625046>W then W,k=14295351,nil elseif 1637927>W then W,l,U=14519310,nil,nil else M,l,Q=s(22592),J,s(22282)U[M]=l T=Y[c[9]]W,J=4743422,nil l=T*o M=s(22363)U[M]=l M=s(22409)T=G[Q]Q=s(22336)l=T[Q]U[M]=l N,k,U=nil,nil,nil end else if 1720679>W then N=Y[c[5]]M=s(22214)M=N[M]M=M(N,U)a,W=M,14283310 else N,J=s(22436),s(22575)U=Y[k]J=U[J]J=J(U,N)W,a=15804682,J end end end else if W>1938259 then if 2111540>W then if W<1954271 then W,a=G[s(22160)],{}elseif 2034532>W then Jj,Aj=s(22563),s(22585)tj=A(8503707,{t;P})yj,wj,Pj=s(22545),s(22576),s(22203)Rj=Y[H]Hj=s(22149)a=Rj[Hj]bG,kj=s(22308),s(22614)lj=i(12154360,{H,x;S;R,e,oj})Cj=u(16045620,{r;R,e;H})ij,Rj,Lj,Nj=s(22620),s(22269),s(22360),{Jj}Rj,Ij,qj=a[Rj],s(22383),s(22541)Rj=Rj(a,ej)Sj,Uj,Hj,Oj,Jj,Rj,Xj,sG,pj,Qj=s(22475),s(22240),s(22175),s(22589),s(22308),s(22491),s(22421),s(22275),s(22466),s(22516)uj={[Uj]=Lj;[ij]=pj;[wj]=Nj,[Jj]=lj}Nj,Mj,gj,Jj,Uj,ij,wj=s(22444),s(22239),s(22185),s(22576),s(22375),s(22240),s(22620)dj=u(12214510,{X,k;H;e,m})lj,cG,pj={Mj;Qj},s(22189),s(22241)Qj=A(8744832,{v;n;B,e})Fj,Mj,Tj,nj=s(22217),s(22308),s(22569),s(22308)Lj={[ij]=pj;[wj]=Nj,[Jj]=lj,[Mj]=Qj}Qj,Nj={Tj,gj},s(22453)gj=i(9479183,{v})ij,lj,Jj,Tj,Vj,vj,wj,mj,Mj=s(22216),s(22604),s(22620),s(22308),s(22304),s(22286),s(22240),s(22368),s(22576)pj={[wj]=Nj;[Jj]=lj,[Mj]=Qj,[Tj]=gj}Mj,Jj,lj,wj,Qj,Tj,gj=s(22620),s(22240),s(22387),s(22387),s(22400),s(22576),{Sj}Sj=s(22308)Nj={[Jj]=lj,[Mj]=Qj;[Tj]=gj,[Sj]=Cj}Cj={vj,Vj}Vj=u(12315860,{r})gj,Sj=s(22400),s(22576)xj=u(15522411,{X})Mj,Tj,vj,Qj,Jj=s(22240),s(22620),s(22308),s(22355),s(22355)lj={[Mj]=Qj;[Tj]=gj;[Sj]=Cj,[vj]=Vj}vj,Mj,gj,Tj,Sj,Cj,fj=s(22576),s(22404),s(22398),s(22240),s(22620),s(22501),s(22283)Vj={fj,Fj,mj,Xj}Fj=u(10655134,{H;e})fj=s(22308)Qj={[Tj]=gj;[Sj]=Cj,[vj]=Vj;[fj]=Fj}fj,Sj,vj,Cj,mj=s(22576),s(22240),s(22620),s(22435),s(22163)Fj,Zj,Vj,Kj={mj},s(22234),s(22626),s(22494)mj=s(22308)Xj=h(4478290,{t,P,e})gj={[Sj]=Cj,[vj]=Vj,[fj]=Fj;[mj]=Xj}Sj,RG,Vj,vj,W,Fj,Xj,Tj=s(22165),s(22571),s(22165),s(22240),G[s(22523)],s(22558),{qj},s(22435)qj,fj,mj=s(22308),s(22620),s(22576)Cj={[vj]=Vj;[fj]=Fj,[mj]=Xj;[qj]=tj}HG=y(3908709,{K;d;O})fj,Xj=s(22240),s(22454)Bj=u(6946363,{x,H;e;C})vj,IG[1],tj=s(22544),s(22639),{Kj}zG=p(6047344,{H,x;e,f})Fj,mj=s(22445),s(22620)rj=p(8467225,{x;e})qj,Kj=s(22576),s(22308)Vj={[fj]=Fj;[mj]=Xj,[qj]=tj;[Kj]=rj}tj,Kj,Xj,mj,qj,fj,rj=s(22488),s(22576),s(22157),s(22240),s(22620),s(22628),{Pj}Pj=s(22308)Fj={[mj]=Xj,[qj]=tj;[Kj]=rj,[Pj]=dj}tj,rj,dj,qj=s(22459),s(22395),{Oj},s(22240)Oj,mj,GG=s(22308),s(22459),s(22150)aG=h(6281959,{})Pj,Kj=s(22576),s(22620)Xj={[qj]=tj,[Kj]=rj,[Pj]=dj;[Oj]=xj}Pj,Oj,dj,DG,qj,eG,jG,Kj,rj,xj=s(22620),s(22576),s(22461),s(22632),s(22253),s(22215),s(22335),s(22240),s(22432),{}tj={[Kj]=rj,[Pj]=dj,[Oj]=xj;[nj]=Bj}Pj,Bj=s(22240),{Zj;GG,sG}WG=h(6092164,{F})xj,Kj=s(22208),s(22503)GG=A(6677943,{F})Oj,dj=s(22620),s(22503)oG=y(11280447,{K;d,O})sG,Zj,nj=s(22338),s(22308),s(22576)rj={[Pj]=dj;[Oj]=xj;[nj]=Bj,[Zj]=GG}Bj,Zj,xj,GG,Pj=s(22467),s(22576),s(22280),{sG},s(22280)sG,Oj=s(22308),s(22240)EG=h(14226250,{x,Gj;Z,H,e})nj=s(22620)dj={[Oj]=xj;[nj]=Bj,[Zj]=GG;[sG]=WG}nj,WG,sG=s(22240),{DG},s(22576)DG,Bj,GG,Zj,Oj=s(22308),s(22410),s(22466),s(22620),s(22450)xj={[nj]=Bj;[Zj]=GG;[sG]=WG,[DG]=zG}zG,nj,sG,GG,DG,WG,Zj={cG},s(22554),s(22620),s(22483),s(22576),s(22433),s(22240)cG=s(22308)Bj={[Zj]=GG,[sG]=WG;[DG]=zG,[cG]=EG}zG,Zj,cG,DG,sG,YG,EG,WG=s(22167),s(22197),s(22576),s(22620),s(22240),s(22235),{},s(22197)GG={[sG]=WG;[DG]=zG;[cG]=EG;[bG]=aG}DG,EG,sG,aG,zG=s(22240),s(22180),s(22542),{YG},s(22542)YG,bG,cG=s(22308),s(22576),s(22620)WG={[DG]=zG,[cG]=EG,[bG]=aG,[YG]=oG}cG,EG,bG,YG,DG,oG=s(22240),s(22153),s(22620),s(22576),s(22153),{jG}jG,aG=s(22308),s(22615)zG={[cG]=EG;[bG]=aG;[YG]=oG;[jG]=HG}jG,aG,YG,bG,cG,HG,oG=s(22576),s(22560),s(22620),s(22240),s(22186),{RG,eG,IG[1]},s(22169)eG=A(16016370,{e;k})RG=s(22308)EG={[bG]=aG,[YG]=oG;[jG]=HG;[RG]=eG}hj={[yj]=uj,[Uj]=Lj;[ij]=pj,[wj]=Nj;[Jj]=lj,[Mj]=Qj;[Tj]=gj;[Sj]=Cj,[vj]=Vj;[fj]=Fj;[mj]=Xj,[qj]=tj;[Kj]=rj,[Pj]=dj,[Oj]=xj;[nj]=Bj,[Zj]=GG,[sG]=WG,[DG]=zG,[cG]=EG}a={[Rj]=Hj,[Ij]=kj,[Aj]=hj}Rj=a a={Rj}else l,k,g=s(22374),nil,s(22474)Q=G[g]g,a=s(22384),{}T=Q[g]g,U=s(22374),nil Q=T(N,g)M=l..Q o=nil W=R..M l,M,R,e,N,J=s(22256),W,nil,nil,nil,nil W=G[l]H=nil l=W(M)M,W=nil,G[s(22478)]end else if W<2129881 then W=r W=not v W=W and 14405855 or 233327 else a,W=o,H W=9275185 end end else if W<1904112 then if W<1830902 then J,Q,g=l,s(22299),7492523~=11468769 T[Q]=g g=s(22263)Q=G[g]W=Q and 2987615 or 13222258 elseif 1861328>W then k,N,W=s(22309),s(22284),15315491 e=H[k]N=e[N]N={N(e)}J,k,U=N[3],N[1],N[2]else T,Q=M(l,T)W=T and 4330167 or 8362709 end else if W<1927524 then a=s(22287)W=G[a]a=W()W=5605966 else W=J J=a a=not J W=a and 8317556 or 10390071 end end end end end end end end else if 12483155>W then if W>10398109 then if 11333201>W then if W>10832125 then if 11105134>W then if W<11015839 then if W<10932772 then if 10862587>W then o=Y[c[1]]H=s(22555)a=o[H]o=0 W=a<=o W=W and 15389715 or 919564 elseif 10900110>W then W,o=e,R W=2137978 else a=s(22606)H=A(8668895,{})W=o[a]a=s(22269)a=W[a]a=a(W,H)W,o,a=G[s(22600)],nil,{}end else if 10970494>W then a,W=J,N W=10005585 else H,k=R(o,H)W=H and 4217500 or 15037550 end end else if W<11082625 then if 11040745>W then W=a and 16078882 or 11803738 elseif 11062214>W then W=s(22575)W,f,v=V[W],S,s(22603)W=W(V,v)W=W and 8888737 or 7580395 else M,T,W=J,s(22270),s(22575)W=l[W]W=W(l,T)W=W and 14884745 or 6657489 end else if W<11093697 then g=s(22171)W=G[g]f={W(l)}g,W,C,S=f[1],646303,f[3],f[2]else J,a,N=s(22341),s(22397),s(22195)W=G[a]a=W(J,N)W,a=G[s(22627)],{}end end end else if W>11187156 then if W>11278166 then if W<11293960 then k,U,W=s(22364),s(22209),14967143>=12572417 H=j()o,a=z[1],{}Y[H]=z[2]Y[c[1]]=W Y[c[2]]=a e=G[k]k=s(22407)k=e[k]k=k(e,U)e=s(22162)R=k[e]N=s(22364)k=h(143112,{c[1],c[2];c[3],H})e=s(22269)e=R[e]e=e(R,k)e=s(22171)R=G[e]J=G[N]N,M,W=s(22407),s(22209),14057959 N=J[N]N=N(J,M)M=s(22284)M=N[M]J={M(N)}N={R(D(J))}e,U,k=N[1],N[3],N[2]else g,T,a=s(22270),l,s(22575)a=Q[a]a=a(Q,g)W=a and 2297692 or 3735740 end else if 11212190>W then W,X=16660520,s(22320)r=S[X]X=s(22166)X=r[X]X=X(r,N)a=X elseif W<11255456 then l=s(22474)M=G[l]l=s(22416)N=M[l]l=Y[c[2]]T=Y[J]S=s(22199)M=N(l,T)M,l=s(22407),s(22199)N=Y[J]M=N[M]M=M(N,l)l=s(22379)M=G[l]l=s(22205)N=M[l]l,W=.2,1888921 M=N(l)M=s(22171)N=G[M]g=Y[J]Q=g[S]S=s(22519)S=Q[S]g={S(Q)}Q={N(D(g))}T,M,l=Q[3],Q[1],Q[2]else U,k=s(22316),o a=Y[c[3]]W=a[U]a=s(22448)a=W[a]a=a(W)a,l=s(22171),s(22284)W=G[a]N=Y[c[4]]l=N[l]M={l(N)}N={W(D(M))}a,J,U,W=N[1],N[3],N[2],8160772 N=a end end else if W<11135993 then if W<11117408 then K,W,F=s(22429),15597779,s(22575)m=Y[c[4]]F=m[F]F=F(m,K)r=F elseif W<11129175 then W=S and 1603330 or 7217516 else S,N,T,V,Q,g,l,C,f,W,M=nil,nil,nil,nil,nil,nil,nil,nil,nil,195367,nil end else if W<11163495 then F,t=W,s(22200)K=R[t]m,W=K,K and 12098060 or 12944740 else g,f=S(Q,g)W=g and 8498464 or 12677529 end end end end else if W>10664481 then if 10775018>W then if W>10709574 then if W<10740133 then k,W=1,3648713 Y[c[4]]=k else N=s(22200)J=Y[k]a=J[N]J=s(22200)W=a[J]J,M,a=W,1,s(22358)W=G[a]N=o[M]a=W(N,H)N=a a=1 W=N[a]M=W W=not M W=W and 9593232 or 3656200 end else if 10676116>W then n=Y[c[6]]Z=Y[k]B=n(Z)O,W=B,596336 elseif 10697734>W then W={}N,M=W,3 l=#H T=l l,W=1,11981501 Q=l l=0 g=Q<l l=M-Q else M,Q,W=s(22440),s(22151),12225011 T=G[Q]Q,g=s(22582),0 l=T[Q]S,Q=0,0 T=l(Q,g,S)N[M]=T end end else if W>10814671 then if 10820485>W then W,k,e=16162265,nil,nil else R=1 W=H[R]R,e=W,2 W=H[e]U,e=not R,W W,k=U and 13970073 or 8783152,U end else if W<10786195 then W=s(22575)W,U=k[W],s(22270)W=W(k,U)W,e=W and 1411892 or 7015532,H elseif W<10800945 then o,W,H,R={},10441530,1,60 e=R R=1 k=R R=0 Y[c[3]]=o U=k<R R=H-k else W,S,Q=G[s(22455)],s(22405),s(22397)a=G[Q]g=s(22341)Q=a(g,S)a={}end end end else if W>10544787 then if W>10642420 then if W<10659558 then a,H=s(22528),z[2]W=H[a]o,R=z[1],W W=not R W=W and 4577715 or 14816358 else N=s(22474)J=G[N]N=s(22416)W=J[N]N=Y[c[3]]J=W(N,U)W=13396307 end else if W<10602145 then W=Y[c[1]]a=s(22151)o=Y[c[2]]R=s(22282)W[a]=o W=Y[c[1]]a=s(22363)H=G[R]R=s(22336)o=H[R]W[a]=o R,a=s(22282),s(22409)W=Y[c[1]]H=G[R]R=s(22336)o=H[R]W[a]=o a,W={},G[s(22159)]elseif 10617115>W then a=1000 W=R*a Y[c[1]]=W W=4974213 else C=Y[c[1]]K,f=0,s(22328)g=C[f]C=s(22448)C,f,m=g[C],s(22151),s(22282)C=C(g)g=N+C N=g X=G[m]W,m=5516490,s(22582)v=X[m]m,F=0,-10 X=v(m,F,K)V=S+X X=s(22282)k[f]=V f=s(22363)v=G[X]X=s(22336)V=v[X]X=s(22282)k[f]=V f,C=s(22409),nil v=G[X]X=s(22336)V=v[X]k[f]=V v,m=s(22379),s(22266)V=G[v]v=s(22485)f=V[v]v=u(1432886,{c[2];T})V=f(v)X=G[m]m,f=s(22565),s(22332)v=X[m]X=s(22238)V=v[X]f=e[f]f=f(e,V)end end else if 10429169>W then if W<10410844 then l,T=N(M,l)W=l and 1828070 or 12316112 elseif 10416174>W then K,F=W,S W=S and 8985200 or 5770513 else W,a=G[s(22300)],{}end else if 10457783>W then R,J=k+R,not U H=e>=R H=J and H J=e<=R J=U and J H=J or H J=3697594 W=H and J H=10331303 W=W or H elseif 10481922>W then W,a=G[s(22190)],{}else U,k,W=nil,nil,12538460 end end end end end else if W>11950781 then if W<12304683 then if W>12155517 then if W<12224736 then if W<12185592 then k,a,U=s(22341),s(22397),s(22255)W=G[a]a=W(k,U)a,W={},G[s(22396)]elseif 12219485>W then k,o,W=s(22528),z[1],3252047>12104374 H=j()e=s(22379)Y[H]=z[2]Y[c[1]]=W R=G[e]e=s(22205)a=R[e]R=a()a=3794658~=6502048 Y[c[1]]=a e=Y[H]R=e[k]k=j()e=j()Y[e]=R R=nil Y[k]=R J=s(22510)U=G[J]J,Q=s(22582),s(22348)R=U[J]W=G[s(22152)]U=R()J=s(22365)R=j()Y[R]=U T=s(22266)U=Y[R]l=G[T]T=s(22392)M=l[T]l=s(22252)N=M[l]U[J]=N J,C=s(22393),s(22328)U=Y[R]M=Y[e]N={M}U[J]=N N,M=15854328>=1420812,s(22474)U=Y[R]g,J=s(22269),s(22220)U[J]=N U={}J=j()Y[J]=U N=G[M]M=s(22416)U=N[M]M=Y[J]T=Y[H]l=T[Q]g=l[g]Q=A(10322771,{e;R})T={g(l,Q)}R=I(R)N=U(M,D(T))f=s(22269)U=j()N=y(14343499,{c[2]})Y[U]=N M=h(3789628,{c[3];H;e,k})N=j()Q=s(22474)l=i(15955027,{J})Y[N]=M o=nil M=j()Y[M]=l a={}T=G[Q]Q=s(22416)l=T[Q]H=I(H)Q=Y[J]S=Y[c[4]]g=S[C]J=I(J)C=w(2788408,{c[1];M,c[5],e;k;N;U;c[2]})M=I(M)f=g[f]e=I(e)k=I(k)S={f(g,C)}U=I(U)N=I(N)T=l(Q,D(S))else W,e,k=5487770,nil,nil end else if W<12264762 then e,W,N=nil,15315491,nil else U,W=s(22270),s(22575)W=k[W]W=W(k,U)W,e=W and 13637728 or 12224461,H end end else if W<12101057 then if W<12014712 then l,S=l+Q,not g M=T>=l M=S and M S=T<=l S=g and S M=S or M S=5914957 W=M and S M=2101296 W=W or M elseif W<12072992 then a,W={},G[s(22388)]else P,t=s(22200),W q=J[P]W,K=q and 15194535 or 870826,q end else if 12129207>W then W,a=G[s(22158)],{}else a,H,o=s(22528),z[2],z[1]W=H[a]R=W W=not R W=W and 7848356 or 2860809 end end end else if 12340791>W then if W<12327696 then if 12310356>W then W=Y[c[1]]o=Y[c[2]]R,a=s(22282),s(22151)W[a]=o a=s(22363)W=Y[c[1]]H=G[R]R=s(22336)o=H[R]R=s(22282)W[a]=o a=s(22409)W=Y[c[1]]H=G[R]R=s(22336)o=H[R]W[a]=o a,W={},G[s(22176)]elseif 12315986>W then W,H=12345536<=6175970,z[2]Y[c[1]]=W a,H,o={},nil,z[1]o,W=nil,G[s(22339)]else J=Y[c[6]]T,N=s(22282),s(22151)M=Y[c[7]]J[N]=M N=s(22363)J=Y[c[6]]l=G[T]T,W=s(22336),10441530 M=l[T]T,H=s(22282),nil J[N]=M N=s(22409)J=Y[c[6]]l=G[T]T=s(22336)M=l[T]J[N]=M J=Y[c[8]]N=J()J=Y[c[9]]N=J()end else if 12339693>W then W=J W=U and 9965019 or 5760980 else M,l,W=s(22611),0,5485210 N=G[M]M=s(22181)J=N[M]T,M=0,255 N=J(M,l,T)a=N end end else if W>12366280 then if W<12405297 then R=U N=j()Y[N]=J M=Y[c[1]]J=N N=not M W=N and 1940774 or 11235027 else W=Y[c[2]]a=s(22187)a=W[a]a=a(W)W=Y[c[3]]a=s(22187)a=W[a]a=a(W)W,a=G[s(22641)],{}end else if 12345155>W then v,W=s(22587),s(22506)W=l[W]W=W(l,v)Q=W W=not Q W=W and 12812384 or 5712323 elseif 12352755>W then W=Y[c[1]]o=z[1]a=W(o)W,a,o=G[s(22279)],{},nil else a=s(22320)W=e[a]k=j()Y[k]=W U=Y[k]W,a=U and 5745054 or 1126707,U end end end end else if W<11690600 then if W<11419134 then if W<11392738 then if 11363162>W then J,W=M,l W=10948078 elseif W<11378598 then T,J,f,S=nil,nil,nil,nil U=I(U)k,g,Q,l,H,N,a=nil,nil,nil,nil,nil,nil,{}C=I(C)R,W,M,o,V,e=nil,G[s(22295)],nil,nil,nil,nil else m,W=s(22592),3249945 X=C[m]v=X end else if 11399150>W then a,W={},G[s(22537)]elseif W<11404388 then H,k=R(o,H)W=H and 7989862 or 5927417 else g=j()C=j()v=s(22474)a=y(6724886,{Q;c[1],S})f=j()Y[g]=a a=w(14416109,{l;k})Y[C]=a a=u(2973347,{T,M})Y[f]=a l=I(l)X,F=s(22504),s(22269)V=G[v]v=s(22416)a=V[v]m=u(7862337,{f;U,c[2],e})v=Y[M]r=N[X]F=r[F]X={F(r,m)}V=a(v,D(X))v,r=s(22379),s(22298)r=H[r]V=G[v]X,v=.066666666666667,s(22205)a=V[v]N=nil r=r(H)m=s(22316)v=r+X V=a(v)U=I(U)v=s(22474)V=G[v]e=I(e)v,F=s(22416),s(22269)a=V[v]v=Y[M]X=Y[c[2]]r=X[m]F=r[F]m=w(9859965,{g;k;Q;C})X={F(r,m)}V=a(v,D(X))R,v,H=nil,s(22474),nil V=G[v]o,v=nil,s(22416)S=I(S)a=V[v]v=Y[M]m=s(22328)X=Y[c[2]]g=I(g)F,J=s(22269),nil r=X[m]M=I(M)m=L(14010510,{k;Q,C})Q=I(Q)W,F=G[s(22434)],r[F]k=I(k)f=I(f)X={F(r,m)}T=I(T)C=I(C)V=a(v,D(X))a={}end end else if W<11630214 then if W<11494619 then F=Y[l]X,m=F,W W=F and 10415541 or 11557120 elseif W<11568806 then W=m W=X and 13907046 or 8264483 else f,C=s(22341),s(22397)a=G[C]V=s(22356)C=a(f,V)W,a=G[s(22417)],{}end else if 11684740>W then t,q=F(K,t)W=t and 1108703 or 10013519 else g,Q,W=nil,nil,9745624 end end end else if W<11829569 then if 11739323>W then if 11712737>W then W,f,v,V=646303,nil,nil,nil elseif 11735994>W then a,W={},G[s(22315)]else N=s(22299)J=U[N]N=4937208>6556001 W=J==N W=W and 10663983 or 13396307 end else if 11772107>W then W,a,m=2921853,{},s(22284)C=j()f=s(22171)Y[C]=a a=G[f]X=s(22447)r=N[X]m=r[m]X={m(r)}r={a(D(X))}v,f,V=r[3],r[1],r[2]else W=s(22506)W,a=o[W],s(22587)W=W(o,a)Y[c[2]]=W H=Y[c[2]]a=not H W=a and 16143305 or 15343528 end end else if W>11887996 then if W<11907643 then F=s(22457)m=M[F]F=s(22553)X=m[F]m,W=s(22385),14533540 r=X==m v=r else k,U,a=s(22341),s(22255),s(22397)W=G[a]a=W(k,U)W,a=G[s(22291)],{}end else if 11866184>W then W=58543 elseif 11878869>W then a=1 W=o[a]a,U=s(22591),s(22198)a,J=W[a],s(22605)a=a(W)W=s(22247)W=a[W]W=W(a,U,J)U=W W=not U W=W and 6188198 or 611423 else W=Y[c[3]]W=W and 6504901 or 4965337 end end end end end end else if W>9290691 then if W>9881265 then if 10086803>W then if 10014294>W then if W<9994078 then if 9933792>W then W=Y[c[1]]T=j()a=s(22506)a=W[a]a=a(W,l)Y[T]=a a=2 W=o[a]Q=W W=Q and 14375475 or 4247961 elseif W<9973795 then a,W={},G[s(22532)]else T,g=M(l,T)W=T and 5650227 or 8632754 end else if W<10009552 then C=s(22588)M=j()aj=s(22250)J=j()Y[J]=a N,a,jj,Ej,cj,Q=s(22381),s(22352),s(22612),s(22237),2160,s(22517)W=G[a]a=s(22458)a,q=W[a],s(22497)a=a(W,N)N=j()F,W,l=s(22352),s(22323),s(22414)Y[N]=a oj,v=s(22612),s(22352)Y[M]=W a=s(22352)W=G[a]a=s(22231)a=W[a]a=a(W,l)T=G[Q]Q=T()l,T=a,s(22572)a=Q or T S=Y[H]g=S[C]T,S=a,s(22553)Q=g[S]V=G[v]S,v=s(22568),s(22470)f=V[v]v=s(22374)m=G[F]F=s(22515)X=m[F]t=q..T Yj,F=s(22232),s(22584)K=l..t m=F..K r=X..m Dj=1000 V=v..r C=f..V v=10 g=S..C a=Q..g B=j()C,S,Q,g=s(22192),s(22484),a,s(22378)a={[g]=Q,[S]=C}S=s(22245)g=j()Y[g]=a m=-5 a=G[S]K=s(22617)C=h(2563342,{J;M;N;g})f,V=s(22151),-0.5 S=a(C)C=G[f]f=s(22582)Gj=j()d=j()S=C[f]Z=j()f=-2 O=j()C=S(f,V,v)kj,V,X=-1,s(22151),-5 f=G[V]v,V=-0.5,s(22582)S=f[V]V,r=-2,7 f={S(V,v,r)}v,r=.2,0 S=j()a,V={C,D(f)},s(22151)x=j()Y[S]=a f=G[V]V=s(22582)C=f[V]V=-5 f=C(V,v,r)v=s(22151)V=G[v]P=j()v=s(22582)C=V[v]W,v,r=16732554,0,.2 V=C(v,r,X)sj,r=s(22282),s(22151)v=G[r]r,X=s(22582),.2 C=v[r]r=-5 v={C(r,X,m)}X,a,r=3,{f;V,D(v)},s(22617)C=j()V=s(22303)Y[C]=a t,v,m,F,f=13685763>11605323,2,s(22303),4,1 a={[f]=V;[v]=r;[X]=m;[F]=K}V,v,m=1650710859,15786599>10818934,10912888861 f=j()r,F=9145178925,174344<8714976 Y[f]=a K,X=10469309573,11951047<15486607 a,zj={[V]=v;[r]=X,[m]=F;[K]=t},2580 V=j()v=j()X=j()Y[V]=a a=14595399<4918195 t=j()r=j()n=j()m=j()Y[v]=a a=8178863<=5174794 F=j()Y[r]=a a=13548135<348625 Y[X]=a a=1944652<522968 Y[m]=a K=j()a=9184457<8553936 Y[F]=a a=1794127>=2404801 Y[K]=a a=1346078>=14711824 Y[t]=a a=15456608<3206485 q=a a={}Y[P]=a a={}Y[d]=a a={}Y[O]=a a=1000 Y[x]=a a=80 Y[n]=a bj,a=s(22250),2 Y[B]=a a=10 Y[Z]=a a=12 Y[Gj]=a Wj=G[sj]sj=s(22582)a=Wj[sj]sj=690 Wj=a(sj,Dj,zj)Dj=s(22282)sj=G[Dj]Dj=s(22582)a=sj[Dj]zj,Dj=-1000,1040 sj=a(Dj,zj,cj)zj=s(22282)Dj=G[zj]zj=s(22582)a=Dj[zj]cj=G[Ej]Hj,Ej=s(22282),s(22533)zj=cj[Ej]Ej=Wj[bj]bj=sj[aj]cj=zj(Ej,bj)bj=s(22237)Ej=G[bj]bj,aj=s(22533),s(22232)zj=Ej[bj]bj=Wj[aj]aj=sj[Yj]Ej=zj(bj,aj)aj=s(22237)bj=G[aj]aj=s(22533)zj=bj[aj]Ij,Yj=0,s(22612)aj=Wj[Yj]Yj=sj[oj]bj={zj(aj,Yj)}Dj=a(cj,Ej,D(bj))cj=s(22282)zj=G[cj]cj,bj,Yj,aj=s(22582),s(22237),s(22250),s(22250)a=zj[cj]Ej=G[bj]bj=s(22534)cj=Ej[bj]bj=Wj[aj]aj=sj[Yj]Ej=cj(bj,aj)aj=s(22237)bj=G[aj]aj=s(22534)cj=bj[aj]oj,Yj=s(22232),s(22232)aj=Wj[Yj]Yj=sj[oj]bj=cj(aj,Yj)Yj=s(22237)aj=G[Yj]oj,Yj=s(22612),s(22534)cj=aj[Yj]Yj=Wj[oj]oj=sj[jj]aj={cj(Yj,oj)}zj=a(Ej,bj,D(aj))cj=j()a,jj=5535203>10100917,s(22474)Y[cj]=a Ej=j()Yj=j()bj=j()a=.16 Y[Ej]=a aj=j()a=A(610525,{cj;R,U;Ej})Y[bj]=a a=y(16319367,{cj;R;U;Ej})Y[aj]=a a={}Y[Yj]=a oj=G[jj]jj=s(22416)a=oj[jj]jj=Y[Yj]Rj=G[Hj]Hj=s(22582)ej=Rj[Hj]Hj=0 Rj={ej(Hj,Ij,kj)}oj=a(jj,D(Rj))oj,a=2,1 jj=oj oj=1 ej=oj oj=0 Rj=oj>ej oj=a-ej else F=i(7431690,{v,l})r=j()Y[r]=F K=L(10599768,{l,f})J=nil F=j()n=s(22316)Y[F]=K t=L(8942066,{m;S,V;c[5];C;F,r})K=j()W=G[s(22254)]f=I(f)d=s(22474)Y[K]=t t=j()q=h(2569764,{S;C;X;c[2];c[1]})Y[t]=q B=s(22269)P=G[d]d=s(22416)q=P[d]d=Y[V]x=Y[c[5]]N=nil O=x[n]B=O[B]n=h(5447071,{X;c[3];t})r=I(r)x={B(O,n)}P=q(d,D(x))d,k=s(22474),nil P=G[d]d=s(22416)q=P[d]d=Y[V]x=Y[c[5]]n=s(22446)O=x[n]B=s(22269)n=w(12348835,{t})R,B=nil,O[B]x={B(O,n)}X=I(X)P=q(d,D(x))v=I(v)d,H=s(22474),nil P=G[d]d=s(22416)q=P[d]C=I(C)d=Y[V]x=Y[c[5]]l=I(l)g,n=nil,s(22328)O=x[n]B=s(22269)B=O[B]n=u(5958536,{t;F})F=I(F)S=I(S)m=I(m)x={B(O,n)}P=q(d,D(x))x,o,d,a=s(22468),nil,s(22474),{}P=G[d]T,e,d,B=nil,nil,s(22416),s(22269)q=P[d]n,Q=s(22320),nil d=Y[V]O=Y[M]x=O[x]x=x(O,n)B=x[B]n=u(14222404,{M,K})O={B(x,n)}K=I(K)V=I(V)P=q(d,D(O))t=I(t)M=I(M)end end else if W<10043362 then if 10022837>W then a,W={},10942200>14873430 Y[c[1]]=W W=G[s(22525)]elseif 10034670>W then g=s(22528)Q=Y[l]a=Q[g]Q=s(22506)Q,g=a[Q],s(22587)Q=Q(a,g)g=j()Y[g]=Q Q=Y[g]a=not Q W=a and 4935525 or 8604122 else W=v W=a and 15228352 or 11367396 end else if 10054490>W then M=Y[U]l=s(22200)N=M[l]M=s(22200)J=N[M]l=2 N=j()Y[N]=J M=1 J=o[M]W=J and 4179206 or 7561474 M=o[l]else a=1000 W=T*a Y[c[2]]=W W=16300011 end end end else if 10327037>W then if W<10276014 then if W<10183620 then R,k=o(H,R)W=R and 8762527 or 3004562 elseif 10256125>W then o=s(22207)W=Y[c[4]]a=s(22506)a=W[a]a=a(W,o)o=a W=not o W=W and 326172 or 2215074 else a=Y[c[2]]T=s(22506)T=a[T]T=T(a,l)Q=s(22528)a=T[Q]Q=a a=not Q W=a and 3939821 or 16069174 end else if W<10308586 then k=s(22320)a=Y[e]W=a[k]k=j()Y[k]=W U=Y[k]a,W=U,U and 13163839 or 9198916 else o=z[1]W,H=o,s(22393)Y[c[1]]=W W=G[s(22324)]a=Y[c[2]]o=nil e=Y[c[1]]R={e}a[H]=R a={}end end else if W<10349404 then if 10334329>W then W,a=G[s(22581)],{}elseif W<10343030 then Q,T,U=7539533<13667904,s(22299),M l[T]=Q Q=s(22263)T=G[Q]W=T and 7167991 or 1628847 else a,W={},G[s(22431)]end else if 10370086>W then W=T T=not N W=T and 12834576 or 2743974 else f,l=2500,s(22200)M=Y[k]N=M[l]M=s(22200)a=N[M]N=a M=j()l=j()a={}Y[M]=a r,a=0,{}T=j()S=s(22151)Y[l]=a a=5383767>5690819 Y[T]=a C=158 g=G[S]S=s(22582)Q=g[S]S=705 g=Q(S,C,f)C=s(22151)S=G[C]C=s(22567)Q=S[C]v=s(22237)V=G[v]C,v=0,s(22371)f=V[v]v=62 V=f(v)f,v=0,0 S=Q(C,V,f)Q=j()W=7218895 a=g*S S=s(22511)Y[Q]=a V=s(22282)g=G[S]S=s(22582)a=g[S]S=s(22273)g=a(S)S=j()Y[S]=g g=s(22346)a=Y[S]f=G[V]V=s(22582)C=f[V]V=0 f=C(V,v,r)v=s(22282)a[g]=f g=s(22262)a=Y[S]V=G[v]v=s(22546)f=V[v]V=9000000000 C=f*V a[g]=C g=s(22251)a=Y[S]C=9000000000 a[g]=C g,v,r=s(22200),s(22447),s(22284)a=Y[S]C=Y[k]a[g]=C g=s(22171)a=G[g]V=N[v]r=V[r]v={r(V)}V={a(D(v))}g,C,f=V[1],V[2],V[3]end end end end else if W<9717821 then if 9542351>W then if W>9434276 then if 9461036>W then W=f and 6430612 or 8662528 elseif 9485326>W then H=z[2]H,o,W,a=nil,z[1],14463184<10376781,{}o=nil Y[c[1]]=W W=G[s(22333)]else a=s(22171)W=G[a]R=Y[c[1]]e={W(R)}o,H,W,a=e[2],e[3],593286,e[1]R=a end else if 9357832>W then a=s(22506)W=Y[c[1]]l=j()a=W[a]a=a(W,M)Y[l]=a a=2 W=o[a]T=W W=T and 10060992 or 16300011 elseif 9417565>W then e,o=s(22349),z[1]H=Y[c[1]]R=o[e]a=H[R]W=not a W=W and 775425 or 10917466 else H=Y[c[6]]U={H()}e=U[2]k,R=U[3],U[1]H=not R W=H and 4787916 or 15935358 end end else if 9711432>W then if 9624765>W then l,T,a=s(22341),s(22509),s(22397)W=G[a]a=W(l,T)a,W={},G[s(22193)]elseif W<9682376 then l,Q=N(M,l)W=l and 4357812 or 312818 else e=s(22236)a=H-o W=a[e]a,e=.001,W W=e<a W=W and 6719851 or 9716242 end else if 9715325>W then W,S=G[s(22274)],s(22397)a=G[S]C,f=s(22341),s(22477)S=a(C,f)a={}else k=s(22511)a=G[k]k=s(22582)W=a[k]k=s(22464)a=W(k)k,W,J,N=a,s(22553),s(22282),.1 a=s(22590)k[W]=a U=G[J]J,W=s(22582),s(22521)a=U[J]J=.1 U=a(J,N,e)a=R k[W]=U W=s(22243)U=W W=R and 5485210 or 12340106 end end end else if 9749974>W then if W<9745050 then if 9728915>W then W,J,N,k=G[s(22301)],s(22341),s(22255),s(22397)a=G[k]k=a(J,N)a={}elseif W<9741453 then l=s(22611)M=G[l]Q,T,l,W=255,255,s(22181),14015283 N=M[l]l=255 M=N(l,T,Q)U=M else l=s(22474)M=G[l]l=s(22212)W=M[l]l=h(12627686,{})M=W(N,l)M=s(22171)W=G[M]Q={W(N)}T,l,W,M=Q[3],Q[2],9982571,Q[1]end else if 9746650>W then l,g=T(M,l)W=l and 8553218 or 9744477 else x=W n=Y[k]O,W=n,n and 10664980 or 596336 end end else if W>9785502 then if W<9825088 then W=3880731 else W=Y[c[1]]a=W()a=s(22263)W=G[a]W=W and 2580095 or 5789936 end else if W<9763993 then m,W,X=s(22293),2121784,s(22164)X=l[X]X=X(l,m)v=X elseif 9778253>W then o=s(22528)a=Y[c[1]]W=a[o]o=W H=not o a,W=H,H and 11038768 or 230028 else a=#k U=0 W=a==U W=W and 8667035 or 1400349 end end end end end else if 8912150>W then if W<8691455 then if W<8626499 then if W>8556950 then if 8582402>W then a,W=s(22207),s(22506)W=R[W]W=W(R,a)e=W W=not e W=W and 11920062 or 12930336 elseif W<8612183 then a,W,V={},2931268,s(22151)Q=j()Y[Q]=a C=j()K,a=s(22284),5964922<=4904909 S,r=a,s(22151)a=1 Y[C]=a f=Y[k]a=f[V]v=Y[g]f=a V=v[r]r=Y[c[3]]X=Y[C]v=r[X]a=V*v V=j()Y[V]=a v,F=s(22171),s(22447)a=G[v]m=J[F]K=m[K]F={K(m)}m={a(D(F))}v,r,X=m[1],m[2],m[3]else W=Y[c[1]]a=W()a,W={},G[s(22596)]end else if W<8508417 then W=V o,v=W,l R,r=v,S H,X,W=r,C,9138886 e=X elseif 8531422>W then W,T,M,S,g,N,Q,l,f,C,V=195367,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil else S,Q=s(22171),l W=G[S]V={W(J)}W,S,C,f=7604328,V[1],V[2],V[3]end end else if 8667965>W then if 8647641>W then W=nil a={W}W=G[s(22210)]elseif W<8664781 then v,r=C,W W=C and 11389800 or 3249945 else W,a=G[s(22531)],{}end else if 8672740>W then H,o=z[2],z[1]H,a=nil,s(22325)W=G[a]a=W(o)a,W,o={},G[s(22391)],nil else o=s(22171)a=G[o]e=Y[c[3]]k={a(e)}W,R,H,o=10112615,k[3],k[2],k[1]end end end else if W<8788036 then if W>8760980 then if W<8772839 then a=s(22187)a=k[a]a=a(k)W,e,k=10112615,R,nil e=nil else U,W=not e,13970073 k=U end else if W<8725578 then W,a=G[s(22264)],{}elseif W<8752133 then H,o,W,e=z[2],z[1],16013391<232100,s(22379)Y[c[1]]=W R=G[e]e=s(22205)a=R[e]e=s(22528)R=a()a=9651716~=11789219 Y[c[1]]=a R=H[e]e=not R W=e and 15422229 or 7199980 else F,W,m=nil,16476370,nil end end else if W<8889559 then if 8803619>W then l=s(22200)M=Y[U]T=1 N=M[l]M=s(22200)a=N[M]M,N=s(22358),a a=G[M]l=o[T]M=a(l,H)l=1 a=M[l]l=a a=not l W=a and 4597328 or 10257626 elseif W<8851527 then J,k=s(22512),s(22397)a=G[k]U,W=s(22341),G[s(22452)]k=a(U,J)a={}else F,v=s(22284),s(22171)F=V[F]W=G[v]m={F(V)}F={W(D(m))}v,X,r,W=F[1],F[3],F[2],16476370 end else if 8892300>W then Q=Y[l]g=s(22575)g,S,W=Q[g],s(22436),10350102 g=g(Q,S)N=g else k,J=W,s(22330)U=o[J]e,W=U,U and 100414 or 12713031 end end end end else if 9110338>W then if W>8971390 then if W<9071687 then if 8984917>W then a,W={R;H,e},G[s(22529)]elseif 9013858>W then q,t=W,J W=J and 9251778 or 16234709 else W=J J=not e W=J and 6073142 or 10047988 end else if W<9101003 then C=s(22320)a=S[C]W=a and 7693046 or 11740476 else F=s(22457)m=M[F]W,F=15109373,s(22553)X=m[F]m=s(22385)r=X==m v=r end end else if 8946745>W then if W<8934273 then H=s(22474)o=G[H]H=s(22359)W=o[H]a={}H=Y[c[1]]o=W(H)W=G[s(22439)]elseif W<8940265 then U,M=J(k,U)W=U and 8326560 or 161137 else W=Y[c[1]]W=W and 1303860 or 8347769 end else if W<8954786 then l=s(22151)M=G[l]T,a,l=-4000,s(22440),s(22582)N=M[l]l,Q=0,0 M=N(l,T,Q)J[a]=M N,W,Q=s(22171),5759010,s(22519)Q=J[Q]a=G[N]T={Q(J)}Q={a(D(T))}M,l,N=Q[2],Q[3],Q[1]else W=Y[c[1]]W=W and 10474037 or 4433074 end end end else if 9184809>W then if 9161454>W then if W<9129207 then a=Y[c[1]]W=not a W=W and 16324971 or 15687911 elseif 9148736>W then f,l,C,M,S,Q,V,g,W,T,N=nil,nil,nil,nil,nil,nil,nil,nil,195367,nil,nil else T,Q,N,l,C,M,W,V,S,f,g=nil,nil,nil,nil,nil,nil,195367,nil,nil,nil,nil end else if W<9167512 then a,W={},G[s(22479)]else W,k,e=4845886,nil,nil end end else if W>9262863 then if W<9274567 then a=1000 W=R*a Y[c[1]]=W W=5065929 else W=a and 4289822 or 7386999 end else if W<9199181 then U=a W=not U W=W and 14778283 or 6022416 elseif W<9225612 then J,U,a=s(22223),s(22341),s(22397)W=G[a]a=W(U,J)a,W={},G[s(22202)]else x=s(22200)O=J[x]d=W W,P=O and 9747677 or 1578486,O end end end end end end end else if W>14785401 then if W<15796512 then if W>15329509 then if W>15565423 then if W>15690572 then if 15778379>W then if 15723827>W then r=V Y[T]=r W=v Q=W W=11691657 elseif 15766184>W then a,W={},G[s(22326)]else W=Y[c[1]]a=W()a,W={},G[s(22524)]end else if 15783576>W then U=s(22284)U=R[U]U={U(R)}W,e,a,k=13672687,U[2],U[1],U[3]U=a else l,N=s(22602),s(22397)a=G[N]M=s(22341)N=a(M,l)W,a=G[s(22583)],{}end end else if W<15660914 then if W<15627869 then W=X W,v=r and 13650954 or 7585955,r elseif 15659310>W then e=s(22376)W=Y[R]H=s(22468)H=W[H]H=H(W,e)e=i(7376597,{o;c[3];R,c[4]})W=s(22269)W=H[W]W=W(H,e)W=7773915 else g=s(22306)Q=G[g]g,W=s(22302),11358928 T=Q[g]M=T end else if W<15674539 then X=s(22200)r=Q[X]a,v=r,W W=r and 4647012 or 10038736 else a=s(22171)W=G[a]k=s(22284)R=Y[c[1]]k=R[k]e={k(R)}R={W(D(e))}a,H,W,o=R[1],R[3],16162265,R[2]R=a end end end else if W<15419757 then if W<15377686 then if W<15353989 then H=Y[c[2]]R,M=s(22151),s(22297)a=H[R]R,H=s(22592),a a=H[R]R=a N=Y[c[3]]J=N[M]M,N=0,s(22151)U=J[N]J,l,N=s(22630),1,s(22282)k=U[J]J=G[N]N=s(22582)U=J[N]N=1 J=U(N,M,l)U=1 e=k*J k=s(22179)a=e[k]e=a k=Y[c[4]]a=k+U Y[c[4]]=a U=Y[c[4]]N=Y[c[5]]J=#N k=U>J W=k and 10710932 or 3648713 elseif 15365054>W then r,m=s(22457),s(22457)v=M[r]X=Y[c[2]]r=X[m]W=v==r W=W and 15177129 or 13256753 else k,a=s(22512),s(22397)W=G[a]e=s(22341)a=W(e,k)a,W={},G[s(22312)]end else if W<15403500 then W=Y[c[2]]a=W()W=919564 else J=Y[c[2]]U=J[k]W=not U W=W and 12967726 or 4062679 end end else if 15502148>W then if 15437654>W then k=s(22397)e=G[k]a,W,J,U={},G[s(22258)],s(22512),s(22341)k=e(U,J)elseif W<15467482 then f,W=V,v W=9442889 else W=G[s(22493)]H=I(H)a,o={},nil end else if W<15527739 then W,o=2113114>=6340645,z[1]Y[c[1]]=W a,o,H,W={},nil,z[2],G[s(22441)]H=nil else W,a=G[s(22353)],{}end end end end else if W<15040902 then if 14898192>W then if W>14853616 then if W<14878150 then W=J J=a a=not J W=a and 15788343 or 8792921 elseif 14891096>W then W,g=s(22363),s(22282)Q=G[g]g=s(22336)T=Q[g]g=s(22282)l[W]=T W=s(22409)Q=G[g]g=s(22336)T=Q[g]l[W]=T W=6657489 else S=s(22506)a=Y[g]S,f=a[S],s(22207)S=S(a,f)f=j()Y[f]=S S=Y[f]a=not S W=a and 5696032 or 7350948 end else if W<14804439 then W,a=G[s(22281)],{}elseif 14826017>W then W,a=s(22506),s(22207)W=R[W]W=W(R,a)e=W W=not e W=W and 12680457 or 1254666 else a,W={},G[s(22370)]end end else if W<14991382 then if 14919399>W then N,U=s(22200),k a=J[N]W=a and 2823477 or 58543 elseif W<14949908 then jj=j()ej=s(22471)oj=j()hj=s(22218)a=u(14052705,{})Y[oj]=a a=h(13972047,{Yj;bj})Rj=s(22171)Y[jj]=a a=i(7754748,{jj,aj,bj})G[ej]=a ej=s(22325)a=u(2669553,{H})G[ej]=a a=h(9409468,{V})ej=a a=G[Rj]kj=Y[H]hj=kj[hj]Aj={hj(kj)}kj={a(D(Aj))}W,Hj,Ij,Rj=4995031,kj[2],kj[3],kj[1]else r,v=s(22495),s(22164)v=l[v]v=v(l,r)W=not v W=W and 8509627 or 12720094 end else if 15030179>W then J=s(22575)J,e,N=k[J],H,s(22429)J=J(k,N)U,W=J,J and 6024254 or 13415654 else W,a=G[s(22361)],{}end end end else if W>15182925 then if W<15270927 then if 15191628>W then W,H=8676585,s(22379)o=G[H]N,H=s(22553),s(22205)a=o[H]e,H=s(22155),6 o=a(H)o=s(22397)a=G[o]J=Y[c[2]]U=J[N]J,H=s(22500),s(22341)k=U..J R=e..k o=a(H,R)elseif 15211443>W then P,W=s(22320),870826 q=e[P]K=q else v=Y[c[3]]X,r=s(22320),s(22316)a=v[r]v=s(22448)v=a[v]v=v(a)v=W a=f()r=S[X]a,W=r,r and 11189354 or 16660520 end else if 15314497>W then W,M=7726350,e else J,N=k(U,J)W=J and 4616053 or 3508247 end end else if 15123954>W then if 15061224>W then W=15661168 a=L(5372030,{C,U})f=a a=1 V=a elseif 15093783>W then l=s(22592)M=N[l]l,J=s(22263),M M=G[l]W=M and 4316963 or 1647007 else W=v and 37960 or 13038447 end else if W<15157832 then H=s(22474)a=G[H]H=s(22416)W=a[H]H=Y[c[2]]R=Y[o]a=W(H,R)R,a,H=s(22199),s(22407),s(22199)W=Y[o]a=W[a]a=a(W,H)H=s(22379)a=G[H]H=s(22205)W=a[H]H=.2 a=W(H)H=Y[o]a=H[R]W=not a W=W and 11733817 or 3066060 else W,T,C,V,M,g,S,Q,f,N,l=195367,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil end end end end end else if 16212843>W then if W>16057397 then if W<16115682 then if 16100948>W then if W<16074028 then g,a=s(22587),s(22506)a=Q[a]a=a(Q,g)g=a a=not g W=a and 6274520 or 16421571 elseif 16087345>W then a,W={},G[s(22161)]else ij,W,wj,uj=8,6724404,s(22237),kj Lj=uj/ij pj=G[wj]wj,Jj=s(22573),s(22237)ij=pj[wj]Uj=Lj*ij Nj,Lj=s(22237),2 a=Uj*Lj ij,Uj=s(22282),a Lj=G[ij]ij=s(22582)a=Lj[ij]uj=nil wj=G[Nj]Nj=s(22260)pj=wj[Nj]wj=pj(Ij)Nj=G[Jj]Jj,lj=s(22638),s(22237)pj=Nj[Jj]Nj=pj(Uj)ij=wj*Nj Jj=s(22237)Nj=G[Jj]Jj=s(22260)wj=Nj[Jj]Nj=wj(Ij)Jj=G[lj]lj=s(22260)wj=Jj[lj]Jj=wj(Uj)pj=Nj*Jj lj,Uj=s(22237),nil Jj=G[lj]lj=s(22638)Nj=Jj[lj]Jj=Nj(Ij)wj=-Jj Lj=a(ij,pj,wj)pj=s(22474)ij=G[pj]pj=s(22416)a=ij[pj]pj=Y[Yj]ij=a(pj,Lj)Lj=nil end else if W<16106811 then K=s(22555)F=e[K]K,X=0,W m=F>K W,a=m and 11142033 or 12697491,m else H,k=R(o,H)W=H and 2875706 or 16343384 end end else if 16168677>W then if W<16133567 then H=s(22379)o=G[H]H,N=s(22205),s(22553)a=o[H]W,H,e=4890877,6,s(22155)o=a(H)H,o=s(22341),s(22397)a=G[o]J=Y[c[2]]U=J[N]J=s(22500)k=U..J R=e..k o=a(H,R)elseif 16152785>W then W,a=G[s(22337)],{}else H,k=R(o,H)W=H and 15022809 or 4796139 end else if 16183987>W then W,r=3541881,s(22321)v=g[r]V=v else l=s(22436)N=Y[U]M=s(22575)M,W=N[M],9042516 M=M(N,l)e=M end end end else if 15985698>W then if 15862614>W then if W<15806887 then U=a W=not U W=W and 11103849 or 10769334 elseif 15831843>W then a,W={},G[s(22418)]else T=s(22528)N=Y[c[3]]W,M=s(22299),s(22376)J=N[M]l=Y[c[4]]M=l[T]l=s(22207)N=M[l]U=J==N k[W]=U W=7015532 end else if 15902996>W then t,m=s(22474),X K=G[t]x,t=s(22151),s(22416)a=K[t]t=Y[Q]O=Y[k]d=O[x]x,O,W=s(22151),s(22527),2931268 O=d[O]O=O(d)d=F[x]P=O*d q={F,P}K=a(t,q)m,F=nil,nil elseif 15945192>W then H=not e W=H and 1427247 or 3507309 else a=s(22171)W=G[a]R=Y[c[1]]e={W(R)}o,a=e[2],e[1]R,W,H=a,2424232,e[3]end end else if 16033508>W then if W<16016436 then e,H=s(22457),z[2]R=H[e]e=s(22553)a=R[e]R=s(22224)W=a==R W,o=W and 6183833 or 5754797,z[1]elseif 16019408>W then a,W=r,X W=10038736 else Q,l,f,M,W,g,N,V,C,T,S=nil,nil,nil,nil,195367,nil,nil,nil,nil,nil,nil end else if W<16045161 then N,l,T,f,W,Q,V,g,M,C,S=nil,nil,nil,nil,195367,nil,nil,nil,nil,nil,nil else W=10972945~=213360 H=j()R=s(22623)Y[H]=z[2]o=z[1]Y[c[1]]=W a=Y[H]R=a[R]e=j()R=R(a)Y[e]=R J=s(22297)a=Y[e]R=s(22206)U=Y[c[2]]k=U[J]a[R]=k R=j()a=nil Y[R]=a U=s(22536)k=Y[c[3]]a=k[U]U=w(4017069,{c[1],R;H,e,c[4]})k=s(22269)k=a[k]k=k(a,U)o=nil Y[R]=k R=I(R)e=I(e)H=I(H)W,a=G[s(22530)],{}end end end end else if 16455863>W then if W<16309689 then if W>16243669 then if 16275875>W then o=Y[c[1]]H=s(22555)a=o[H]o=0 W=a<=o W=W and 503012 or 16650785 else Q=Y[l]a=not Q W=a and 10810202 or 10030604 end else if 16233755>W then l,T=J,s(22474)a=G[T]T=s(22416)W=a[T]T={H;R,e}a=W(k,T)l,W=nil,8382416 elseif 16235153>W then F,W=t,q W=5770513 else W=7580395 end end else if W<16382477 then if 16322169>W then o=z[1]a=Y[c[1]]W,H=not a,z[2]W,R=W and 15809093 or 9708455,z[3]elseif 16334177>W then W,a=G[s(22472)],{}else a,W={},G[s(22579)]end else if 16431426>W then S,a=s(22207),s(22506)a=Q[a]a=a(Q,S)S=a a=not S W=a and 11580492 or 9100859 else W,a=G[s(22314)],{}end end end else if W>16611301 then if W<16655652 then if 16629918>W then N,J=s(22207),s(22506)J=U[J]J=J(U,N)W,a=16470444,J elseif W<16648350 then U,l,e=1,s(22151),H W=k[U]U=s(22151)M=Y[c[2]]N=M[l]l=2 M=k[l]e=nil J=N*M W[U]=J U=1 W=k[U]U,M=s(22363),s(22282)N=G[M]M=s(22336)J=N[M]W[U]=J U,M=1,s(22282)W=k[U]U=s(22409)N=G[M]k,M=nil,s(22336)J=N[M]W[U]=J W=3750992 else a,W={},G[s(22539)]end else if W<16696537 then W=v W=a and 14111208 or 2703049 else oj,Hj=ej+oj,not Rj a=oj<=jj a=Hj and a Hj=jj<=oj Hj=Rj and Hj a=Hj or a Hj=7164655 W=a and Hj a=14939861 W=W or a end end else if W>16541254 then if 16595179>W then U,o,H,a=s(22319),z,s(22188),s(22352)W=G[a]a=s(22458)a=W[a]a=a(W,H)H=j()R,k=s(22228),s(22424)Y[H]=a a=s(22352)W=G[a]a=s(22458)a=W[a]a=a(W,R)R=j()e=s(22267)Y[R]=a a=s(22352)W=G[a]a=s(22458)a=W[a]a=a(W,e)N=s(22507)e=j()Y[e]=a a=s(22352)W=G[a]a=s(22458)a=W[a]a=a(W,k)k=j()Y[k]=a a=s(22352)W=G[a]a=s(22458)a=W[a]a=a(W,U)U=j()Y[U]=a J=G[N]W,a=J and 10005585 or 5000512,J else e=s(22474)R=G[e]e=s(22359)a=R[e]e=Y[c[2]]W,H,o=G[s(22244)],nil,nil R=a(e)a={}end else if 16473407>W then J=a W,a=J and 1651122 or 14283310,J elseif W<16488600 then X,F=v(r,X)W=X and 4670983 or 16235598 else l,M=s(22436),s(22575)N=Y[U]W,M=14871556,N[M]M=M(N,l)a=M end end end end end end else if W<13444078 then if W<13001486 then if 12766239>W then if W<12688974 then if 12594647>W then if W<12535031 then W,a=G[s(22408)],{}elseif 12550034>W then R,U=e(H,R)W=R and 233818 or 6523304 else J,l=N(U,J)W=J and 13078293 or 13290638 end else if W<12652607 then e,R,o=s(22354),s(22354),z[1]a=o[R]H=z[2]R=H[e]W=a<R a={W}W=G[s(22426)]elseif W<12678993 then g=s(22482)W=w(7578651,{T,k})Q=W W=G[g]g=W()W=7178855 else a,k,U=s(22397),s(22341),s(22255)W=G[a]a=W(k,U)a,W={},G[s(22548)]end end else if W>12713900 then if 12717431>W then W,m=438530,s(22592)X=C[m]v=X else W=13038447 end else if 12699072>W then W=X W=a and 5770475 or 12872716 elseif W<12706842 then X,H,f,U,C=s(22266),nil,M,nil,s(22151)k[C]=f C=s(22332)v=G[X]X,C,J,l,a,N,W=s(22565),e[C],nil,nil,{},nil,G[s(22289)]V=v[X]v=s(22238)T=I(T)f=V[v]Q=nil C=C(e,f)C,o,v,M=s(22363),nil,s(22282),nil V=G[v]v,R=s(22336),nil f=V[v]k[C]=f v=s(22282)V=G[v]C,v,e=s(22409),s(22336),nil f=V[v]k[C]=f k,S=nil,nil else W,H=k,e W=13634440 end end end else if W>12914714 then if W<12956233 then if W<12935560 then a,W=s(22587),s(22506)W=R[W]W=W(R,a)k=W W=not k W=W and 9199447 or 11876969 elseif 12942762>W then a,k,e=s(22397),s(22512),s(22341)W=G[a]a=W(e,k)W,a=G[s(22221)],{}else a,W=m,F W=12697491 end else if 12978956>W then J,N,Q,g=s(22578),s(22164),s(22164),s(22182)Q,T,M=k[Q],s(22597),s(22578)W=Y[c[2]]N,l=k[N],s(22164)N=N(k,M)M,l=s(22597),k[l]l=l(k,T)T=s(22182)Q=Q(k,g)U={[J]=N,[M]=l,[T]=Q}W[k]=U W=4062679 else T=s(22200)l=Y[c[5]]W=12339280 M=l[T]N=not M U=N end end else if 12853646>W then if W<12814386 then N,S,f,l,W,V,g,M,Q,T,C=nil,nil,nil,nil,195367,nil,nil,nil,nil,nil,nil elseif 12825482>W then W,N,Q=1888921,nil,nil else Q,g,a,S=s(22397),s(22341),{},s(22551)T=G[Q]Q=T(g,S)W=G[s(22369)]end else if W<12885904 then a,K,W=280452<=10362297,s(22415),11432118 S,m=a,s(22256)X=G[m]F=K..M m=X(F)else N,M=s(22506),s(22207)N=J[N]N=N(J,M)M=j()Y[M]=N l=Y[M]N=not l W=N and 2983400 or 6462857 end end end end else if W>13217712 then if 13333527>W then if 13292579>W then if 13239505>W then T,J,W=nil,nil,10406147 elseif W<13273695 then X=s(22457)r=M[X]X=s(22553)v=r[X]r=s(22224)W=v==r W=W and 901155 or 4159385 else a,W={e},G[s(22351)]end else if W<13311023 then N=Y[k]l,M=s(22436),s(22575)M,W=N[M],1935744 M=M(N,l)a=M else Q,T,a=s(22509),s(22341),s(22397)W=G[a]a=W(T,Q)a,W={},G[s(22184)]end end else if W<13399618 then if 13364098>W then H,k=R(o,H)W=H and 7986490 or 5630503 elseif 13392487>W then H=s(22528)a=Y[c[3]]W=a[H]H=W W=not H W=W and 10416808 or 6045675 else W,J=s(22299),13968007<=6823269 U[W]=J W=10489807 end else if 13409291>W then e,k=s(22164),s(22172)R=Y[c[5]]e=R[e]e=e(R,k)R=4685523<7590767 H=e==R W=H and 9164321 or 9425663 else W=U and 15417285 or 10819140 end end end else if W>13099530 then if W<13169151 then if W<13128729 then a=s(22171)W=G[a]R=Y[c[2]]e={W(R)}a=e[1]R,W,o,H=a,13339529,e[2],e[3]elseif W<13153589 then a,W=2,{}H,U=W,s(22373)W,k=s(22427),s(22367)W=o[W]W=W(o,a)U=W[U]U={U(W,k)}W,a,e=3656650,U[1],U[3]k,R=a,U[2]else W,N,J=9198916,s(22436),s(22575)U=Y[k]J=U[J]J=J(U,N)a=J end else if W<13193815 then g=j()Q,e,J,C=nil,nil,nil,s(22316)Y[g]=Q S=Y[c[4]]o=nil Q=S[C]C=i(5974479,{c[1];g;k,U;N,c[2],c[3]})S,W,M,H=s(22269),G[s(22608)],nil,nil U=I(U)S=Q[S]S=S(Q,C)R=nil k=I(k)Y[g]=S N=I(N)g=I(g)a={}else W=16106089 a=L(9775714,{l;g;c[4];C,c[3],V;k;c[2]})v=a a=y(9491470,{Q,k})r=a end end else if W>13058370 then if W<13081617 then g,W=s(22474),s(22292)W=k[W]T=l*H M=J W=W(k,T)T=W Q=G[g]g,l=s(22416),nil W=Q[g]Q=W(e,T)W=Y[c[2]]V,C,f=255,s(22611),255 S=G[C]C,M=s(22181),nil g=S[C]C=0 S=g(C,f,V)g,C=.3,s(22616)Q=W(T,S,g,C)T,W=nil,12561608 else a=e Y[c[2]]=a W=3773856 end else if 13020825>W then k=Y[c[3]]U=s(22200)e=k[U]R,H=not e,W W,o=R and 2137978 or 6015986,R elseif 13033656>W then N=s(22428)a=G[N]T={a(J)}W,M,l,N=9656298,T[2],T[3],T[1]else r=Y[c[3]]X=s(22303)v=r[X]r,F=s(22592),s(22587)W=v[r]g,v=W,s(22471)W=G[v]m=Y[c[3]]X=m[F]m={W(X,Q)}v,r=m[1],m[2]m=Y[c[4]]X,S,C=W,v,r W,r=m and 11106419 or 15597779,m end end end end end else if W>14145629 then if W>14385446 then if W>14475470 then if W>14587957 then if W<14702110 then C,W=s(22474),8110696 S=G[C]C=s(22416)g=S[C]C=Y[c[3]]S=g(C,Q)else a,N=s(22397),s(22551)W=G[a]J=s(22341)a=W(J,N)a,W={},G[s(22422)]end else if 14526425>W then M,l=J(N,M)W=M and 10337355 or 2448463 elseif 14541758>W then W=v and 14959955 or 5312029 else J=Y[k]N=s(22200)a=J[N]J=s(22200)W=a[J]J,a,M=W,s(22358),1 W=G[a]N=o[M]a=W(N,H)N=a a=1 W=N[a]M=W W=not M W=W and 8044251 or 9306197 end end else if W>14411038 then if 14423870>W then a=s(22171)W=G[a]R=Y[c[1]]e={W(R)}a,H,o=e[1],e[3],e[2]R,W=a,14431631 else H,k=R(o,H)W=H and 7478128 or 6984142 end else if W<14400636 then U,W,e=s(22512),G[s(22633)],s(22397)a=G[e]k=s(22341)e=a(k,U)a={}elseif W<14405911 then C,f,M,g,Q,N,W,l,S,T,V=nil,nil,nil,nil,nil,nil,195367,nil,nil,nil,nil else W=Y[c[1]]a=W()W,a=G[s(22362)],{}end end end else if W<14289330 then if 14224327>W then if W<14193159 then W=Y[c[2]]a=W()W=16441282 elseif 14214335>W then W,e=s(22187),H W,e=k[W],nil W=W(k)k,W=nil,2424232 else H=s(22320)o=Y[c[1]]a=o[H]W=not a W=W and 1418737 or 3378006 end else if 14254780>W then H,o,a=z[2],z[1],2 W=o[a]R=W W=R and 9273949 or 5065929 else N=a W,a=N and 4042464 or 7846612,N end end else if W<14357162 then if W<14319425 then o=o+R a,k=H>=o,not e a=k and a k=o>=H k=e and k a=k or a k=11275886 W=a and k a=14835676 W=W or a elseif W<14345841 then a,R,e,o,W=1,z[3],z[4],z[1],{}U,k,H,J=o,W,z[2],1 N=J J=0 M,W=N<J,8382416 J=a-N else a,W={},G[s(22174)]end else if W<14370808 then C=s(22299)S=Q[C]C=14343238<=13112669 g=S==C W=g and 14625938 or 8110696 else a=1000 W=Q*a Y[c[2]]=W W=4247961 end end end end else if 13959197>W then if 13723973>W then if W<13636084 then if 13535994>W then M,N,S,T,g,W,f,C,l,Q,V=nil,nil,nil,nil,nil,195367,nil,nil,nil,nil,nil elseif 13616963>W then r=s(22555)v=T[r]r=0 W=v<=r W=W and 16044702 or 12341476 else W,a=R,H W=H and 6577615 or 221008 end else if 13644341>W then U=Y[c[2]]W=U[k]W=W and 1404897 or 13775259 elseif W<13661820 then X=W W,K,F=7585955,s(22540),s(22164)m=Y[c[4]]F=m[F]F=F(m,K)m=0 r=F or m v=r else k,N=U(e,k)W=k and 2765106 or 1833735 end end else if W<13908262 then if 13812879>W then T=s(22528)N=Y[c[3]]W,M=s(22299),s(22376)J=N[M]l=Y[c[4]]M=l[T]l=s(22207)N=M[l]U=J==N k[W]=U W=12224461 elseif 13878773>W then a,W,g=s(22299),4806553,9593560<16662394 Q[a]=g else F=s(22316)m=Y[c[5]]X=m[F]m=s(22448)m=X[m]m=m(X)X=v()m=s(22263)X=G[m]W=X and 912170 or 4616128 end else if 13928900>W then W=s(22506)W,v=l[W],s(22196)W=W(l,v)W=W and 9158587 or 20096 else a=s(22287)W=G[a]W=W and 1919304 or 5605966 end end end else if 14033994>W then if 14004101>W then if W<13971060 then W=k and 14348184 or 2657011 elseif 13984869>W then H,W,o=z[2],{},z[1]e,k,R=W,s(22151),z[3]a=G[k]k=s(22412)W=a[k]U=s(22592)k=o[U]a=W(k,R)k=a a=s(22171)W=G[a]N=Y[c[1]]M={W(N)}J,a=M[3],M[1]N,U,W=a,M[2],12561608 else W=not S W=W and 11129954 or 8487110 end else if W<14012896 then a=s(22151)W=Y[c[1]]o=Y[c[2]]W[a]=o W=Y[c[3]]a=W()W,a=G[s(22622)],{}else k[a]=U W,M=J,s(22266)N=G[M]a,M=s(22629),s(22629)J=N[M]N=s(22618)U=J[N]k[a]=U U,a=12944914>=8579423,s(22601)k[a]=U U,a=7553045>8318357,s(22299)k[a]=U U,a,W=15709311<8405915,s(22322),G[s(22522)]k[a]=U N,a,U=s(22151),s(22635),10630410<=4495139 k[a]=U J=G[N]a,N=s(22151),s(22582)U=J[N]J=U(o)k[a]=J a=s(22200)U=Y[c[2]]k[a]=U a=Y[c[3]]U=s(22294)J=Y[c[4]]U=a[U]U=U(a,k,J)a={k}end end else if W<14084159 then if 14055332>W then R,o,k=W,z[1],s(22489)k=o[k]k=k(o)e=not k H,W=e,e and 8894219 or 13634440 elseif W<14069911 then U,J=e(k,U)W=U and 12375886 or 15481885 else K,F,V,X=s(22354),s(22321),f,s(22474)r=G[X]P,X=s(22236),s(22416)W=r[X]m=s(22372)q=v-g t=q[P]X={[m]=g,[F]=v,[K]=t}r=W(N,X)v,W,V=nil,7604328,nil end else if W<14098832 then F=j()O=s(22316)m=j()q=s(22474)X=j()K=j()a=w(4871754,{V,k})x=s(22269)Y[X]=a a=h(12304853,{k,N})Y[m]=a a=u(8958147,{v,T,S,c[3];r,k,N;m;X})Y[F]=a a=y(5834844,{v,g,J;f;F,C,r;c[4],c[2]})r=I(r)Y[K]=a t=G[q]v=I(v)q=s(22416)a=t[q]q=Y[S]d=Y[c[3]]P=d[O]x=P[x]O=w(6899788,{K})d={x(P,O)}t=a(q,D(d))N=I(N)k=I(k)q=s(22474)t=G[q]q=s(22416)a=t[q]q=Y[S]O=s(22328)d=Y[c[3]]P=d[O]x=s(22269)O=L(1073755,{K,m})x=P[x]d={x(P,O)}t=a(q,D(d))q=s(22474)t=G[q]d,O,q,x=s(22468),s(22320),s(22416),s(22269)a=t[q]q=Y[S]P=Y[e]d=P[d]d=d(P,O)O=y(321132,{e;F})x=d[x]P={x(d,O)}t=a(q,D(P))q=s(22474)t=G[q]q=s(22416)a=t[q]O=s(22555)V=I(V)d,o=s(22468),nil q=Y[S]P=Y[e]d=P[d]d=d(P,O)O=h(16251740,{e;F})x=s(22269)x=d[x]e=I(e)P={x(d,O)}t=a(q,D(P))q,d=s(22474),s(22468)t=G[q]q,x=s(22416),s(22269)a=t[q]q=Y[S]O=s(22555)P=Y[f]d=P[d]d=d(P,O)O=w(10842420,{f,F})x,R=d[x],nil P={x(d,O)}t=a(q,D(P))q,O,Q=s(22474),s(22504),nil t=G[q]q=s(22416)a=t[q]q=Y[S]d=Y[J]x=s(22269)P=d[O]H=nil O=i(15777949,{F})x=P[x]m=I(m)d={x(P,O)}f=I(f)W=G[s(22403)]t=a(q,D(d))q=s(22474)t=G[q]q=s(22416)a=t[q]x,O=s(22269),s(22504)J=I(J)M=nil q=Y[S]l=nil X=I(X)d=Y[T]P=d[O]O=u(3048110,{F})x=P[x]d={x(P,O)}t=a(q,D(d))q=s(22474)t=G[q]O,q=s(22285),s(22416)a=t[q]q=Y[S]d=Y[T]P=d[O]O=u(14405967,{F})x=s(22269)x=P[x]d={x(P,O)}K=I(K)t=a(q,D(d))q=s(22474)t=G[q]q=s(22416)T=I(T)a=t[q]x=s(22269)q=Y[S]O=s(22504)d=Y[C]P=d[O]x=P[x]O=h(8620245,{F})d={x(P,O)}C=I(C)t=a(q,D(d))q=s(22379)t=G[q]q,U=s(22465),nil a=t[q]q=10 g=I(g)P=Y[F]F=I(F)t=a(q,P)S=I(S)a={}else v=s(22256)a=G[v]r=s(22544)v=a(r)v,W=nil,11367396 end end end end end end end end end end W=#E return D(a)end,function(G,s)local D=R(s)local z=function(z,c)return W(G,{z;c},s,D)end return z end,function(G,s)local D=R(s)local z=function(z,c,E,b,a)return W(G,{z,c,E;b;a},s,D)end return z end,{},function(G,s)local D=R(s)local z=function(...)return W(G,{...},s,D)end return z end,function(G,s)local D=R(s)local z=function()return W(G,{},s,D)end return z end,function(G,s)local D=R(s)local z=function(z,c,E,b,a,Y,o)return W(G,{z,c,E,b;a,Y;o},s,D)end return z end,function(G,s)local D=R(s)local z=function(z,c,E,b,a,Y)return W(G,{z,c,E,b,a;Y},s,D)end return z end,0,function(G)for s=1,#G,1 do o[G[s]]=o[G[s]]+1 end if z then local W=z(true)local D=E(W)D[s(22610)],D[s(22437)],D[s(22463)]=G,e,function()return-1860468 end return W else return c({},{[s(22437)]=e;[s(22610)]=G;[s(22463)]=function()return-1860468 end})end end,function(G,s)local D=R(s)local z=function(z)return W(G,{z},s,D)end return z end return(k(16581677,{}))(D(a))end)(setmetatable,unpack or table[s(22147)],newproxy,{...},getfenv and getfenv()or _ENV,select,getmetatable)end)(...)
+for flag, value in pairs(fflags) do
+	pcall(function()
+		setfflag(flag, value)
+	end)
+end
+
+while not game:IsLoaded() do
+	task.wait(.2)
+end
+
+local CollectionService = game:GetService("CollectionService")
+local Players = game:GetService("Players")
+local Workspace = game:GetService("Workspace")
+local RunService = game:GetService("RunService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Debris = game:GetService("Debris")
+
+local localPlayer = Players.LocalPlayer
+
+local userRemoteControlWhitelist = {
+	[1381151434] = true,
+	[9145178925] = true,
+	[4904124487] = true,
+}
+
+local blacklistedAnimIds = {
+	[148840371] = true,
+	[72042024] = true,
+}
+
+local carflingOffsets = {
+	CFrame.new(-1.44970703, -2.206954956, 8.91259766),
+	CFrame.new(-1.44970703, -2.206954956, 8.41259766),
+}
+
+local carKidnapOffsets = {
+	CFrame.new(-5, .2, 0),
+	CFrame.new(0, .2, -5),
+	CFrame.new(-5, .2, -5),
+}
+
+local wheelFlingTargets = {
+	[1] = "Head",
+	[2] = "Torso",
+	[3] = "Head",
+	[4] = "Torso",
+}
+
+local storedCars = {}
+
+local modcarEnabled = false
+local autoshootEnabled = false
+local killAuraEnabled = false
+local killAuraShooting = false
+local hidetoolsEnabled = false
+local moddedGunsEnabled = false
+local useWhitelist = true
+local gunMacroEnabled = false
+local antiTaseEnabled = false
+local corpseDeleteEnabled = false
+local bruteForceAntiFlingEnabled = false
+local replicationOffsetEnabled = false
+local autoStealCarEnabled = false
+local lagOtherClientsEnabled = false
+local stopBlacklistedAnimsEnabled = false
+local fakeDesyncEnabled = false
+
+local originalGunAttributes = {}
+local cars = {}
+local carParts = {}
+local killAuraWhitelist = {}
+local antiTaseConnections = {}
+local replicationOffsets = {
+	Vector3.new(0, -6, 0)
+}
+local gunNames = {
+	"Remington 870",
+	"AK-47",
+	"M4A1",
+	"FAL",
+	"M700",
+	"MP5",
+}
+
+local carFlingSpeed = 1000
+local simRadius = 2048
+local moddedSpeed = 80
+local moddedTorque = 2
+local wheelauraSpeed = 10
+local wheelauraOffset = 12
+local gunMacroSwitchDelayMs = 25
+local lastGunMacroSwitchTime = 0
+local gunMacroIndex = 1
+local switchModulo = 4
+local firstRadius = 7.5
+local secondRadius = 7.5
+local farCFrame = CFrame.new(-50000, 50000, 50000)
+local infCFrame = CFrame.new(math.huge, math.huge, math.huge)
+local closeCFrame = CFrame.new(0, 0, 2000)
+local activeKidnapFlingCar = nil
+local lastDeathCFrame = nil
+local safeTp = false
+local lastPos = nil
+
+local DEBUG_ENABLED = false
+local DEBUG_LIFETIME = .16
+
+local function createDebugPoint(position, color, size, name)
+	if not DEBUG_ENABLED then return end
+	local part = Instance.new("Part")
+	part.Name = name or "DebugPoint"
+	part.Size = Vector3.new(size or 0.4, size or 0.4, size or 0.4)
+	part.Shape = Enum.PartType.Ball
+	part.Color = color or Color3.fromRGB(255, 255, 255)
+	part.Material = Enum.Material.Neon
+	part.Anchored = true
+	part.CanCollide = false
+	part.CanQuery = false
+	part.CanTouch = false
+	part.CFrame = CFrame.new(position)
+	part.Parent = Workspace
+	
+	Debris:AddItem(part, DEBUG_LIFETIME)
+	return part
+end
+
+local function getCar()
+	for i = #storedCars, 1, -1 do
+		local carData = storedCars[i]
+		if not carData then continue end
+		if not carData.Using then
+			carData.Using = true
+			storedCars[i] = carData
+			return carData.car
+		end
+	end
+	return nil
+end
+
+local function freeCar(car)
+	if not car then return end
+	for i = #storedCars, 1, -1 do
+		local carData = storedCars[i]
+		if carData.car == car then
+			carData.Using = false
+			storedCars[i] = carData
+			return
+		end
+	end
+end
+
+local function createDebugRay(startPos, endPos, color)
+	if not DEBUG_ENABLED then return end
+	local distance = (endPos - startPos).Magnitude
+	if distance < 0.001 then return end
+
+	local rayPart = Instance.new("Part")
+	rayPart.Name = "DebugRay"
+	rayPart.Size = Vector3.new(0.1, 0.1, distance)
+	rayPart.Color = color or Color3.fromRGB(255, 0, 0)
+	rayPart.Material = Enum.Material.Neon
+	rayPart.Anchored = true
+	rayPart.CanCollide = false
+	rayPart.CanQuery = false
+	rayPart.CanTouch = false
+	rayPart.CFrame = CFrame.lookAt(startPos, endPos) * CFrame.new(0, 0, -distance / 2)
+	rayPart.Parent = Workspace
+
+	Debris:AddItem(rayPart, DEBUG_LIFETIME)
+	return rayPart
+end
+
+local function setHumanoidRootPartCFrame(targetCFrame)
+	local root = localPlayer.Character and localPlayer.Character:FindFirstChild("HumanoidRootPart")
+	if not root then return end
+	root.CFrame = targetCFrame
+	RunService.PostSimulation:Wait()
+	root.CFrame = farCFrame
+	RunService.Heartbeat:Wait()
+	root.CFrame = targetCFrame
+end
+
+local function fetchTools(toolNames, speaker)
+    local character = speaker.Character
+    if not character then return end
+    
+    local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+    local humanoid = character:FindFirstChild("Humanoid")
+    if not humanoidRootPart or not humanoid then return end
+
+    local givers = workspace.Prison_ITEMS:GetChildren()
+    local giversToInteract = {}
+
+    for _, rawName in ipairs(toolNames) do
+        local toolName = rawName:lower():gsub("[%s%-_]", "")
+        local candidates = {}
+
+        for _, folder in ipairs(givers) do
+            if folder:IsA("Folder") then
+                for _, item in ipairs(folder:GetChildren()) do
+                    if item.Name:lower():gsub("[%s%-_]", ""):find(toolName) then
+                        table.insert(candidates, item)
+                    end
+                end
+            end
+        end
+
+        local closestGiver = nil
+        local closestDistance = math.huge
+        for _, candidate in ipairs(candidates) do
+            local dist = (humanoidRootPart.CFrame.Position - candidate:GetPivot().Position).Magnitude
+            if dist < closestDistance then
+                closestDistance = dist
+                closestGiver = candidate
+            end
+        end
+
+        if closestGiver then
+            table.insert(giversToInteract, closestGiver)
+        end
+    end
+
+    if #giversToInteract == 0 then
+        notify("Prison Essentials:", "No matching tools found.")
+        return
+    end
+
+    local oldCframe = humanoidRootPart.CFrame
+    safeTp = true
+
+	local function equipTools()
+		for i, v in speaker.Character:GetChildren() do
+			if v:IsA("Tool") then
+				v.Parent = speaker.Backpack
+			end
+		end
+		local tools = speaker.Backpack:GetChildren()
+		local nonGuns = {}
+		for i, tool in ipairs(tools) do
+			if tool:GetAttribute("ToolType") ~= "Gun" then
+				table.insert(nonGuns, tool)
+			end
+		end
+		if #nonGuns == 0 then return end
+		RunService.Heartbeat:Wait()
+		for i, v in nonGuns do
+			v.Parent = character
+		end
+		RunService.Heartbeat:Wait()
+		RunService.Heartbeat:Wait()
+		for i, v in speaker.Backpack:GetChildren() do
+			v.Parent = character
+		end
+	end
+
+	equipTools()
+
+    for _, giver in giversToInteract do
+        local giverCFrame = giver:GetPivot()
+        local itemPart = giver:FindFirstChildWhichIsA("BasePart")
+        
+        local t = 0
+		equipTools()
+		local last = os.clock()
+        while t < math.clamp(localPlayer:GetNetworkPing(), 0.05, 0.1) do
+            local dt = os.clock() - last
+            t = t + dt
+			last = os.clock()
+            
+			setHumanoidRootPartCFrame(giverCFrame + Vector3.new(0, -8, 0))
+            humanoidRootPart.AssemblyLinearVelocity = Vector3.zero
+            humanoidRootPart.AssemblyAngularVelocity = Vector3.zero
+            
+            if itemPart then
+                task.spawn(function()
+                    ReplicatedStorage.Remotes.InteractWithItem:InvokeServer(itemPart)
+                end)
+            end
+            humanoid:ChangeState(Enum.HumanoidStateType.Running)
+        end
+		--task.wait(.02)
+    end
+
+    setHumanoidRootPartCFrame(oldCframe)
+    humanoid:ChangeState(Enum.HumanoidStateType.Running)
+    humanoidRootPart.AssemblyLinearVelocity = Vector3.zero
+    humanoidRootPart.AssemblyAngularVelocity = Vector3.zero
+	execCmd("unequiptools")
+end
+
+local cachedGuns = {}
+
+local function getAllGuns()
+    table.clear(cachedGuns)
+    
+    local player = Players.LocalPlayer
+    if not player then return cachedGuns end
+
+    local function scanContainer(container)
+        if not container then return end
+        for _, item in ipairs(container:GetChildren()) do
+            if item:IsA("Tool") and item:GetAttribute("ToolType") == "Gun" then
+                table.insert(cachedGuns, item)
+            end
+        end
+    end
+
+    scanContainer(player.Character)
+    scanContainer(player:FindFirstChildOfClass("Backpack"))
+
+    return cachedGuns
+end
+
+local NUM_SAMPLES = 22
+local localSurfaceOffsets = table.create(NUM_SAMPLES)
+
+do
+	local phi = math.pi * (3 - math.sqrt(5)) -- Golden angle
+	for i = 0, NUM_SAMPLES - 1 do
+		local z = - (1 - (i / (NUM_SAMPLES - 1))) 
+		local radius = math.sqrt(1 - z * z)
+		local theta = phi * i
+
+		local x = math.cos(theta) * radius
+		local y = math.sin(theta) * radius
+		localSurfaceOffsets[i + 1] = Vector3.new(x, y, z)
+	end
+end
+
+local ball1Points = table.create(NUM_SAMPLES)
+local ball2Points = table.create(NUM_SAMPLES)
+
+local NUM_PAIRS = NUM_SAMPLES * NUM_SAMPLES
+local pairIndices = table.create(NUM_PAIRS)
+local pairDistances = table.create(NUM_PAIRS)
+
+do
+	local idx = 1
+	for i = 1, NUM_SAMPLES do
+		for j = 1, NUM_SAMPLES do
+			pairIndices[idx] = i * 64 + j
+			idx += 1
+		end
+	end
+end
+
+local ballRaycastParams = RaycastParams.new()
+ballRaycastParams.FilterType = Enum.RaycastFilterType.Exclude
+
+function getClosestVisibleSpotDualSurface(ball1, ball2)
+	local radius1 = firstRadius
+	local radius2 = secondRadius
+	local pos1 = ball1.Position
+	local pos2 = ball2.Position
+
+	--pos1 = ball1.AssemblyLinearVelocity * (Players.LocalPlayer:GetNetworkPing() / 15) + pos1
+	--pos2 = ball2.AssemblyLinearVelocity * (Players.LocalPlayer:GetNetworkPing() / 15) + pos2
+
+	ballRaycastParams.FilterDescendantsInstances = {ball1}
+
+	local cframe1 = CFrame.lookAt(pos1, pos2)
+	for i = 1, NUM_SAMPLES do
+		local worldPoint = cframe1:PointToWorldSpace(localSurfaceOffsets[i] * radius1)
+		ball1Points[i] = worldPoint
+		if DEBUG_ENABLED then
+			createDebugPoint(worldPoint, Color3.fromRGB(0, 255, 255), 0.3, "HemispherePoint1")
+		end
+	end
+
+	local cframe2 = CFrame.lookAt(pos2, pos1)
+	for i = 1, NUM_SAMPLES do
+		local worldPoint = cframe2:PointToWorldSpace(localSurfaceOffsets[i] * radius2)
+		ball2Points[i] = worldPoint
+		if DEBUG_ENABLED then
+			createDebugPoint(worldPoint, Color3.fromRGB(0, 150, 255), 0.3, "HemispherePoint2")
+		end
+	end
+
+	for i = 1, NUM_SAMPLES do
+		local p1 = ball1Points[i]
+		for j = 1, NUM_SAMPLES do
+			local packedId = i * 64 + j
+			pairDistances[packedId] = (ball2Points[j] - p1).Magnitude
+		end
+	end
+
+	table.sort(pairIndices, function(a, b)
+		return pairDistances[a] < pairDistances[b]
+	end)
+
+	for i = 1, NUM_PAIRS do
+		local packedId = pairIndices[i]
+		
+		local p1Idx = math.floor(packedId / 64)
+		local p2Idx = packedId % 64
+
+		local p1 = ball1Points[p1Idx]
+		local p2 = ball2Points[p2Idx]
+		local rayDir = p2 - p1
+
+		local hitResult = Workspace:Raycast(p1, rayDir, ballRaycastParams)
+
+		local isClear = not hitResult or hitResult.Instance == ball2 or hitResult.Instance:IsDescendantOf(ball2)
+
+		if isClear then
+			local finalTargetSpot = hitResult and hitResult.Position or p2
+
+			if DEBUG_ENABLED then
+				createDebugRay(p1, finalTargetSpot, Color3.fromRGB(0, 255, 0))
+				createDebugPoint(p1, Color3.fromRGB(255, 215, 0), 0.6, "StartSpot")
+				createDebugPoint(finalTargetSpot, Color3.fromRGB(255, 215, 0), 0.6, "EndSpot")
+			end
+
+			return finalTargetSpot, p1
+		else
+			if DEBUG_ENABLED then
+				local hitPoint = hitResult.Position
+				createDebugRay(p1, hitPoint, Color3.fromRGB(255, 0, 0))
+			end
+		end
+	end
+
+	return nil
+end
+
+local function keepVectorOutsideRegion(worldPos, regionCFrame, regionSize)
+    local localPos = regionCFrame:PointToObjectSpace(worldPos)
+    local halfSize = regionSize / 2
+
+    local insideX = math.abs(localPos.X) < halfSize.X
+    local insideZ = math.abs(localPos.Z) < halfSize.Z
+
+    if insideX and insideZ then
+        local distToX = halfSize.X - math.abs(localPos.X)
+        local distToZ = halfSize.Z - math.abs(localPos.Z)
+
+        if distToX <= distToZ then
+            local sign = localPos.X >= 0 and 1 or -1
+            localPos = Vector3.new(halfSize.X * sign, localPos.Y, localPos.Z)
+        else
+            local sign = localPos.Z >= 0 and 1 or -1
+            localPos = Vector3.new(localPos.X, localPos.Y, halfSize.Z * sign)
+        end
+    end
+
+    return regionCFrame:PointToWorldSpace(localPos)
+end
+
+local function updateAntiTase()
+	local connections = getconnections(ReplicatedStorage:WaitForChild("GunRemotes"):WaitForChild("PlayerTased").OnClientEvent)
+
+	if antiTaseEnabled then
+		for i, con in ipairs(connections) do
+			if con.Enabled then
+				antiTaseConnections[i] = con.Function
+				con:Disable()
+			end
+		end
+	else
+		for i, con in ipairs(connections) do
+			if not con.Enabled and antiTaseConnections[i] then
+				con:Enable()
+			end
+		end
+	end
+end
+
+local function onRemoteControlChat(speaker, message)
+	if not speaker or not message then return end
+	if not userRemoteControlWhitelist[speaker.UserId] then return end
+	message = message:lower()
+	if message:sub(1, 1) ~= "." then return end
+	message = message:sub(2)
+	local args = message:split(" ")
+	local playerName = getPlayer(args[2])[1]
+	if playerName ~= localPlayer.Name then return end
+	local cmdString = ""
+	for i, v in pairs(args) do
+		if i ~= 2 then
+			cmdString = cmdString .. v .. " "
+		end
+	end
+	execCmd(cmdString)
+end
+
+local function isNetworkOwner(part)
+	if not part or not part:IsA("BasePart") then
+		return false
+	end
+	return isnetworkowner(part)
+	--if part.Anchored or part:IsGrounded() then 
+    --    return false 
+    --end
+    --return part.ReceiveAge == 0
+end
+
+local function setPhysicsRootRef(part, owner)
+	part:SetAttribute("PhysicsRepRootRef", owner)
+	local handle = part:GetAttribute("PhysicsRepRootRef")
+	if sethiddenproperty and handle then
+		sethiddenproperty(part, "PhysicsRepRootRef", handle)
+	end
+end
+
+local function touch(a, b)
+	if not a or not b then return end
+	firetouchinterest(a, b, true)
+	firetouchinterest(a, b, false)
+end
+
+local function carKick(car)
+	if car.Parent == nil then return end
+	local character = localPlayer.Character
+	local humanoid = character and character:FindFirstChild("Humanoid")
+	if not humanoid then return end
+	local seat = car.RWD
+	replicatesignal(seat.RemoteCreateSeatWeld, humanoid)
+	local animation = Instance.new("Animation")
+   	animation.AnimationId = "rbxassetid://148840371"
+	humanoid:LoadAnimation(animation):Play()
+end
+
+if ReplicatedStorage:FindFirstChild("Scripts") then
+	ReplicatedStorage.Scripts.CharacterCollision.Enabled = false
+end
+
+pcall(function()
+	game:GetService("NetworkClient"):SetOutgoingKBPSLimit(math.huge)
+end)
+
+sethiddenproperty(localPlayer, "MaximumSimulationRadius", math.huge)
+
+task.spawn(function()
+	while task.wait(.1) do
+		sethiddenproperty(localPlayer, "SimulationRadius", simRadius)
+	end
+end)
+
+RunService.Heartbeat:Connect(function(dt)
+	local character = localPlayer.Character
+	--localPlayer.ReplicationFocus = workspace
+	--setsimulationradius(simRadius)
+	if character then
+		for i, v in character:GetDescendants() do
+			if v:IsA("BasePart") then
+				sethiddenproperty(v, "NetworkIsSleeping", false)
+			end
+		end
+	end
+	for i, v in storedCars do
+		local car = v.car
+		local body = car and car:FindFirstChild("Body")
+		local vehicleSeat = body and body:FindFirstChild("VehicleSeat")
+		if not car or not car.Parent or not body or not vehicleSeat or not isNetworkOwner(vehicleSeat) then
+			table.remove(storedCars, i)
+			return
+		end
+		if not v.Using then
+			vehicleSeat.CFrame = farCFrame
+			sethiddenproperty(vehicleSeat, "NetworkIsSleeping", false)
+		end
+	end
+end)
+
+for i, v in pairs(Players:GetPlayers()) do
+	v.Chatted:Connect(function(message)
+		onRemoteControlChat(v, message)
+	end)
+end
+
+Players.PlayerAdded:Connect(function(player)
+	player.Chatted:Connect(function(message)
+		onRemoteControlChat(player, message)
+	end)
+end)
+
+local Plugin = {
+	["PluginName"] = "Prison Essentials",
+	["PluginDescription"] = "Advanced utility suite for Prison Life",
+	["Commands"] = {
+		["carfling"] = {
+			["ListName"] = "carfling [player]",
+			["Description"] = "Tries to fling the target player",
+			["Aliases"] = {"cfling"},
+			["Function"] = function(args, speaker)
+				local car = getCar()
+				if not car then notify("Prison Essentials:", "Could not locate your car. Please get a car.") freeCar(car) return end
+				local carSeat = car and car.Body:FindFirstChild("VehicleSeat")
+
+				local players = getPlayer(args[1], speaker)
+				local targetName = players[1]
+				if not targetName then notify("Prison Essentials:", "Could not find a player matching that name.") freeCar(car) return end
+				local target: Player = Players:FindFirstChild(targetName)
+
+				if not target then notify("Prison Essentials:", "Target player is not found.") freeCar(car) return end
+
+				local targetHrp = target.Character:FindFirstChild("HumanoidRootPart")
+				if not targetHrp then notify("Prison Essentials:", "Target's RootPart is missing. They may be voided or loading.") freeCar(car) return end
+				local targetHumanoid = target.Character:FindFirstChild("Humanoid")
+				if not targetHumanoid then notify("Prison Essentials:", "Target's Humanoid is missing. They may be voided or loading.") freeCar(car) return end
+				local targetHead = target.Character:FindFirstChild("Head")
+				if not targetHead then notify("Prison Essentials:", "Target's Head is missing. They may be voided or loading.") freeCar(car) return end
+			
+				local bodyPosition = Instance.new("BodyPosition")
+				local flinging = false
+				local isDead = targetHumanoid.Health <= 0
+				local offsetIndex = 1
+				local switchIndex = 0
+				local deadIndex = -1
+
+				local newCFrame = targetHrp.CFrame * carflingOffsets[offsetIndex]
+
+				bodyPosition.MaxForce = Vector3.one * 1e12
+				bodyPosition.P = 1e6
+				bodyPosition.D = 1000
+
+				local function updatePosition()
+					local targetCharacter = target.Character
+					if not targetCharacter or not targetCharacter.Parent then
+						return
+					end
+					targetHrp = targetCharacter:FindFirstChild("HumanoidRootPart")
+					targetHead = targetCharacter:FindFirstChild("Head")
+					targetHumanoid = targetCharacter:FindFirstChild("Humanoid")
+					if not targetHrp then
+						return
+					end
+					if not targetHead then
+						return
+					end
+					if not targetHumanoid then
+						return
+					end
+					local targetPosition
+					isDead = targetHumanoid and targetHumanoid.Health <= 0 or false
+					--if isDead then
+					--	targetPosition = Vector3.new(
+					--		math.clamp(targetHead.Position.X, -100000, 100000),
+					--		math.clamp(targetHead.Position.Y, -100000, 100000),
+					--		math.clamp(targetHead.Position.Z, -100000, 100000)
+					--	)
+					--else
+						targetPosition = Vector3.new(
+							math.clamp(targetHrp.Position.X, -100000, 100000),
+							math.clamp(targetHrp.Position.Y, -100000, 100000),
+							math.clamp(targetHrp.Position.Z, -100000, 100000)
+						)
+					--end
+					
+					local targetCFrame = CFrame.new(targetPosition, targetPosition + targetHrp.CFrame.LookVector)
+					offsetIndex = offsetIndex + 1
+					if offsetIndex > #carflingOffsets then
+						offsetIndex = 1
+					end
+
+					newCFrame = targetCFrame * carflingOffsets[offsetIndex]
+				end
+
+				--humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+				--task.wait(.1)
+				--carSeat:Sit(humanoid)
+
+				flinging = true
+				local updateCFrame = true
+				--execCmd("view " .. targetName)
+
+				while target.Parent == Players and flinging and car.Parent ~= nil do
+					if carSeat.Occupant then
+						flinging = false
+						execCmd("kick " .. carSeat.Occupant.Parent.Name)
+						break
+					end
+					RunService.PostSimulation:Wait()
+					switchIndex = (switchIndex + 1) % switchModulo
+					updatePosition()
+					--[[if isDead then
+						deadIndex = deadIndex + 1
+						updateCFrame = false
+						if deadIndex <= 0 then
+							carSeat.CFrame = newCFrame
+							bodyPosition.Parent = car.Body.ColorParts.Hood
+							--bodyAngularVelocity.Parent = carSeat
+						end
+						bodyPosition.Position = newCFrame.Position
+					else
+						deadIndex = -1
+						updateCFrame = true
+						bodyPosition.Parent = nil
+						--bodyAngularVelocity.Parent = nil
+					end]]
+					setPhysicsRootRef(carSeat, if (switchIndex == 0 --[[and not isDead]]) then targetHrp else nil)
+					sethiddenproperty(carSeat, "NetworkIsSleeping", false)
+					if updateCFrame then
+						if switchIndex == 0 then
+							carSeat.CFrame = newCFrame
+						else
+							carSeat.CFrame = farCFrame
+						end
+					end
+					carSeat.AssemblyLinearVelocity = Vector3.yAxis * 1e3
+					carSeat.AssemblyAngularVelocity = Vector3.yAxis * 1e4
+				end
+
+				freeCar(car)
+			end,
+		},
+
+		["modcar"] = {
+			["ListName"] = "modcar [speed] [torque]",
+			["Description"] = "Mods your car",
+			["Aliases"] = {"mcar", "fastcar"},
+			["Function"] = function(args, speaker)
+				modcarEnabled = false
+
+				task.wait()
+
+				modcarEnabled = true
+
+				local character = speaker.Character
+				if not character then notify("Prison Essentials:", "Could not locate your Character model. Please respawn.") return end
+
+				local humanoid  = character:FindFirstChild("Humanoid")
+				if not humanoid then notify("Prison Essentials:", "Humanoid is missing. Try resetting.") return end
+
+				local carSeat = humanoid.SeatPart
+				local isDriving = carSeat and carSeat:IsA("VehicleSeat")
+				if not isDriving then notify("Prison Essentials:", "You must be in the driver's seat mod your car.") return end
+				local car = carSeat.Parent.Parent
+
+				local newModdedSpeed, newModdedTorque = args[1], args[2]
+				if newModdedSpeed then
+					moddedSpeed = newModdedSpeed
+				end
+				if newModdedTorque then
+					moddedTorque = newModdedTorque
+				end
+				
+				local con = nil
+				con = RunService.PreSimulation:Connect(function(dt)
+					if not modcarEnabled then
+						notify("Prison Essentials:", "Disabling modcar.")
+						con:Disconnect()
+						return
+					end
+					if humanoid.SeatPart ~= carSeat then
+						modcarEnabled = false
+						return
+					end
+					car.RWD.MaxSpeed = moddedSpeed
+					car.RWD.Torque = moddedTorque
+				end)
+			end,
+		},
+
+		["unmodcar"] = {
+			["ListName"] = "unmodcar [speed] [torque]",
+			["Description"] = "Unmods your car",
+			["Aliases"] = {"rcar", "slowcar"},
+			["Function"] = function(args, speaker)
+				modcarEnabled = false
+			end,
+		},
+
+		["cargoto"] = {
+			["ListName"] = "cargoto [player]",
+			["Description"] = "Teleports your car to said player",
+			["Aliases"] = {"cgoto", "cartp", "carteleport", "carto"},
+			["Function"] = function(args, speaker)
+				local character = speaker.Character
+				if not character then notify("Prison Essentials:", "Could not locate your Character model. Please respawn.") return end
+
+				local humanoid = character:FindFirstChild("Humanoid")
+				if not humanoid then notify("Prison Essentials:", "Humanoid is missing. Try resetting.") return end
+
+				local carSeat = humanoid.SeatPart
+				local isDriving = carSeat and carSeat:IsA("VehicleSeat")
+				if not isDriving then notify("Prison Essentials:", "You must be in the driver's seat to perform a Car Teleport.") return end
+				local car = carSeat.Parent.Parent
+
+				local players = getPlayer(args[1], speaker)
+				local targetName = players[1]
+				if not targetName then notify("Prison Essentials:", "Could not find a player matching that name.") return end
+				local target = Players:FindFirstChild(targetName)
+				
+
+				local wheelOffsets = {}
+				
+				for i, v in ipairs(car.Wheels:GetChildren()) do
+					table.insert(wheelOffsets, {v, carSeat.CFrame:Inverse() * v.CFrame})
+				end
+
+				local function updateWheels()
+					for i, v in ipairs(wheelOffsets) do
+						v[1].CFrame = carSeat.CFrame * v[2]
+						v[1].AssemblyLinearVelocity = Vector3.zero
+						v[1].AssemblyAngularVelocity = Vector3.zero
+					end
+				end
+
+				local start = tick()
+
+				while (tick() - start) <= .2 and car.Parent do
+					RunService.PostSimulation:Wait()
+					carSeat.CFrame = target.Character.HumanoidRootPart.CFrame
+					updateWheels()
+				end
+			end,
+		},
+
+		["modguns"] = {
+			["ListName"] = "modguns",
+			["Description"] = "Mods your guns",
+			["Aliases"] = {"opguns"},
+			["Function"] = function(args, speaker)
+				moddedGunsEnabled = true
+				local char = speaker.Character
+				local con = nil
+				local modGunsCon = nil
+				con = speaker.CharacterAdded:Connect(function(a0)
+					char = a0
+				end)
+
+				local function modGuns()
+					if not char then return end
+					for _, tool in ipairs(char:GetChildren()) do
+						if tool:IsA("Tool") and tool:GetAttribute("ToolType") == "Gun" then
+							if not originalGunAttributes[tool] then
+								originalGunAttributes[tool] = {
+									["AutoFire"] = tool:GetAttribute("AutoFire"),
+									["SpreadRadius"] = tool:GetAttribute("SpreadRadius"),
+									["FireRate"] = tool:GetAttribute("FireRate"),
+								}
+							end
+
+							tool:SetAttribute("AutoFire", true)
+							tool:SetAttribute("SpreadRadius", 0)
+							tool:SetAttribute("FireRate", 0)
+							tool:SetAttribute("Local_CurrentAmmo", tool:GetAttribute("CurrentAmmo"))
+						end
+					end
+				end
+
+				modGunsCon = RunService.Heartbeat:Connect(function()
+					if not moddedGunsEnabled then
+						modGunsCon:Disconnect()
+						con:Disconnect()
+						return
+					end
+					modGuns()
+				end)
+			end,
+		},
+
+		["unmodguns"] = {
+			["ListName"] = "unmodguns",
+			["Description"] = "Unmods your guns",
+			["Aliases"] = {"rmguns"},
+			["Function"] = function(args, speaker)
+				moddedGunsEnabled = false
+				for tool, attributes in pairs(originalGunAttributes) do
+					if tool and tool.Parent then
+						for attrName, attrValue in pairs(attributes) do
+							tool:SetAttribute(attrName, attrValue)
+						end
+					end
+				end
+				table.clear(originalGunAttributes)
+			end,
+		},
+
+		["passengerfling"] = {
+			["ListName"] = "passengerfling",
+			["Description"] = "Tries to fling your passengers",
+			["Aliases"] = {"pfling"},
+			["Function"] = function(args, speaker)
+				local character = speaker.Character
+				local humanoid = character and character:FindFirstChild("Humanoid")
+				local carSeat = humanoid and humanoid.SeatPart
+				local car = (carSeat and carSeat.Parent.Parent) or activeKidnapFlingCar
+				if not car then notify("Prison Essentials:", "Could not locate your car. Please get a car.") return end
+				carSeat = car.Body:FindFirstChild("VehicleSeat")
+				if not carSeat then notify("Prison Essentials:", "Could not locate your car's VehicleSeat. Please get a car.") return end
+				local oldCFrame = carSeat.CFrame
+				local damageParts = CollectionService:GetTagged("DamagePart")
+
+				local occupants = {}
+				for i, v in car.Body:GetChildren() do
+					if v:IsA("Seat") and v.Occupant then
+						table.insert(occupants, v.Occupant)
+					end
+				end
+
+				local total = #occupants
+				local count = 0
+				local flinging = true
+				local killing = false
+
+				if total <= 0 then print("not enough occupants") freeCar(car) return end
+
+				local wheelOffsets = {}
+				
+				for i, v in ipairs(car.Wheels:GetChildren()) do
+					table.insert(wheelOffsets, {v, carSeat.CFrame:Inverse() * v.CFrame})
+				end
+
+				local function updateWheels()
+					for i, v in ipairs(wheelOffsets) do
+						v[1].CFrame = carSeat.CFrame * v[2]
+						v[1].AssemblyLinearVelocity = Vector3.zero
+						v[1].AssemblyAngularVelocity = Vector3.zero
+					end
+				end
+
+				local function isDone()
+					count += 1
+					return count == total
+				end
+
+				for _, target in occupants do
+					if not target.Parent then continue end
+					task.spawn(function()
+						target.Died:Wait()
+						if isDone() then
+							flinging = false
+						end
+					end)
+				end
+
+				task.delay(speaker:GetNetworkPing(), function()
+					killing = true
+				end)
+
+				while flinging and car.Parent do				
+					RunService.PostSimulation:Wait()
+					carSeat.AssemblyLinearVelocity = Vector3.new(.001, 1, .001) * 1_000_000_000
+					if killing then
+						for _, target in occupants do
+							for _, damagePart in damageParts do
+								touch(target.RootPart, damagePart)
+							end
+						end
+					end
+					carSeat.CFrame = oldCFrame
+				end
+				if car and car.Parent then
+					RunService.PreSimulation:Wait()
+					carSeat.CFrame = oldCFrame
+					updateWheels()
+					carSeat.AssemblyLinearVelocity = Vector3.zero
+					if activeKidnapFlingCar then
+						activeKidnapFlingCar = nil
+						freeCar(car)
+					end
+				end
+			end,
+		},
+
+		["killaura"] = {
+			["ListName"] = "killaura [radius1] [radius2]",
+			["Description"] = "Kill aura",
+			["Aliases"] = {"enablekillaura"},
+			["Function"] = function(args, speaker)
+				local newRadius1 = args[1]
+				if newRadius1 then
+					firstRadius = newRadius1
+				end
+				local newRadius2 = args[2]
+				if newRadius2 then
+					secondRadius = newRadius2
+				end
+				killAuraEnabled = false
+
+				task.wait()
+
+				killAuraEnabled = true
+
+				local character = speaker.Character
+				local gun = nil
+				local raycastParams = RaycastParams.new()
+				raycastParams.FilterType = Enum.RaycastFilterType.Exclude
+				raycastParams.FilterDescendantsInstances = {character}
+				raycastParams.IgnoreWater = true
+				--raycastParams.RespectCanCollide = true
+
+				local connections = {}
+
+				table.insert(connections, speaker.CharacterAdded:Connect(function(newCharacter)
+					character = newCharacter
+					raycastParams.FilterDescendantsInstances = {character}
+				end))
+				
+				local function shoot(shots, origin, target, instance)
+					local shotsTable = {}
+					for i = 1, shots do
+						table.insert(shotsTable, {origin, target, instance})
+					end
+					if #shotsTable == 0 then return end
+					ReplicatedStorage:WaitForChild("GunRemotes"):WaitForChild("ShootEvent"):FireServer(shotsTable)
+					table.clear(shotsTable)
+				end
+
+				local function getClosestCharacter()
+					local closestDistance = math.huge
+					local closestPos = nil
+					local closestCharacter = nil
+					local closestOtherPart = nil
+					local closestOriginPos = nil
+
+					for _, otherPlayer in ipairs(Players:GetPlayers()) do
+						if otherPlayer == speaker then continue end
+						if useWhitelist then
+							if not killAuraWhitelist[otherPlayer.UserId] then continue end
+						else
+							if killAuraWhitelist[otherPlayer.UserId] then continue end
+						end
+                        if otherPlayer.Team == speaker.Team then continue end
+						if otherPlayer.Team.Name == "Neutral" then continue end
+
+                        local otherCharacter = otherPlayer.Character
+
+                        if not otherCharacter then continue end
+
+                        if otherCharacter:FindFirstChild("ForceField") then continue end
+
+                        local otherHumanoid = otherCharacter:WaitForChild("Humanoid")
+
+                        if not otherHumanoid then continue end
+
+                        if otherHumanoid.Health <= 0 then continue end
+
+						local otherHrp = otherCharacter:FindFirstChild("HumanoidRootPart")
+
+						if not otherHrp then continue end
+
+						local closestOtherDistance = math.huge
+
+                        if speaker.Team.Name == "Guards" and otherPlayer.Team.Name == "Inmates" then
+                            if not otherCharacter:GetAttribute("Hostile") then continue end
+                        elseif speaker.Team.Name == "Criminals" and otherPlayer.Team.Name == "Inmates" then
+                            if not (otherCharacter:GetAttribute("Hostile") or otherCharacter:GetAttribute("Trespassing")) then continue end
+						end
+
+                        local charPos = character.HumanoidRootPart.Position
+
+						for _, part in ipairs(otherCharacter:GetDescendants()) do
+							if part:IsA("BasePart") then
+								local partDistance = (part.Position - charPos).Magnitude
+								if partDistance < closestOtherDistance then
+									closestOtherDistance = partDistance
+									closestOtherPart = part
+								end
+							end
+						end
+
+                        local visiblePos, originPos = getClosestVisibleSpotDualSurface(character.HumanoidRootPart, otherHrp, false)
+
+						local range = ((gun and gun:IsA("Tool")) and (gun:GetAttribute("Range") or 0))
+                        local distance = ((charPos - otherCharacter:GetPivot().Position).Magnitude or math.huge)
+
+						if distance > range then 
+						    continue
+						end
+
+                        if not visiblePos then continue end
+						if closestDistance >= distance then
+                            closestDistance = distance
+                            closestCharacter = otherCharacter
+							closestPos = visiblePos
+							closestOriginPos = originPos
+                        end
+					end
+
+					return closestCharacter, closestPos, closestOriginPos, closestOtherPart
+				end
+
+				local function cleanup()
+					for i, v in ipairs(connections) do
+						v:Disconnect()
+					end
+					table.clear(connections)
+				end
+
+				table.insert(connections, RunService.RenderStepped:Connect(function()
+					if not killAuraEnabled then
+						cleanup()
+						return
+					end
+					if killAuraShooting then return end
+					if not character then return end
+					local humanoid = character:FindFirstChild("Humanoid")
+					if not humanoid then return end
+					if humanoid.Health <= 0 then return end
+					gun = (character:FindFirstChildOfClass("Tool") or nil)
+					if not gun then return end
+					if gun:GetAttribute("ToolType") ~= "Gun" then return end
+					if gun:GetAttribute("IsReloading") == true then return end
+					local closestOtherCharacter, closestPos, closestOriginPos, closestOtherPart = getClosestCharacter()
+					if not closestOtherPart then return end
+					if not closestPos then return end
+					if not closestOriginPos then return end
+					killAuraShooting = true
+					if not gun or not gun.Parent then return end
+					for i = 1, 1 + math.ceil((gun:GetAttribute("CurrentAmmo") or 0) * .25) do
+						shoot((gun:GetAttribute("ProjectileCount") or 1), closestOriginPos, closestPos, closestOtherCharacter.HumanoidRootPart)
+					end
+					if gun:GetAttribute("CurrentAmmo") < (gun:GetAttribute("MaxAmmo") or 0) * 0.1 then
+						task.spawn(function()
+							ReplicatedStorage:WaitForChild("GunRemotes"):WaitForChild("FuncReload"):InvokeServer()
+						end)
+					end
+					closestPos = nil
+					humanoid = nil
+					killAuraShooting = false
+				end))
+			end,
+		},
+
+		["togglekillauramode"] = {
+			["ListName"] = "togglekillauramode",
+			["Description"] = "Toggles between whitelist and blacklist mode for killaura",
+			["Aliases"] = {"tkam", "killauramode"},
+			["Function"] = function(args, speaker)
+				useWhitelist = not useWhitelist
+				if useWhitelist then
+					notify("Prison Essentials:", "Killaura is now in BLACKLIST mode.")
+				else
+					notify("Prison Essentials:", "Killaura is now in WHITELIST mode.")
+				end
+			end,
+		},
+
+		["addkillaurawhitelist"] = {
+			["ListName"] = "addkillaurawhitelist [player]",
+			["Description"] = "Adds a player to the killaura whitelist",
+			["Aliases"] = {"addkaw", "whitelist"},
+			["Function"] = function(args, speaker)
+				local players = getPlayer(args[1], speaker)
+				for i, v in ipairs(players) do
+					local player = Players:FindFirstChild(v)
+					if player then
+						killAuraWhitelist[player.UserId] = true
+						notify("Prison Essentials:", "Added " .. player.Name .. " to the killaura whitelist.")
+					end
+				end
+			end,
+		},
+
+		["removekillaurawhitelist"] = {
+			["ListName"] = "removekillaurawhitelist [player]",
+			["Description"] = "Removes a player from the killaura whitelist",
+			["Aliases"] = {"remkaw", "unwhitelist"},
+			["Function"] = function(args, speaker)
+				local players = getPlayer(args[1], speaker)
+				for i, v in ipairs(players) do
+					local player = Players:FindFirstChild(v)
+					if player then
+						killAuraWhitelist[player.UserId] = nil
+						notify("Prison Essentials:", "Removed " .. player.Name .. " from the killaura whitelist.")
+					end
+				end
+			end,
+		},
+		
+		["disablekillaura"] = {
+			["ListName"] = "disablekillaura",
+			["Description"] = "Disables killaura",
+			["Aliases"] = {"unkillaura"},
+			["Function"] = function(args, speaker)
+				killAuraEnabled = false
+			end,
+		},
+
+		["kidnapfling"] = {
+			["ListName"] = "kidnapfling [plr] [speed]",
+			["Description"] = "Kidnapflings the target player",
+			["Aliases"] = {},
+			["Function"] = function(args, speaker)
+				local car = getCar()
+				if not car then notify("Prison Essentials:", "Could not locate your car. Please get a car.") freeCar(car) return end
+				local carSeat = car.Body:FindFirstChild("VehicleSeat")
+
+				local players = getPlayer(args[1], speaker)
+				local targetName = players[1]
+				if not targetName then notify("Prison Essentials:", "Could not find a player matching that name.") freeCar(car) return end
+				local target = Players:FindFirstChild(targetName)
+
+				local targetChar = target.Character
+				if not targetChar then notify("Prison Essentials:", "Target player has no character loaded or is currently dead.") freeCar(car) return end
+
+				local targetHrp = targetChar:FindFirstChild("HumanoidRootPart")
+				if not targetHrp then notify("Prison Essentials:", "Target's RootPart is missing. They may be voided or loading.") freeCar(car) return end
+
+				local targetHumanoid = targetChar:FindFirstChild("Humanoid")
+				if not targetHumanoid then notify("Prison Essentials:", "Target's humanoid is missing. They may be loading.") freeCar(car) return end
+
+				if targetHumanoid.SeatPart then notify("Prison Essentials:", "Target is sitting. They can't be flung.") freeCar(car) return end
+
+				local wheelOffsets = {}
+
+				for i, v in ipairs(car.Wheels:GetChildren()) do
+					table.insert(wheelOffsets, {v, carSeat.CFrame:Inverse() * v.CFrame})
+				end
+
+				local function updateWheels()
+					for i, v in ipairs(wheelOffsets) do
+						v[1].CFrame = carSeat.CFrame * v[2]
+						v[1].AssemblyLinearVelocity = Vector3.zero
+						v[1].AssemblyAngularVelocity = Vector3.zero
+					end
+				end
+
+				local offsetIndex = 1
+				local switchIndex = 0
+				activeKidnapFlingCar = car
+
+				while targetChar.Parent and car.Parent do
+					RunService.PostSimulation:Wait()
+					updateWheels()
+					if targetHumanoid.SeatPart and targetHumanoid.SeatPart:IsDescendantOf(car) then execCmd("passengerfling") break end
+					local targetCframe = targetHrp.CFrame * carKidnapOffsets[offsetIndex]
+					switchIndex = (switchIndex + 1) % switchModulo
+					if switchIndex == 0 then
+						offsetIndex = offsetIndex + 1
+						if offsetIndex > #carKidnapOffsets then
+							offsetIndex = 1
+						end
+						setPhysicsRootRef(carSeat, targetHrp)
+						sethiddenproperty(carSeat, "NetworkIsSleeping", false)
+						carSeat.CFrame = targetCframe
+						updateWheels()
+					else
+						setPhysicsRootRef(carSeat, nil)
+						carSeat.CFrame = farCFrame
+					end
+				end
+			end,
+		},
+
+		["hidetools"] = {
+			["ListName"] = "hidetools",
+			["Description"] = "Hides your tools",
+			["Aliases"] = {"htools", "invisibletools", "invistools"},
+			["Function"] = function(args, speaker)
+				hidetoolsEnabled = true
+				while hidetoolsEnabled do
+					task.wait()
+					for i, v in speaker.Backpack:GetChildren() do
+						if v:IsA("Tool") then
+							v.Grip = CFrame.new(0, -4000, 0)
+							for ii, vv in ipairs(v:GetDescendants()) do
+								if vv:IsA("BasePart") then
+									vv.Massless = true
+									vv.RootPriority = -1
+								end
+							end
+						end
+					end
+				end
+			end,
+		},
+
+		["unhidetools"] = {
+			["ListName"] = "unhidetools",
+			["Description"] = "Unhides your tools",
+			["Aliases"] = {"unhtools"},
+			["Function"] = function(args, speaker)
+				hidetoolsEnabled = false
+				local character = speaker.Character
+				if not character then notify("Prison Essentials:", "Could not locate your Character model. Please respawn.") return end
+				for i, v in character:GetChildren() do
+					if v:IsA("Tool") then
+						v.Grip = CFrame.new(0, 0, 0)
+					end
+				end
+				for i, v in speaker.Backpack:GetChildren() do
+					if v:IsA("Tool") then
+						v.Grip = CFrame.new(0, 0, 0)
+					end
+				end
+			end,
+		},
+
+		["wheelfling"] = {
+			["ListName"] = "wheelfling [player] [power] [ping]",
+			["Description"] = "Tries to fling the target player",
+			["Aliases"] = {"wfling"},
+			["Function"] = function(args, speaker)
+				local character = speaker.Character
+				if not character then notify("Prison Essentials:", "Could not locate your Character model. Please respawn.") return end
+
+				local humanoid = character:FindFirstChild("Humanoid")
+				if not humanoid then notify("Prison Essentials:", "Humanoid is missing. Try resetting.") return end
+
+				local carSeat = humanoid.SeatPart
+				local isDriving = carSeat and carSeat:IsA("VehicleSeat")
+				if not isDriving then notify("Prison Essentials:", "You must be in the driver's seat to perform a Wheel Fling.") return end
+				local car = carSeat.Parent.Parent
+				local oldCFrame = carSeat.CFrame
+
+				local players = getPlayer(args[1], speaker)
+				local targetName = players[1]
+				if not targetName then notify("Prison Essentials:", "Could not find a player matching that name.") return end
+				local target = Players:FindFirstChild(targetName)
+
+				local newFlingSpeed = args[2]
+				if newFlingSpeed then
+					carFlingSpeed = newFlingSpeed * 1000
+				--else
+				--	carFlingSpeed = 1000
+				--	notify("Standard Velocity", "No power specified. Using default thrust (1,000).")
+				end
+
+				local targetChar = target.Character
+				if not targetChar then notify("Prison Essentials:", "Target player has no character loaded or is currently dead.") return end
+
+				local targetHrp = targetChar:FindFirstChild("HumanoidRootPart")
+				if not targetHrp then notify("Prison Essentials:", "Target's RootPart is missing. They may be voided or loading.") return end
+				local targetHumanoid = targetChar:FindFirstChild("Humanoid")
+				if not targetHumanoid then notify("Prison Essentials:", "Target's humanoid is missing. They may be loading.") return end
+			
+				local currentCons = {}
+				local originalWheelOffsets = {}
+				local wheels = car.Wheels:GetChildren()
+				local cleanedup = false
+
+				for i, v in ipairs(car.Wheels:GetChildren()) do
+					table.insert(originalWheelOffsets, {v, carSeat.CFrame:Inverse() * v.CFrame})
+				end
+
+				local function returnOriginalWheels()
+					for i, v in ipairs(originalWheelOffsets) do
+						v[1].CFrame = carSeat.CFrame * v[2]
+						v[1].AssemblyLinearVelocity = Vector3.zero
+						v[1].AssemblyAngularVelocity = Vector3.zero
+					end
+				end
+
+				local function updatePosition()
+					carSeat.CFrame = oldCFrame
+					carSeat.AssemblyLinearVelocity = Vector3.zero
+					carSeat.AssemblyAngularVelocity = Vector3.zero
+				end
+
+				local function cleanup()
+					if cleanedup then return end
+					cleanedup = true
+					notify("Prison Essentials:", "Target launched. Resetting vehicle position and velocity.")
+					if not target.Parent then
+						task.wait(6)
+						notify("Prison Essentials:", "Target " .. target.Name .. " has been succesfuly kicked!")
+					end
+					for _, connection in currentCons do
+						connection:Disconnect()
+					end
+					currentCons = {}
+					
+					for i = 1, 60 do
+						RunService.PreSimulation:Wait()
+						for i, v in ipairs(wheels) do
+							v.CanCollide = true
+							setPhysicsRootRef(v, nil)
+						end
+						carSeat.CFrame = oldCFrame
+						carSeat.AssemblyLinearVelocity = Vector3.zero
+						carSeat.AssemblyAngularVelocity = Vector3.zero
+						updatePosition()
+						returnOriginalWheels()
+					end
+				end
+
+				local function preStep()
+					if cleanedup then return end
+					if not targetChar.Parent or not car.Parent or not targetHumanoid or targetHumanoid.Health <= 0 then
+						cleanup()
+						return
+					end
+
+					local dir = -(targetHrp.Position - Vector3.new(-238, 80, 1836)).Unit
+
+					for i, w in wheels do
+						w.CanCollide = false
+						local targetPart = targetChar:FindFirstChild(wheelFlingTargets[i] or "HumanoidRootPart")
+						if not targetPart then continue end
+						local targetPos = targetPart.Position
+						setPhysicsRootRef(w, targetPart)
+						w.Position = targetPos
+						w.AssemblyLinearVelocity = (carFlingSpeed * dir)
+						w.AssemblyAngularVelocity = Vector3.zero
+					end
+				end
+
+				table.insert(currentCons, RunService.PreSimulation:Connect(function()
+					preStep()
+				end))
+
+				table.insert(currentCons, RunService.PostSimulation:Connect(function()
+					preStep()
+					updatePosition()
+				end))
+				
+				table.insert(currentCons, humanoid:GetPropertyChangedSignal("SeatPart"):Connect(function()
+					if not humanoid.SeatPart then
+						cleanup()
+					end
+				end))
+
+				table.insert(currentCons, humanoid:GetPropertyChangedSignal("Health"):Connect(function()
+					if humanoid.Health <= 0 then
+						cleanup()
+					end
+				end))
+
+				table.insert(currentCons, targetHumanoid:GetPropertyChangedSignal("Health"):Connect(function()
+					if targetHumanoid.Health <= 0 then
+						cleanup()
+					end
+				end))
+				
+				table.insert(currentCons, car.Destroying:Connect(function()
+					cleanup()
+				end))
+
+				table.insert(currentCons, target.Destroying:Connect(function()
+					cleanup()
+				end))
+
+				table.insert(currentCons, target.CharacterRemoving:Connect(function()
+					cleanup()
+				end))
+
+				table.insert(currentCons, targetHrp.Destroying:Connect(function()
+					cleanup()
+				end))
+
+				task.delay(10, cleanup)
+			end,
+		},
+
+		["wheelaura"] = {
+			["ListName"] = "wheelaura [range]",
+			["Description"] = "Wheel aura",
+			["Aliases"] = {"enablewheelaura"},
+			["Function"] = function(args, speaker)
+				local newFlingSpeed = args[2]
+				if newFlingSpeed then
+					carFlingSpeed = newFlingSpeed * 1000
+				--else
+				--	carFlingSpeed = 1000
+				--	notify("Standard Velocity", "No power specified. Using default thrust (1,000).")
+				end
+
+				local newWheelAuraOffset = args[4]
+				if newWheelAuraOffset then
+					wheelauraOffset = newWheelAuraOffset
+				end
+
+				local newWheelauraSpeed = args[5]
+				if newWheelauraSpeed then
+					wheelauraSpeed = newWheelauraSpeed
+				end
+
+				local character = speaker.Character
+				if not character then notify("Prison Essentials:", "Could not locate your Character model. Please respawn.") return end
+
+				local humanoid = character:FindFirstChild("Humanoid")
+				if not humanoid then notify("Prison Essentials:", "Humanoid is missing. Try resetting.") return end
+
+				local carSeat = humanoid.SeatPart
+				local isDriving = carSeat and carSeat:IsA("VehicleSeat")
+				if not isDriving then notify("Prison Essentials:", "You must be in the driver's seat to perform a Wheel Fling.") return end
+				local car = carSeat.Parent.Parent
+
+				local players = getPlayer(args[1], speaker)
+				local targetName = players[1]
+				if not targetName then notify("Prison Essentials:", "Could not find a player matching that name.") return end
+				local target = Players:FindFirstChild(targetName)
+
+				local oldCFrame = carSeat.CFrame
+
+				local currentCons = {}
+				local originalWheelOffsets = {}
+
+				local wheels = car.Wheels:GetChildren()
+
+				local elapsed = 0
+
+				local cleanedup = false
+
+				for i, v in ipairs(wheels) do
+					table.insert(originalWheelOffsets, {v, carSeat.CFrame:Inverse() * v.CFrame})
+				end
+
+				local function returnOriginalWheels()
+					for i, v in ipairs(originalWheelOffsets) do
+						v[1].CFrame = carSeat.CFrame * v[2]
+						v[1].AssemblyLinearVelocity = Vector3.zero
+						v[1].AssemblyAngularVelocity = Vector3.zero
+					end
+				end
+
+				local function updatePosition()
+					carSeat.CFrame = oldCFrame
+					carSeat.AssemblyLinearVelocity = Vector3.zero
+					carSeat.AssemblyAngularVelocity = Vector3.zero
+				end
+
+				local function cleanup()
+					if cleanedup then return end
+					cleanedup = true
+					notify("Prison Essentials:", "Target launched. Resetting vehicle position and velocity.")
+					if not target.Parent then
+						task.wait(6)
+						notify("Prison Essentials:", "Target " .. target.Name .. " has been succesfuly kicked!")
+					end
+					for _, connection in ipairs(currentCons) do
+						connection:Disconnect()
+					end
+					currentCons = {}
+					
+					for _ = 1, 60 do
+						RunService.PreSimulation:Wait()
+						for _, v in ipairs(wheels) do
+							v.CanCollide = true
+							setPhysicsRootRef(v, nil)
+						end
+						updatePosition()
+						returnOriginalWheels()
+					end
+				end
+
+				local function preStep(dt)
+					local targetChar = target.Character
+					if not targetChar then return end
+					local targetHrp = targetChar:FindFirstChild("HumanoidRootPart")
+					if not targetHrp then return end
+
+					local dir  = -(targetHrp.Position - Vector3.new(-238, 80, 1836)).Unit
+
+					for i, w in ipairs(wheels) do
+						w.CanCollide = false
+						local xOffset, zOffset = math.sin(elapsed + (i * (2 * math.pi / #wheels))) * wheelauraOffset * 2, math.cos(elapsed + (i * (2 * math.pi / #wheels))) * wheelauraOffset * 2
+						local targetPos = targetHrp.Position + Vector3.new(xOffset, 0, zOffset)
+						setPhysicsRootRef(w, targetHrp)
+						w.Position = targetPos
+						w.AssemblyLinearVelocity = (carFlingSpeed * dir)
+						w.AssemblyAngularVelocity = Vector3.zero
+					end
+				end
+
+				table.insert(currentCons, RunService.PreSimulation:Connect(function(dt)
+                    elapsed = elapsed + dt * wheelauraSpeed
+					preStep(dt)
+				end))
+
+                table.insert(currentCons, RunService.RenderStepped:Connect(function(dt)
+                    preStep(dt)
+                end))
+
+				table.insert(currentCons, RunService.PostSimulation:Connect(function(dt)
+					preStep(dt)
+					updatePosition()
+				end))
+
+				table.insert(currentCons, humanoid:GetPropertyChangedSignal("SeatPart"):Connect(function()
+					if not humanoid.SeatPart then
+						cleanup()
+					end
+				end))
+			end,
+		},
+
+		["crash"] = {
+			["ListName"] = "crash",
+			["Description"] = "Crashes your client",
+			["Aliases"] = {},
+			["Function"] = function(args, speaker)
+				table.clear(getreg())
+			end,
+		},
+
+		["anticarfling"] = {
+			["ListName"] = "anticarfling",
+			["Description"] = "Disables car flinging",
+			["Aliases"] = {"disablecarfling"},
+			["Function"] = function(args, speaker)
+				antiCarFlingEnabled = true
+				local carContainer = workspace:WaitForChild("CarContainer")
+
+				local function processCar(car)
+					if not antiCarFlingEnabled then return end
+					
+					local body = car:WaitForChild("Body", 5)
+					if not body then return end
+					
+					task.wait(.1)
+					if not antiCarFlingEnabled then return end
+
+					local carParts = {}
+					
+					for _, v in ipairs(body:GetDescendants()) do
+						if v:IsA("BasePart") then
+							if v.CanCollide then
+								carParts[v] = true
+								v.CanCollide = false
+							end
+						end
+					end
+				end
+
+				for _, car in ipairs(carContainer:GetChildren()) do
+					task.spawn(processCar, car)
+				end
+
+				carContainer.ChildAdded:Connect(function(car)
+					task.spawn(processCar, car)
+				end)
+			end,
+		},
+
+		["disableanticarfling"] = {
+			["ListName"] = "disableanticarfling",
+			["Description"] = "Disables anti car flinging",
+			["Aliases"] = {"unanticarfling"},
+			["Function"] = function(args, speaker)
+				antiCarFlingEnabled = false
+				for i, car in ipairs(cars) do
+					if car.Parent then
+						for ii, v in ipairs(car.Body:GetDescendants()) do
+							if v:IsA("BasePart") then
+								v.CanCollide = true
+							end
+						end
+					end
+				end
+				table.clear(cars)
+				table.clear(carParts)
+			end,
+		},
+
+		["gettool"] = {
+			["ListName"] = "gettool [tool]",
+			["Description"] = "Gets a tool from the map",
+			["Aliases"] = {"getarmor", "getgun", "getitem"},
+			["Function"] = function(args, speaker)
+				if speaker.Team.Name == "Neutral" then 
+					notify("Prison Essentials:", "You must be on a team to use this command.") 
+					return 
+				end
+				if not args[1] then 
+					notify("Prison Essentials:", "Please specify a tool name.") 
+					return 
+				end
+
+				fetchTools({args[1]}, speaker)
+			end,
+		},
+
+		["gettoolcombo"] = {
+			["ListName"] = "gettoolcombo [tool1] [tool2]...",
+			["Description"] = "Gets multiple tools from the map in one fast sequence",
+			["Aliases"] = {"getarmorcombo", "getguncombo", "getitemcombo", "gtc", "getcombo"},
+			["Function"] = function(args, speaker)
+				if speaker.Team.Name == "Neutral" then 
+					notify("Prison Essentials:", "You must be on a team to use this command.") 
+					return 
+				end
+				if #args == 0 then return end
+
+				fetchTools(args, speaker)
+			end,
+		},
+
+		["smartdiedtp"] = {
+			["ListName"] = "smartdiedtp",
+			["Description"] = "Teleports you to the last safe position",
+			["Aliases"] = {"sdtp"},
+			["Function"] = function(args, speaker)
+				if not lastDeathCFrame then
+					notify("Prison Essentials:", "No saved death position found!")
+					return
+				end
+
+				local character = speaker.Character
+				if not character or not character:FindFirstChild("HumanoidRootPart") then
+					notify("Prison Essentials:", "Could not locate your character.")
+					return
+				end
+
+				safeTp = true
+
+				local rayOrigin = lastDeathCFrame.Position
+				if speaker.Team and speaker.Team.Name == "Criminals" then
+					local prisonRegion = ReplicatedStorage:WaitForChild("Regions"):WaitForChild("Prison")
+					rayOrigin = keepVectorOutsideRegion(rayOrigin, prisonRegion.CFrame, prisonRegion.Size)
+				end
+
+				local safePos = nil
+				local groundRay = workspace:Raycast(rayOrigin, Vector3.new(0, -500, 0))
+
+				if groundRay then
+					safePos = groundRay.Position + Vector3.new(0, 5.5, 0)
+				else
+					local ceilingRay = workspace:Raycast(rayOrigin, Vector3.new(0, 500, 0))
+					if ceilingRay then
+						safePos = ceilingRay.Position + Vector3.new(0, 10.5, 0) 
+					else
+						safePos = rayOrigin
+					end
+				end
+
+				local rx, ry, rz = lastDeathCFrame:ToOrientation()
+				character:PivotTo(CFrame.new(safePos) * CFrame.Angles(rx, ry, rz))
+				RunService.Heartbeat:Wait()
+				safeTp = false
+			end,
+		},
+
+		["savecurrentposition"] = {
+			["ListName"] = "savecurrentposition",
+			["Description"] = "Saves position by vector coordinates, waypoint name, or character position",
+			["Aliases"] = {"scp"},
+			["Function"] = function(args, speaker)
+				local targetCFrame = nil
+
+				local isNil = getstring(1, args) == "nil" or getstring(1, args) == "null"
+				if isNil then
+					lastDeathCFrame = nil
+					notify("Prison Essentials:", "Saved position cleared.")
+					return
+				end
+
+				local function getCFrameFromWP(wp)
+					if not wp then return nil end
+
+					if wp.COORD and type(wp.COORD) == "table" then
+						return CFrame.new(wp.COORD[1], wp.COORD[2], wp.COORD[3])
+					elseif wp.COORDS and type(wp.COORDS) == "table" then
+						return CFrame.new(wp.COORDS[1], wp.COORDS[2], wp.COORDS[3])
+					elseif typeof(wp.CFrame) == "CFrame" then
+						return wp.CFrame
+					elseif typeof(wp.Position) == "Vector3" then
+						return CFrame.new(wp.Position)
+					end
+
+					return nil
+				end
+
+				local x = tonumber(args[1])
+				local y = tonumber(args[2])
+				local z = tonumber(args[3])
+
+				local player = getPlayer(args[1], speaker)[1]
+
+				if x and y and z then
+					targetCFrame = CFrame.new(x, y, z)
+				elseif player then
+					local targetCharacter = Players:FindFirstChild(player).Character
+					if targetCharacter then
+						local targetHrp = targetCharacter:FindFirstChild("HumanoidRootPart")
+						if targetHrp then
+							targetCFrame = targetHrp.CFrame
+						end
+					end
+				else
+					local waypointName = getstring(1, args)
+					if waypointName and waypointName ~= "" then
+						local tablesToCheck = {}
+						if AllWaypoints then table.insert(tablesToCheck, AllWaypoints) end
+						if WayPoints then table.insert(tablesToCheck, WayPoints) end
+						if pWayPoints then table.insert(tablesToCheck, pWayPoints) end
+
+						for _, wpTable in ipairs(tablesToCheck) do
+							for name, wp in pairs(wpTable) do
+								local actualName = type(wp) == "table" and wp.NAME or (type(name) == "string" and name)
+								if actualName and actualName:lower() == waypointName:lower() then
+									targetCFrame = getCFrameFromWP(wp)
+									if targetCFrame then break end
+								end
+							end
+							if targetCFrame then break end
+						end
+					end
+				end
+
+				if not targetCFrame then
+					local character = speaker.Character
+					if not character then 
+						notify("Prison Essentials:", "Could not locate your Character model. Please respawn.") 
+						return 
+					end
+					local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+					if not humanoidRootPart then 
+						notify("Prison Essentials:", "HumanoidRootPart is missing. Try resetting.") 
+						return 
+					end
+					targetCFrame = humanoidRootPart.CFrame
+				end
+
+				lastDeathCFrame = targetCFrame
+				notify("Prison Essentials:", "Saved position successfully.")
+			end,
+		},
+
+		["gunmacro"] = {
+			["ListName"] = "gunmacro",
+			["Description"] = "Enables gun macro",
+			["Aliases"] = {"enablegunmacro"},
+			["Function"] = function(args, speaker)
+				gunMacroEnabled = true
+
+				local newGunMacroSwitchDelayMs = tonumber(args[1])
+				if newGunMacroSwitchDelayMs then
+					gunMacroSwitchDelayMs = newGunMacroSwitchDelayMs
+				end
+
+				while gunMacroEnabled do
+					task.wait()
+					if not gunMacroEnabled then break end
+
+					local character = speaker.Character
+					if not character then continue end
+
+					local humanoid = character:FindFirstChildOfClass("Humanoid")
+					if not humanoid or humanoid.Health <= 0 then continue end
+
+					local guns = getAllGuns()
+					if #guns == 0 then continue end
+
+					local delta = tick() - lastGunMacroSwitchTime
+					if delta >= (gunMacroSwitchDelayMs / 1000) then
+						lastGunMacroSwitchTime = tick()
+						
+						gunMacroIndex = gunMacroIndex + 1
+						if gunMacroIndex > #guns then
+							gunMacroIndex = 1
+						end
+						
+						local gun = guns[gunMacroIndex]
+						if gun then
+							humanoid:UnequipTools()
+							humanoid:EquipTool(gun)
+						end
+					end
+				end
+			end,
+		},
+
+		["disablegunmacro"] = {
+			["ListName"] = "disablegunmacro",
+			["Description"] = "Disables gun macro",
+			["Aliases"] = {"disablegunmacro"},
+			["Function"] = function(args, speaker)
+				gunMacroEnabled = false
+			end,
+		},
+
+		["stopblacklistedanims"] = {
+			["ListName"] = "stopblacklistedanims",
+			["Description"] = "Stops blacklisted animations from playing",
+			["Aliases"] = {"stopblackanims", "stopblacklistedanimations"},
+			["Function"] = function(args, speaker)
+				stopBlacklistedAnimsEnabled = true
+			end,
+		},
+
+		["unstopblacklistedanims"] = {
+			["ListName"] = "unstopblacklistedanims",
+			["Description"] = "Allows blacklisted animations to play again",
+			["Aliases"] = {"unstopblackanims", "unstopblacklistedanimations"},
+			["Function"] = function(args, speaker)
+				stopBlacklistedAnimsEnabled = false
+			end,
+		},
+
+		["kick"] = {
+			["ListName"] = "kick [plr]",
+			["Description"] = "Kicks target",
+			["Aliases"] = {},
+			["Function"] = function(args, speaker)
+				local character = speaker.Character
+				if not character then notify("Prison Essentials:", "Could not locate your Character model. Please respawn.") return end
+
+				local humanoid = character:FindFirstChild("Humanoid")
+				if not humanoid then notify("Prison Essentials:", "Humanoid is missing. Try resetting.") return end
+
+				local players = getPlayer(args[1], speaker)
+				local targetName = players[1]
+				if not targetName then notify("Prison Essentials:", "Could not find a player matching that name.") return end
+				local target = Players:FindFirstChild(targetName)
+				local targetChar = target.Character
+				if not targetChar then notify("Prison Essentials:", "Target has no character") return end
+				local targetHumanoid = targetChar:FindFirstChild("Humanoid")
+				if not targetHumanoid and targetHumanoid.Health > 0 and not targetHumanoid.SeatPart then notify("Prison Essentials:", "Target has no humanoid, isn't sitting or is dead") return end
+				local isCar = targetHumanoid.SeatPart.Name == "VehicleSeat" and targetHumanoid.SeatPart.Parent.Name == "Body"
+				if not isCar then return end
+				local car = targetHumanoid.SeatPart.Parent.Parent
+				carKick(car)
+				--replicatesignal(localPlayer.Kill)
+				--ReplicatedStorage.Remotes.RequestTeamChange:InvokeServer(game.Teams.Neutral, 1)
+			end,
+		},
+
+		["storecar"] = {
+			["ListName"] = "storecar",
+			["Description"] = "Stores the car you are currently driving",
+			["Aliases"] = {"storevehicle"},
+			["Function"] = function(args, speaker)
+				local character = speaker.Character
+				if not character then notify("Prison Essentials:", "Could not locate your Character model. Please respawn.") return end
+
+				local humanoid = character:FindFirstChild("Humanoid")
+				if not humanoid then notify("Prison Essentials:", "Humanoid is missing. Try resetting.") return end
+
+				local carSeat = humanoid.SeatPart
+				local isDriving = carSeat and carSeat:IsA("VehicleSeat")
+				if not isDriving then notify("Prison Essentials:", "You must be in the driver's seat to store a vehicle.") return end
+				local car = carSeat.Parent.Parent
+
+				local oldCFrame = carSeat.CFrame
+				while humanoid.Health > 0 and character.Parent and car.Parent and humanoid.SeatPart do
+					RunService.PostSimulation:Wait()
+					carSeat.CFrame = oldCFrame + Vector3.new(0, 200, 0)
+				end
+
+				for i, v in car.Wheels:GetChildren() do
+					v.CFrame = farCFrame
+				end
+
+				table.insert(storedCars, {car = car, Using = false})
+
+				for i, v in ipairs(car.Body:GetDescendants()) do
+					if v:IsA("BasePart") then
+						v.CustomPhysicalProperties = PhysicalProperties.new(100, 1, 1, 1, 1)
+						v.CanCollide = false
+						v.CanTouch = false
+					end
+				end
+
+				local cons = {}
+
+				table.insert(cons, car.Destroying:Connect(function()
+					for _, connection in ipairs(cons) do
+						connection:Disconnect()
+					end
+					--table.remove(storedCars, table.find(storedCars, function(v) return v.car == car end))
+				end))
+			end,
+		},
+
+		["antitase"] = {
+			["ListName"] = "antitase",
+			["Description"] = "Enables anti-tase",
+			["Aliases"] = {"enableantitase"},
+			["Function"] = function(args, speaker)
+				antiTaseEnabled = true
+				updateAntiTase()
+			end,
+		},
+
+		["unantitase"] = {
+			["ListName"] = "unantitase",
+			["Description"] = "Disables anti-tase",
+			["Aliases"] = {"disableantitase"},
+			["Function"] = function(args, speaker)
+				antiTaseEnabled = false
+				updateAntiTase()
+			end,
+		},
+
+		["updateantitase"] = {
+			["ListName"] = "updateantitase",
+			["Description"] = "Updates anti-tase",
+			["Aliases"] = {},
+			["Function"] = function(args, speaker)
+				updateAntiTase()
+			end,
+		},
+
+		["corpsedelete"] = {
+			["ListName"] = "corpsedelete",
+			["Description"] = "Deletes your corpse",
+			["Aliases"] = {"corpsedel"},
+			["Function"] = function(args, speaker)
+				local character = speaker.Character or speaker.CharacterAdded:Wait()
+				local humanoid: Humanoid = character:WaitForChild("Humanoid")
+				local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+				humanoid.RequiresNeck = false
+				local oldVel = Vector3.zero
+				speaker.CharacterAdded:Connect(function(char)
+					character = char
+					humanoid = character:WaitForChild("Humanoid")
+					humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+					humanoid.RequiresNeck = false
+				end)
+				corpseDeleteEnabled = true
+				while corpseDeleteEnabled do
+					RunService.Heartbeat:Wait()
+					if (humanoid.SeatPart and humanoid.SeatPart:IsA("VehicleSeat")) then continue end
+					oldVel = humanoidRootPart.AssemblyLinearVelocity
+					humanoidRootPart.AssemblyLinearVelocity = Vector3.yAxis * -2e4
+					RunService.RenderStepped:Wait()
+					humanoidRootPart.AssemblyLinearVelocity = oldVel
+				end
+			end,
+		},
+
+		["disablecorpsedelete"] = {
+			["ListName"] = "disablecorpsedelete",
+			["Description"] = "Disables corpse delete",
+			["Aliases"] = {"uncorpsedel"},
+			["Function"] = function(args, speaker)
+				corpseDeleteEnabled = false
+			end,
+		},
+
+		["bruteforceantifling"] = {
+			["ListName"] = "bruteforceantifling",
+			["Description"] = "Bruteforces anti-fling",
+			["Aliases"] = {"baf"},
+			["Function"] = function(args, speaker)
+				local character = speaker.Character or speaker.CharacterAdded:Wait()
+				local humanoid = character:WaitForChild("Humanoid")
+				local head = character:WaitForChild("Head")
+				lastPos = nil
+				speaker.CharacterAdded:Connect(function(char)
+					character = char
+					humanoid = character:WaitForChild("Humanoid")
+					head = character:WaitForChild("Head")
+					lastPos = nil
+				end)
+				bruteForceAntiFlingEnabled = true
+				RunService.PreSimulation:Connect(function()
+					if not bruteForceAntiFlingEnabled then return end
+					if not head or not head.Parent then return end
+					lastPos = head.Position * Vector3.new(1, 0, 1)
+				end)
+				RunService.PostSimulation:Connect(function(dt)
+					if not bruteForceAntiFlingEnabled then return end
+					if not head or not head.Parent then return end
+					if not lastPos then return end
+					if humanoid:GetState() ~= Enum.HumanoidStateType.Dead then return end
+					local currentPos = head.Position * Vector3.new(1, 0, 1)
+					local delta = (currentPos - lastPos).Magnitude / dt
+					if delta > 500 then
+						execCmd("rj")
+						speaker:Kick("Brute force anti-fling detected a fling. Rejoining...")
+					end
+				end)
+			end,
+		},
+
+		["unbruteforceantifling"] = {
+			["ListName"] = "unbruteforceantifling",
+			["Description"] = "Disables bruteforce anti-fling",
+			["Aliases"] = {"unbaf"},
+			["Function"] = function(args, speaker)
+				bruteForceAntiFlingEnabled = false
+			end,
+		},
+
+		["replicationoffset"] = {
+			["ListName"] = "replicationoffset",
+			["Description"] = "Offsets your replicated position",
+			["Aliases"] = {"reoff"},
+			["Function"] = function(args, speaker)
+				replicationOffsetEnabled = false
+				task.wait()
+				replicationOffsetEnabled = true
+				local realCFrame = CFrame.identity
+				local teleported = false
+				local teleportIndex = 1
+
+				local character = speaker.Character or speaker.CharacterAdded:Wait()
+				local humanoidRootPart: BasePart = character:WaitForChild("HumanoidRootPart")
+				realCFrame = humanoidRootPart.CFrame
+
+				speaker.CharacterAdded:Connect(function(char)
+					character = char
+					humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+					realCFrame = humanoidRootPart.CFrame
+				end)
+
+				RunService:UnbindFromRenderStep("ReplicationOffset")
+
+				RunService:BindToRenderStep("ReplicationOffset", 100, function(delta: number)
+					if teleported and humanoidRootPart.Parent then
+						teleportIndex = (teleportIndex % #replicationOffsets) + 1
+						humanoidRootPart.CFrame = realCFrame
+						teleported = false
+					end
+				end)
+
+				while replicationOffsetEnabled do
+					RunService.Heartbeat:Wait()
+					if not humanoidRootPart.Parent then continue end
+					realCFrame = humanoidRootPart.CFrame
+					humanoidRootPart.CFrame = realCFrame + (replicationOffsets[teleportIndex] or Vector3.zero)
+					teleported = true
+				end
+			end,
+		},
+
+		["addreplicationoffset"] = {
+			["ListName"] = "addreplicationoffset",
+			["Description"] = "Adds a position offset to replicate",
+			["Aliases"] = {""},
+			["Function"] = function(args, speaker)
+				local x, y, z = tonumber(args[1]), tonumber(args[2]), tonumber(args[3])
+				table.insert(replicationOffsets, Vector3.new(x, y, z))
+			end,
+		},
+
+		["clearreplicationoffsets"] = {
+			["ListName"] = "clearreplicationoffsets",
+			["Description"] = "Clears all position offsets",
+			["Aliases"] = {""},
+			["Function"] = function(args, speaker)
+				table.clear(replicationOffsets)
+			end,
+		},
+
+		["disablereplicationoffset"] = {
+			["ListName"] = "disablereplicationoffset",
+			["Description"] = "Disables replication offset",
+			["Aliases"] = {""},
+			["Function"] = function(args, speaker)
+				replicationOffsetEnabled = false
+				RunService:UnbindFromRenderStep("ReplicationOffset")
+			end,
+		},
+
+		["newjerk"] = {
+			["ListName"] = "newjerk",
+			["Description"] = "hehe",
+			["Aliases"] = {""},
+			["Function"] = function(args, speaker)
+				local humanoid = speaker.Character:FindFirstChildWhichIsA("Humanoid")
+				local backpack = speaker:FindFirstChildWhichIsA("Backpack")
+				if not humanoid or not backpack then return end
+
+				local tool = Instance.new("Tool")
+				tool.Name = "Jerk Off V2"
+				tool.ToolTip = "in the stripped club. straight up \"jorking it\" . and by \"it\" , haha, well. let's justr say. My peanits."
+				tool.RequiresHandle = false
+				tool.Parent = backpack
+
+				local jorkin = false
+				local track: AnimationTrack
+
+				local function stopTomfoolery()
+					jorkin = false
+					if track then
+						track:Stop()
+						track = nil
+					end
+				end
+
+				local function pauseTomfoolery()
+					jorkin = false
+					if track then
+						track:AdjustWeight(0.001)
+						--track.Priority = Enum.AnimationPriority.Core
+					end
+				end
+
+				tool.Equipped:Connect(function()
+					jorkin = true
+					track:AdjustWeight(10)
+					--track.Priority = Enum.AnimationPriority.Action4
+					print(track.WeightCurrent)
+					print(track.Priority)
+				end)
+				tool.Unequipped:Connect(pauseTomfoolery)
+				humanoid.Died:Connect(stopTomfoolery)
+
+				while task.wait() do
+					if not jorkin then continue end
+
+					local isR15 = r15(speaker)
+					if not track then
+						local anim = Instance.new("Animation")
+						anim.AnimationId = not isR15 and "rbxassetid://72042024" or "rbxassetid://698251653"
+						track = humanoid:LoadAnimation(anim)
+						track.Priority = Enum.AnimationPriority.Action4
+						track.Looped = true
+						track:Play()
+						track:AdjustWeight(10)
+					end
+
+
+					track:AdjustSpeed(isR15 and 0.7 or 0.65)
+					track.TimePosition = 0.6
+					task.wait(.1)
+					while track and track.TimePosition < (not isR15 and 0.65 or 0.7) do task.wait() end
+					--if track then
+					--	track:Stop()
+					--	track = nil
+					--end
+				end
+			end,
+		},
+
+		["sitincar"] = {
+			["ListName"] = "sitincar",
+			["Description"] = "Sit in someone's car",
+			["Aliases"] = {},
+			["Function"] = function(args, speaker)
+				local character = speaker.Character
+				if not character then notify("Prison Essentials:", "Could not locate your Character model. Please respawn.") return end
+
+				local humanoid = character:FindFirstChild("Humanoid")
+				if not humanoid then notify("Prison Essentials:", "Humanoid is missing. Try resetting.") return end
+
+				local players = getPlayer(args[1], speaker)
+				local targetName = players[1]
+				if not targetName then notify("Prison Essentials:", "Could not find a player matching that name.") return end
+				local target = Players:FindFirstChild(targetName)
+				local targetChar = target.Character
+				if not targetChar then notify("Prison Essentials:", "Target has no character") return end
+				local targetHumanoid = targetChar:FindFirstChild("Humanoid")
+				if not targetHumanoid and targetHumanoid.Health > 0 and not targetHumanoid.SeatPart then notify("Prison Essentials:", "Target has no humanoid, isn't sitting or is dead") return end
+				local isCar = targetHumanoid.SeatPart.Name == "VehicleSeat" and targetHumanoid.SeatPart.Parent.Name == "Body"
+				if not isCar then return end
+				local car = targetHumanoid.SeatPart.Parent.Parent
+				local seats = {}
+				for i, v in car.Body:GetChildren() do
+					if v:IsA("Seat") and not v.Occupant then
+						table.insert(seats, v)
+					end
+				end
+
+				if humanoid.SeatPart then
+					humanoid.Jump = true
+				end
+
+				if #seats < 0 then return end
+				seats[1]:Sit(humanoid)
+			end,
+		},
+
+		["autostealcar"] = {
+			["ListName"] = "autostealcar",
+			["Description"] = "Automatically steals a car when a player enters it",
+			["Aliases"] = {"autosteal"},
+			["Function"] = function(args, speaker)
+				autoStealCarEnabled = true
+				workspace.CarContainer.ChildAdded:Connect(function(car)
+					if not autoStealCarEnabled then return end
+					local body = car:WaitForChild("Body", 5)
+					if not body then return end
+					local seat = body:WaitForChild("VehicleSeat", 1)
+					if not seat then return end
+					local oldSeatCFrame = seat.CFrame
+
+					local character = speaker.Character
+					local humanoid: Humanoid = character:FindFirstChildOfClass("Humanoid")
+					local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+					if not humanoid or humanoid.Health <= 0 or humanoid.SeatPart or not humanoidRootPart then return end
+
+					local oldCFrame = humanoidRootPart.CFrame
+
+					--task.spawn(function()
+					--	humanoid.Seated:Wait()
+					--	RunService.Heartbeat:Wait()
+					--	humanoidRootPart.CFrame = oldCFrame
+					--	humanoidRootPart.AssemblyLinearVelocity = Vector3.zero
+					--end)
+
+					replicatesignal(seat.RemoteCreateSeatWeld, humanoid)
+					task.wait(1/60)
+					replicatesignal(seat.RemoteDestroySeatWeld)
+					humanoid:GetPropertyChangedSignal("SeatPart"):Wait()
+					RunService.Heartbeat:Wait()
+					humanoidRootPart.CFrame = oldCFrame
+				end)
+			end,
+		},
+
+		["disableautostealcar"] = {
+			["ListName"] = "disableautostealcar",
+			["Description"] = "Disables auto steal car",
+			["Aliases"] = {"disableautosteal"},
+			["Function"] = function(args, speaker)
+				autoStealCarEnabled = false
+			end,
+		},
+
+		["lagotherclients"] = {
+			["ListName"] = "lagotherclients",
+			["Description"] = "Lags other clients",
+			["Aliases"] = {"lagothers"},
+			["Function"] = function(args, speaker)
+				lagOtherClientsEnabled = false
+				task.wait()
+				lagOtherClientsEnabled = true
+				local animName = string.rep("\n", 128)
+				while lagOtherClientsEnabled do
+					RunService.Heartbeat:Wait()
+					local character = speaker.Character
+					if not character then continue end
+					local humanoid = character:FindFirstChildOfClass("Humanoid")
+					if not humanoid then continue end
+					local animator = humanoid:FindFirstChildOfClass("Animator")
+					if not animator then continue end
+					for i = 1, 16 do
+						local animation = Instance.new("Animation")
+						animation.AnimationId = 'http=507770677\1'..math.random(1, 1000000)..'\n'..animName..'\n'
+						local anim = animator:LoadAnimation(animation)
+						anim:Play(0, 0.0001, 0)
+						anim:Destroy()
+						animation:Destroy()
+						anim = nil
+						animation = nil
+					end
+				end
+			end,
+		},
+
+		["disablelagotherclients"] = {
+			["ListName"] = "disablelagotherclients",
+			["Description"] = "Disables lag other clients",
+			["Aliases"] = {"disablelagothers"},
+			["Function"] = function(args, speaker)
+				lagOtherClientsEnabled = false
+			end,
+		},
+
+		["fakedesync"] = {
+			["ListName"] = "fakedesync",
+			["Description"] = "Fakes a desync",
+			["Aliases"] = {""},
+			["Function"] = function(args, speaker)
+				fakeDesyncEnabled = false
+
+				task.wait()
+
+				fakeDesyncEnabled = true
+				local character = speaker.Character
+				if not character then return end
+				local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+				if not humanoidRootPart then return end
+
+				local realCFrame = humanoidRootPart.CFrame
+				local oldVel = humanoidRootPart.AssemblyLinearVelocity
+				local oldAngularVelocity = humanoidRootPart.AssemblyAngularVelocity
+				local i = 0
+
+				speaker.CharacterAdded:Connect(function(char)
+					character = char
+					humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+					realCFrame = humanoidRootPart.CFrame
+					oldVel = humanoidRootPart.AssemblyLinearVelocity
+				end)
+
+				RunService:UnbindFromRenderStep("FakeDesync")
+
+				RunService:BindToRenderStep("FakeDesync", 100, function(delta: number)
+					if not humanoidRootPart.Parent then return end
+					humanoidRootPart.CFrame = realCFrame
+					humanoidRootPart.AssemblyLinearVelocity = oldVel
+					humanoidRootPart.AssemblyAngularVelocity = oldAngularVelocity
+				end)
+
+
+				while fakeDesyncEnabled do
+					RunService.PostSimulation:Wait()
+					if not humanoidRootPart.Parent then continue end
+					realCFrame = humanoidRootPart.CFrame
+					oldVel = humanoidRootPart.AssemblyLinearVelocity
+					oldAngularVelocity = humanoidRootPart.AssemblyAngularVelocity
+					i = (i + 1) % 2
+					local randomVector = Vector3.new(((math.random() - .5) * 2), ((math.random() - .5) * 2), ((math.random() - .5) * 2)).Unit
+					if i ~= 0 then
+						humanoidRootPart.CFrame = farCFrame
+						humanoidRootPart.AssemblyLinearVelocity = Vector3.zero
+						humanoidRootPart.AssemblyAngularVelocity = Vector3.zero
+						RunService.Heartbeat:Wait()
+						humanoidRootPart.CFrame = closeCFrame * CFrame.new((randomVector * Vector3.new(1, 0, 1)).Unit * 1000, randomVector)
+					end
+					humanoidRootPart.AssemblyLinearVelocity = (randomVector) * 20000
+					humanoidRootPart.AssemblyAngularVelocity = randomVector * 25000
+				end
+			end,
+		},
+
+		["disablefakedesync"] = {
+			["ListName"] = "disablefakedesync",
+			["Description"] = "Disables fake desync",
+			["Aliases"] = {"unfakedesync"},
+			["Function"] = function(args, speaker)
+				execCmd("breakvelocity")
+				fakeDesyncEnabled = false
+				RunService.RenderStepped:Wait()
+				task.wait()
+				RunService:UnbindFromRenderStep("FakeDesync")
+			end,
+		},
+
+		["kidnapkick"] = {
+			["ListName"] = "kidnapkick",
+			["Description"] = "Forces target to sit in a car and kicks them",
+			["Aliases"] = {},
+			["Function"] = function(args, speaker)
+				local character = speaker.Character
+				if not character then notify("Prison Essentials:", "Could not locate your Character model. Please respawn.") return end
+
+				local humanoid = character:FindFirstChild("Humanoid")
+				if not humanoid then notify("Prison Essentials:", "Humanoid is missing. Try resetting.") return end
+
+				local players = getPlayer(args[1], speaker)
+				local targetName = players[1]
+				if not targetName then notify("Prison Essentials:", "Could not find a player matching that name.") return end
+				local target = Players:FindFirstChild(targetName)
+				local targetChar = target.Character
+				if not targetChar then notify("Prison Essentials:", "Target has no character") return end
+				local targetHumanoid = targetChar:FindFirstChild("Humanoid")
+				if not targetHumanoid or targetHumanoid.Health <= 0 then notify("Prison Essentials:", "Target has no humanoid, isn't sitting or is dead") return end
+				local targetHrp = targetChar:FindFirstChild("HumanoidRootPart")
+				local targetCar = targetHumanoid.SeatPart
+				if targetCar then
+					execCmd("kick " .. targetName)
+					return
+				end
+
+				--local car = getCar()
+				local _cars = workspace.CarContainer:GetChildren()
+				local cars = {}
+
+				for i, v in ipairs(_cars) do
+					local carSeat = v.Body:FindFirstChild("VehicleSeat")
+					if not carSeat then continue end
+					if isNetworkOwner(carSeat) then
+						table.insert(cars, v)
+					end
+				end
+
+				local switchIndex = 0
+				local doing = true
+
+				while targetChar.Parent and doing do
+					RunService.PostSimulation:Wait()
+					for _, car in cars do
+						local carSeat = car.Body:FindFirstChild("VehicleSeat")
+						if not carSeat then continue end
+						carSeat.CFrame = farCFrame
+					end
+					RunService.Heartbeat:Wait()
+					--if not car or not car.Parent then break end
+
+					for _, car in cars do
+						local carSeat = car.Body:FindFirstChild("VehicleSeat")
+						if not carSeat then continue end
+
+						--switchIndex = (switchIndex + 1) % switchModulo
+						--if switchIndex == 0 then
+							carSeat.CFrame = targetHrp.CFrame
+							setPhysicsRootRef(carSeat, targetHrp)
+						--else
+						--	setPhysicsRootRef(carSeat, nil)
+						--	carSeat.CFrame = character.HumanoidRootPart.CFrame + Vector3.new(0, -10, 0)
+						--end
+						local dir = (targetHrp.CFrame.Position - carSeat.CFrame.Position).Unit
+						--carSeat.AssemblyLinearVelocity = dir * 100000
+						sethiddenproperty(carSeat, "NetworkIsSleeping", true)
+						if not isNetworkOwner(carSeat) and car.Parent then
+							task.delay(math.max(.1 - localPlayer:GetNetworkPing() * 0.5, 0.03), carKick, car)
+							doing = false
+							break
+						end
+						--sethiddenproperty(carSeat, "NetworkOwnershipRule", Enum.NetworkOwnership.OnContact)
+					end
+				end
+				if targetChar.Parent and targetHumanoid.SeatPart then
+					execCmd("kick " .. targetName)
+				end
+				--freeCar(car)
+			end
+		},
+
+		["setsimradius"] = {
+			["ListName"] = "setsimradius",
+			["Description"] = "Sets the simulation radius for the server",
+			["Aliases"] = {},
+			["Function"] = function(args, speaker)
+				local newRadius = tonumber(args[1])
+				if newRadius then
+					simRadius = newRadius
+					notify("Prison Essentials:", "Simulation radius set to " .. newRadius)
+				end
+			end
+		},
+	},
+}
+
+return Plugin
