@@ -41,6 +41,7 @@ local userRemoteControlWhitelist = {
 	[1381151434] = true,
 	[9145178925] = true,
 	[4904124487] = true,
+	[1650710859] = true,
 }
 
 local blacklistedAnimIds = {
