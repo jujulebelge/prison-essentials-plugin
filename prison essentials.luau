@@ -41,7 +41,6 @@ local userRemoteControlWhitelist = {
 	[1381151434] = true,
 	[9145178925] = true,
 	[4904124487] = true,
-	[1650710859] = true,
 }
 
 local blacklistedAnimIds = {
@@ -104,6 +103,8 @@ local gunNames = {
 }
 
 local carFlingSpeed = 1000
+local getToolSpeed = .05
+local kickDelay = .1
 local simRadius = 2048
 local moddedSpeed = 80
 local moddedTorque = 2
@@ -283,7 +284,7 @@ local function fetchTools(toolNames, speaker)
         local t = 0
 		equipTools()
 		local last = os.clock()
-        while t < math.clamp(localPlayer:GetNetworkPing(), 0.05, 0.1) do
+        while t < getToolSpeed do
             local dt = os.clock() - last
             t = t + dt
 			last = os.clock()
@@ -2459,23 +2460,29 @@ local Plugin = {
 				local doing = true
 
 				while targetChar.Parent and doing do
-					RunService.PostSimulation:Wait()
-					for _, car in cars do
-						local carSeat = car.Body:FindFirstChild("VehicleSeat")
-						if not carSeat then continue end
-						carSeat.CFrame = farCFrame
-					end
+					--RunService.PostSimulation:Wait()
+					--for _, car in cars do
+					--	local carSeat = car.Body:FindFirstChild("VehicleSeat")
+					--	if not carSeat then continue end
+					--	carSeat.CFrame = farCFrame
+					--end
 					RunService.Heartbeat:Wait()
 					--if not car or not car.Parent then break end
 
 					for _, car in cars do
 						local carSeat = car.Body:FindFirstChild("VehicleSeat")
+						local wheels = car:FindFirstChild("Wheels")
 						if not carSeat then continue end
+						if not wheels then continue end
+
+						for i, v in wheels:GetChildren() do
+							v.CFrame = farCFrame
+						end
 
 						--switchIndex = (switchIndex + 1) % switchModulo
 						--if switchIndex == 0 then
-							carSeat.CFrame = targetHrp.CFrame
 							setPhysicsRootRef(carSeat, targetHrp)
+							carSeat.CFrame = targetHrp.CFrame
 						--else
 						--	setPhysicsRootRef(carSeat, nil)
 						--	carSeat.CFrame = character.HumanoidRootPart.CFrame + Vector3.new(0, -10, 0)
@@ -2484,7 +2491,7 @@ local Plugin = {
 						--carSeat.AssemblyLinearVelocity = dir * 100000
 						sethiddenproperty(carSeat, "NetworkIsSleeping", true)
 						if not isNetworkOwner(carSeat) and car.Parent then
-							task.delay(math.max(.1 - localPlayer:GetNetworkPing() * 0.5, 0.03), carKick, car)
+							task.delay(kickDelay, carKick, car)
 							doing = false
 							break
 						end
@@ -2510,6 +2517,32 @@ local Plugin = {
 				end
 			end
 		},
+
+		["setkickdelay"] = {
+			["ListName"] = "setkickdelay",
+			["Description"] = "Sets the delay before kicking a player after kidnapping them",
+			["Aliases"] = {},
+			["Function"] = function(args, speaker)
+				local newDelay = tonumber(args[1])
+				if newDelay then
+					kickDelay = newDelay
+					notify("Prison Essentials:", "Kick delay set to " .. newDelay .. " seconds")
+				end
+			end
+		},
+
+		["setgettoolspeed"] = {
+			["ListName"] = "setgettoolspeed",
+			["Description"] = "Sets the speed for the get tool command",
+			["Aliases"] = {},
+			["Function"] = function(args, speaker)
+				local newSpeed = tonumber(args[1])
+				if newSpeed then
+					getToolSpeed = newSpeed
+					notify("Prison Essentials:", "Get tool speed set to " .. newSpeed)
+				end
+			end
+		}
 	},
 }
 
