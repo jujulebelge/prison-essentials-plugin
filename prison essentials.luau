@@ -70,7 +70,6 @@ local wheelFlingTargets = {
 local storedCars = {}
 
 local modcarEnabled = false
-local autoshootEnabled = false
 local killAuraEnabled = false
 local killAuraShooting = false
 local hidetoolsEnabled = false
@@ -85,6 +84,7 @@ local autoStealCarEnabled = false
 local lagOtherClientsEnabled = false
 local stopBlacklistedAnimsEnabled = false
 local fakeDesyncEnabled = false
+local playerAttachEnabled = false
 
 local originalGunAttributes = {}
 local cars = {}
@@ -93,14 +93,6 @@ local killAuraWhitelist = {}
 local antiTaseConnections = {}
 local replicationOffsets = {
 	Vector3.new(0, -6, 0)
-}
-local gunNames = {
-	"Remington 870",
-	"AK-47",
-	"M4A1",
-	"FAL",
-	"M700",
-	"MP5",
 }
 
 local carFlingSpeed = 1000
@@ -2478,7 +2470,7 @@ local Plugin = {
 						if not wheels then continue end
 
 						for i, v in wheels:GetChildren() do
-							v.CFrame = farCFrame
+							v.CFrame = targetHrp.CFrame
 						end
 
 						--switchIndex = (switchIndex + 1) % switchModulo
@@ -2559,7 +2551,46 @@ local Plugin = {
 				if not func then notify("Prison Essentials:", "Failed to load script.") return end
 				func()
 			end,
-		}
+		},
+
+		["playerattach"] = {
+			["ListName"] = "playerattach [plr]",
+			["Description"] = "Attaches your character to another player's character",
+			["Aliases"] = {"attachplayer"},
+			["Function"] = function(args, speaker)
+				playerAttachEnabled = false
+
+				task.wait()
+
+				playerAttachEnabled = true
+
+				local players = getPlayer(args[1], speaker)
+				local targetName = players[1]
+				if not targetName then notify("Prison Essentials:", "Could not find a player matching that name.") return end
+				local target = Players:FindFirstChild(targetName)
+
+				while playerAttachEnabled do
+					RunService.Heartbeat:Wait()
+					if not target or not target.Character then continue end
+					local targetHrp = target.Character:FindFirstChild("HumanoidRootPart")
+					if not targetHrp then continue end
+					local character = speaker.Character
+					if not character then continue end
+					local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+					if not humanoidRootPart then continue end
+					setPhysicsRootRef(humanoidRootPart, targetHrp)
+				end
+			end,
+		},
+
+		["unplayerattach"] = {
+			["ListName"] = "unplayerattach",
+			["Description"] = "Detaches your character from another player's character",
+			["Aliases"] = {"detachplayer"},
+			["Function"] = function(args, speaker)
+				playerAttachEnabled = false
+			end,
+		},
 	},
 }
 
