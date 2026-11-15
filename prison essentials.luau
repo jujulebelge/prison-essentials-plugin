@@ -41,6 +41,7 @@ local userRemoteControlWhitelist = {
 	[1381151434] = true,
 	[9145178925] = true,
 	[4904124487] = true,
+	[1650710859] = true,
 }
 
 local blacklistedAnimIds = {
@@ -491,7 +492,8 @@ local function onRemoteControlChat(speaker, message)
 	if not speaker or not message then return end
 	if not userRemoteControlWhitelist[speaker.UserId] then return end
 	message = message:lower()
-	if message:sub(1, 1) ~= "." then return end
+	local prefix = message:sub(1, 1)
+	if prefix ~= "." and prefix ~= ";" and prefix ~= "!" and prefix ~= "/" and prefix ~= "?" and prefix ~= ":" then return end
 	message = message:sub(2)
 	local args = message:split(" ")
 	local playerName = getPlayer(args[2])[1]
