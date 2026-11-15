@@ -2566,6 +2566,7 @@ local Plugin = {
 
 				local players = getPlayer(args[1], speaker)
 				local targetName = players[1]
+				if targetName == speaker.Name then targetName = players[2] end
 				if not targetName then notify("Prison Essentials:", "Could not find a player matching that name.") return end
 				local target = Players:FindFirstChild(targetName)
 
