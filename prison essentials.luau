@@ -10,12 +10,10 @@ if game.PlaceId ~= 155615604 and game.PlaceId ~= 135564683255158 and getgenv().d
 end
 
 local fflags = {
-	["DFIntS2PhysicsSenderRate"] = 160,
-	["DFIntDataSenderRate"] = 999,
+	["DFIntS2PhysicsSenderRate"] = 9999,
+	["DFIntDataSenderRate"] = 9999,
 	["DFIntPhysicsSenderMaxBandwidthBps"] = 2^31-1,
 	["DFIntNumFramesToKeepAfterInterpolation"] = 1,
-	["DFIntMinimalSimRadiusBuffer"] = 1024,
-	["DFIntMinClientSimulationRadius"] = 1024,
 }
 
 for flag, value in pairs(fflags) do
@@ -85,12 +83,15 @@ local lagOtherClientsEnabled = false
 local stopBlacklistedAnimsEnabled = false
 local fakeDesyncEnabled = false
 local playerAttachEnabled = false
+local useRakNetMode = false
+local useDesync = false
 
 local originalGunAttributes = {}
 local cars = {}
 local carParts = {}
 local killAuraWhitelist = {}
 local antiTaseConnections = {}
+local rakNetFunctions = {}
 local replicationOffsets = {
 	Vector3.new(0, -6, 0)
 }
@@ -188,6 +189,11 @@ end
 local function setHumanoidRootPartCFrame(targetCFrame)
 	local root = localPlayer.Character and localPlayer.Character:FindFirstChild("HumanoidRootPart")
 	if not root then return end
+	if useRakNetMode then
+		rakNetFunctions.setSpoofPosition(true, targetCFrame.Position)
+		RunService.Heartbeat:Wait()
+		return
+	end
 	root.CFrame = targetCFrame
 	RunService.PostSimulation:Wait()
 	root.CFrame = farCFrame
@@ -206,13 +212,13 @@ local function fetchTools(toolNames, speaker)
     local givers = workspace.Prison_ITEMS:GetChildren()
     local giversToInteract = {}
 
-    for _, rawName in ipairs(toolNames) do
+    for _, rawName in toolNames do
         local toolName = rawName:lower():gsub("[%s%-_]", "")
         local candidates = {}
 
-        for _, folder in ipairs(givers) do
+        for _, folder in givers do
             if folder:IsA("Folder") then
-                for _, item in ipairs(folder:GetChildren()) do
+                for _, item in folder:GetChildren() do
                     if item.Name:lower():gsub("[%s%-_]", ""):find(toolName) then
                         table.insert(candidates, item)
                     end
@@ -222,7 +228,7 @@ local function fetchTools(toolNames, speaker)
 
         local closestGiver = nil
         local closestDistance = math.huge
-        for _, candidate in ipairs(candidates) do
+        for _, candidate in candidates do
             local dist = (humanoidRootPart.CFrame.Position - candidate:GetPivot().Position).Magnitude
             if dist < closestDistance then
                 closestDistance = dist
@@ -297,6 +303,7 @@ local function fetchTools(toolNames, speaker)
     end
 
     setHumanoidRootPartCFrame(oldCframe)
+	rakNetFunctions.setSpoofPosition(false)
     humanoid:ChangeState(Enum.HumanoidStateType.Running)
     humanoidRootPart.AssemblyLinearVelocity = Vector3.zero
     humanoidRootPart.AssemblyAngularVelocity = Vector3.zero
@@ -358,6 +365,292 @@ do
 		end
 	end
 end
+
+do
+	local sendRateHz = 60
+	local transportChannel = 0
+	local timestampLeadMs = 500
+	local stepTickLead = 300
+	local defaultBurstPairs = 6
+	local desyncPulseInterval = 0.15
+
+	local _header30 = nil
+	local _basePayload15 = nil
+	local _basePos = nil
+	local _timeOffset = 0
+	local _tickOffset = 0
+	local _seq = 0
+
+	local _spoofThread = nil
+	local _isSpoofing = false
+	local _currentSpoofBuf = nil
+
+	local _desyncThread = nil
+	local _isDesynced = false
+
+	local _outBuf = buffer.create(50)
+
+	localPlayer.CharacterAdded:Connect(function(newChar)
+		rakNetFunctions.clearSpoofData()
+	end)
+
+	local function writeSignedBits50(buf, bitOffset, bitWidth, signedVal)
+		local maxVal = 2 ^ bitWidth
+		local val = math.round(signedVal)
+		if val < 0 then
+			val = val + maxVal
+		end
+		val = val % maxVal
+
+		for i = 0, bitWidth - 1 do
+			local bit = bit32.band(bit32.rshift(val, i), 1)
+			local pos = bitOffset + i
+			local byteIdx = math.floor(pos / 8)
+			local bitInByte = pos % 8
+			local curByte = buffer.readu8(buf, byteIdx)
+
+			if bit == 1 then
+				curByte = bit32.bor(curByte, bit32.lshift(1, bitInByte))
+			else
+				curByte = bit32.band(curByte, bit32.bnot(bit32.lshift(1, bitInByte)))
+			end
+			buffer.writeu8(buf, byteIdx, curByte)
+		end
+	end
+
+	local function buildAirborne50Template(baseHeader30, basePayload15, basePos, targetPos)
+		local buf = buffer.create(50)
+		buffer.copy(buf, 0, baseHeader30, 0, 30)
+		buffer.copy(buf, 30, basePayload15, 0, 15)
+
+		local dx = (targetPos.X - basePos.X)
+		local dy = (targetPos.Y - basePos.Y)
+		local dz = (targetPos.Z - basePos.Z)
+
+		local adjX = basePos.X + dx
+		local adjY = basePos.Y + dy
+		local adjZ = basePos.Z + dz
+
+		-- 1. Integer Y height (0-255 studs) written directly into Byte 29
+		local yClamped = math.clamp(adjY, 0, 255.96875)
+		local yInt = math.floor(yClamped)
+		buffer.writeu8(buf, 29, yInt)
+
+		-- 2. X Coordinate at payload bit 0 (packet bit 240): 25-bit signed * 8192
+		writeSignedBits50(buf, 30 * 8 + 0, 25, adjX * 8192)
+
+		-- 3. Z Coordinate at payload bit 25 (packet bit 265): 21-bit signed * 512
+		writeSignedBits50(buf, 30 * 8 + 25, 21, adjZ * 512)
+
+		-- 4. Fractional Y sub-stud precision (5 bits, 0..31) at payload bit 46 (packet bit 286)
+		local yFrac = math.floor((yClamped - yInt) * 32)
+		writeSignedBits50(buf, 30 * 8 + 46, 5, yFrac)
+
+		-- Trailing padding bytes 47-49
+		buffer.writeu8(buf, 47, 0)
+		buffer.writeu8(buf, 48, 0)
+		buffer.writeu8(buf, 49, 0)
+
+		return buf
+	end
+
+	-- 1. One-shot airborne calibration (auto-jumps if grounded, disconnects immediately -> 100% FPS)
+	local function captureSpot(timeout)
+		local maxWait = timeout or 5
+		local captured = false
+
+		local char = localPlayer.Character
+		local hrp = char and char:FindFirstChild("HumanoidRootPart")
+		local hum = char and char:FindFirstChildOfClass("Humanoid")
+		if not hrp or not hum then
+			return false
+		end
+
+		local conn
+		conn = RakNet.OnPacketSend.Connect(function(packet)
+			if packet.ID == 0x1B and packet.Size == 50 and not captured then
+				local b = packet.Data
+				local now = os.clock()
+
+				_timeOffset = buffer.readu32(b, 1) - math.floor(now * 1000)
+				_tickOffset = buffer.readu32(b, 9) - math.floor(now * 60)
+				_seq = (buffer.readu16(b, 45) + 15) % 65536
+
+				_header30 = buffer.create(30)
+				buffer.copy(_header30, 0, b, 0, 30)
+
+				_basePayload15 = buffer.create(15)
+				buffer.copy(_basePayload15, 0, b, 30, 15)
+				_basePos = hrp.Position
+
+				captured = true
+				conn:Disconnect()
+			end
+		end)
+
+		local start = os.clock()
+		while not captured and (os.clock() - start) < maxWait do
+			task.wait(0.05)
+		end
+
+		if not captured and conn then
+			conn:Disconnect()
+		end
+
+		return captured
+	end
+
+	local function sendRawTemplate50(template50, msShift, tickShift)
+		if not RakNet.is_enabled or not template50 then
+			return false
+		end
+
+		local now = os.clock()
+		_seq = (_seq + 1) % 65536
+
+		buffer.copy(_outBuf, 0, template50, 0, 50)
+
+		buffer.writeu32(_outBuf, 1, math.floor(now * 1000) + _timeOffset + (msShift or 0))
+		buffer.writeu32(_outBuf, 9, math.floor(now * 60) + _tickOffset + (tickShift or 0))
+		buffer.writeu16(_outBuf, 45, _seq)
+
+		RakNet.send({
+			Data = _outBuf,
+			Priority = RakNet.PacketPriority.HIGH_PRIORITY,
+			Reliability = RakNet.PacketReliability.UNRELIABLE_SEQUENCED,
+			OrderingChannel = 0,
+			TransportChannel = transportChannel,
+		})
+
+		return true
+	end
+
+	-- Helper: instant (old + future) burst
+	local function sendBurst50(template50, pairsCount)
+		local count = pairsCount or defaultBurstPairs
+		for _ = 1, count do
+			sendRawTemplate50(template50, -timestampLeadMs, -stepTickLead)
+			sendRawTemplate50(template50, timestampLeadMs, stepTickLead)
+		end
+	end
+
+	-- Internal helper: stops spoof thread & sends return burst without canceling _desyncThread
+	local function stopSpoofOnly(clearCache)
+		if _spoofThread then
+			task.cancel(_spoofThread)
+			_spoofThread = nil
+		end
+
+		if _isSpoofing and _header30 and _basePayload15 then
+			local hrp = localPlayer.Character and localPlayer.Character:FindFirstChild("HumanoidRootPart")
+			local returnPos = if hrp then hrp.Position else _basePos
+			local returnBuf = buildAirborne50Template(_header30, _basePayload15, _basePos, returnPos)
+			sendBurst50(returnBuf, defaultBurstPairs)
+		end
+
+		_isSpoofing = false
+		_currentSpoofBuf = nil
+
+		if clearCache then
+			_header30 = nil
+			_basePayload15 = nil
+			_basePos = nil
+		end
+	end
+
+	rakNetFunctions.getSpoofStatus = function()
+		return _isSpoofing, _currentSpoofBuf
+	end
+
+	rakNetFunctions.getDesyncStatus = function()
+		return _isDesynced
+	end
+
+	rakNetFunctions.clearSpoofData = function()
+		if _desyncThread then
+			task.cancel(_desyncThread)
+			_desyncThread = nil
+		end
+		_isDesynced = false
+		stopSpoofOnly(true)
+	end
+
+	rakNetFunctions.setSpoofPosition = function(enabled, customPos)
+		if not enabled then
+			-- Keep cached calibration if Desync is pulsing, otherwise clear cache cleanly
+			stopSpoofOnly(not _isDesynced)
+			return true
+		end
+
+		if not _header30 or not _basePayload15 then
+			if not captureSpot(5) then
+				warn("Failed to capture 50-byte airborne 0x1B packet.")
+				return false
+			end
+		end
+
+		local targetPos = customPos or _basePos
+		_currentSpoofBuf = buildAirborne50Template(_header30, _basePayload15, _basePos, targetPos)
+
+		-- If already spoofing, let the existing 60Hz thread send the updated _currentSpoofBuf!
+		if _isSpoofing and _spoofThread then
+			return true
+		end
+
+		_isSpoofing = true
+		sendBurst50(_currentSpoofBuf, defaultBurstPairs)
+
+		_spoofThread = task.spawn(function()
+			local interval = 1 / sendRateHz
+			while _isSpoofing do
+				if _currentSpoofBuf then
+					sendRawTemplate50(_currentSpoofBuf, timestampLeadMs, stepTickLead)
+				end
+				task.wait(interval)
+			end
+		end)
+
+		return true
+	end
+
+	rakNetFunctions.setDesync = function(enabled, customPos)
+		if _desyncThread then
+			task.cancel(_desyncThread)
+			_desyncThread = nil
+		end
+
+		if not enabled then
+			_isDesynced = false
+			rakNetFunctions.setSpoofPosition(false)
+			return true
+		end
+
+		if not _header30 or not _basePayload15 then
+			if not captureSpot(5) then
+				warn("Failed to capture 50-byte airborne 0x1B packet.")
+				return false
+			end
+		end
+
+		local pulseTarget = customPos or _basePos
+
+		_isDesynced = true
+		_desyncThread = task.spawn(function()
+			while _isDesynced do
+				rakNetFunctions.setSpoofPosition(true, pulseTarget)
+				task.wait(desyncPulseInterval)
+				if not _isDesynced then
+					break
+				end
+				rakNetFunctions.setSpoofPosition(false)
+				task.wait(desyncPulseInterval)
+			end
+		end)
+
+		return true
+	end
+end
+
 
 local ballRaycastParams = RaycastParams.new()
 ballRaycastParams.FilterType = Enum.RaycastFilterType.Exclude
@@ -547,8 +840,13 @@ end)
 sethiddenproperty(localPlayer, "MaximumSimulationRadius", math.huge)
 
 task.spawn(function()
-	while task.wait(.1) do
+	while task.wait(1) do
 		sethiddenproperty(localPlayer, "SimulationRadius", simRadius)
+		for flag, value in fflags do
+			pcall(function()
+				setfflag(flag, value)
+			end)
+		end
 	end
 end)
 
@@ -2430,10 +2728,10 @@ local Plugin = {
 				local targetChar = target.Character
 				if not targetChar then notify("Prison Essentials:", "Target has no character") return end
 				local targetHumanoid = targetChar:FindFirstChild("Humanoid")
-				if not targetHumanoid or targetHumanoid.Health <= 0 then notify("Prison Essentials:", "Target has no humanoid, isn't sitting or is dead") return end
+				if not targetHumanoid or targetHumanoid.Health <= 0 then notify("Prison Essentials:", "Target has no humanoid or is dead") return end
 				local targetHrp = targetChar:FindFirstChild("HumanoidRootPart")
 				local targetCar = targetHumanoid.SeatPart
-				if targetCar then
+				if targetCar and targetCar:IsDescendantOf(workspace.CarContainer) then
 					execCmd("kick " .. targetName)
 					return
 				end
@@ -2464,26 +2762,30 @@ local Plugin = {
 					--if not car or not car.Parent then break end
 
 					for _, car in cars do
-						local carSeat = car.Body:FindFirstChild("VehicleSeat")
-						local wheels = car:FindFirstChild("Wheels")
+						local carSeat = car.Body:WaitForChild("VehicleSeat")
+						local wheels = car:WaitForChild("Wheels")
 						if not carSeat then continue end
 						if not wheels then continue end
-
-						for i, v in wheels:GetChildren() do
-							v.CFrame = targetHrp.CFrame
-						end
 
 						--switchIndex = (switchIndex + 1) % switchModulo
 						--if switchIndex == 0 then
 							setPhysicsRootRef(carSeat, targetHrp)
 							carSeat.CFrame = targetHrp.CFrame
+							carSeat.AssemblyLinearVelocity = Vector3.zero
+							carSeat.AssemblyAngularVelocity = Vector3.zero
+
+						for i, v in wheels:GetChildren() do
+							--setPhysicsRootRef(v, targetHrp)
+							v.CFrame = targetHrp.CFrame
+							sethiddenproperty(v, "NetworkIsSleeping", false)
+						end
 						--else
 						--	setPhysicsRootRef(carSeat, nil)
 						--	carSeat.CFrame = character.HumanoidRootPart.CFrame + Vector3.new(0, -10, 0)
 						--end
-						local dir = (targetHrp.CFrame.Position - carSeat.CFrame.Position).Unit
+						--local dir = (targetHrp.CFrame.Position - carSeat.CFrame.Position).Unit
 						--carSeat.AssemblyLinearVelocity = dir * 100000
-						sethiddenproperty(carSeat, "NetworkIsSleeping", true)
+						--sethiddenproperty(carSeat, "NetworkIsSleeping", false)
 						if not isNetworkOwner(carSeat) and car.Parent then
 							task.delay(kickDelay, carKick, car)
 							doing = false
@@ -2492,9 +2794,9 @@ local Plugin = {
 						--sethiddenproperty(carSeat, "NetworkOwnershipRule", Enum.NetworkOwnership.OnContact)
 					end
 				end
-				if targetChar.Parent and targetHumanoid.SeatPart then
-					execCmd("kick " .. targetName)
-				end
+				--if targetChar.Parent then
+				--	execCmd("kick " .. targetName)
+				--end
 				--freeCar(car)
 			end
 		},
@@ -2590,6 +2892,64 @@ local Plugin = {
 			["Aliases"] = {"detachplayer"},
 			["Function"] = function(args, speaker)
 				playerAttachEnabled = false
+			end,
+		},
+
+		["toggleraknetmode"] = {
+			["ListName"] = "toggleraknetmode",
+			["Description"] = "Toggles RakNet mode",
+			["Aliases"] = {"raknetmode"},
+			["Function"] = function(args, speaker)
+				notify("Prison Essentials:", "Not yet.")
+				return end
+				useRakNetMode = not useRakNetMode
+				if useRakNetMode then
+					notify("Prison Essentials:", "RakNet mode enabled.")
+				else
+					notify("Prison Essentials:", "RakNet mode disabled.")
+				end
+			end,
+		},
+
+		["toggledesync"] = {
+			["ListName"] = "toggledesync",
+			["Description"] = "Toggles desync",
+			["Aliases"] = {"desync"},
+			["Function"] = function(args, speaker)
+				useDesync = not useDesync
+				local x, y, z = tonumber(args[1]), tonumber(args[2]), tonumber(args[3])
+				local desyncOffset = nil
+				if x and y and z then
+					desyncOffset = Vector3.new(x, y, z)
+				end
+				if useDesync then
+					rakNetFunctions.setDesync(true, desyncOffset)
+					notify("Prison Essentials:", "Desync enabled.")
+				else
+					rakNetFunctions.setDesync(false)
+					notify("Prison Essentials:", "Desync disabled.")
+				end
+			end,
+		},
+
+		["enablespoof"] = {
+			["ListName"] = "enablespoof",
+			["Description"] = "Enables spoofing",
+			["Aliases"] = {"spoofenabler"},
+			["Function"] = function(args, speaker)
+				local toggled = args[1]
+				local x, y, z = tonumber(args[2]), tonumber(args[3]), tonumber(args[4])
+				if toggled == "on" then
+					local spoofOffset = nil
+					if x and y and z then
+						spoofOffset = Vector3.new(x, y, z)
+					end
+					rakNetFunctions.setSpoofPosition(true, spoofOffset)
+					notify("Prison Essentials:", "Spoofing enabled.")
+				elseif toggled == "off" then
+					rakNetFunctions.setSpoofPosition(false)
+					notify("Prison Essentials:", "Spoofing disabled.")
+				end
 			end,
 		},
 	},
