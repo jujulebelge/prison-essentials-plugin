@@ -2900,8 +2900,6 @@ local Plugin = {
 			["Description"] = "Toggles RakNet mode",
 			["Aliases"] = {"raknetmode"},
 			["Function"] = function(args, speaker)
-				notify("Prison Essentials:", "Not yet.")
-				return end
 				useRakNetMode = not useRakNetMode
 				if useRakNetMode then
 					notify("Prison Essentials:", "RakNet mode enabled.")
