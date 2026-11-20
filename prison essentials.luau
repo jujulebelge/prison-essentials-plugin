@@ -98,8 +98,7 @@ local replicationOffsets = {
 
 local carFlingSpeed = 1000
 local getToolSpeed = .05
-local kickDelay = .1
-local simRadius = 2048
+local kickDelay = 0
 local moddedSpeed = 80
 local moddedTorque = 2
 local wheelauraSpeed = 10
@@ -841,7 +840,6 @@ sethiddenproperty(localPlayer, "MaximumSimulationRadius", math.huge)
 
 task.spawn(function()
 	while task.wait(1) do
-		sethiddenproperty(localPlayer, "SimulationRadius", simRadius)
 		for flag, value in fflags do
 			pcall(function()
 				setfflag(flag, value)
@@ -2751,7 +2749,7 @@ local Plugin = {
 				local switchIndex = 0
 				local doing = true
 
-				while targetChar.Parent and doing do
+				--while targetChar.Parent and doing do
 					--RunService.PostSimulation:Wait()
 					--for _, car in cars do
 					--	local carSeat = car.Body:FindFirstChild("VehicleSeat")
@@ -2786,14 +2784,14 @@ local Plugin = {
 						--local dir = (targetHrp.CFrame.Position - carSeat.CFrame.Position).Unit
 						--carSeat.AssemblyLinearVelocity = dir * 100000
 						--sethiddenproperty(carSeat, "NetworkIsSleeping", false)
-						if not isNetworkOwner(carSeat) and car.Parent then
-							task.delay(kickDelay, carKick, car)
+						if car.Parent --[[and not isNetworkOwner(carSeat)]] then
+							task.delay(localPlayer:GetNetworkPing() + kickDelay, carKick, car)
 							doing = false
 							break
 						end
 						--sethiddenproperty(carSeat, "NetworkOwnershipRule", Enum.NetworkOwnership.OnContact)
 					end
-				end
+				--end
 				--if targetChar.Parent then
 				--	execCmd("kick " .. targetName)
 				--end
@@ -2808,7 +2806,7 @@ local Plugin = {
 			["Function"] = function(args, speaker)
 				local newRadius = tonumber(args[1])
 				if newRadius then
-					simRadius = newRadius
+					sethiddenproperty(localPlayer, "SimulationRadius", newRadius)
 					notify("Prison Essentials:", "Simulation radius set to " .. newRadius)
 				end
 			end
@@ -2847,7 +2845,6 @@ local Plugin = {
 			["Aliases"] = {"exec"},
 			["Function"] = function(args, speaker)
 				local source = table.concat(args, " ")
-				print(source)
 				if not source or source == "" then notify("Prison Essentials:", "Please provide a script to execute.") return end
 				local func = loadstring(source)
 				if not func then notify("Prison Essentials:", "Failed to load script.") return end
